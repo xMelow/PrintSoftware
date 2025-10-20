@@ -1,0 +1,121 @@
+{
+  "Name": "Test label",
+  "Width": 110,
+  "Height": 110,
+  "Unit": "mm",
+  "LabelElements": [
+    {
+      "Type": "Text",
+      "Variable": true,
+      "X": 427,
+      "Y": 47,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": ""
+    },
+    {
+      "Type": "Bar",
+      "X": 33,
+      "Y": 135,
+      "Width": 1199,
+      "Height": 7
+    },
+    {
+      "Type": "Box",
+      "Xstart": 33,
+      "Ystart": 178,
+      "XEnd": 1232,
+      "YEnd": 890,
+      "Radius": 6
+    },
+    {
+      "Type": "QRcode",
+      "X": 938,
+      "Y": 951,
+      "ECCLevel": "L",
+      "CellWidth": 14,
+      "Mode": "A",
+      "Rotation": 0,
+      "Model": "M2",
+      "Mask": "S7",
+      "Content": "{QR}"
+    },
+    {
+      "Type": "Text",
+      "X": 77,
+      "Y": 234,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": "Name:"
+    },
+    {
+      "Type": "Text",
+      "X": 77,
+      "Y": 322,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": "Phone number:"
+    },
+    {
+      "Type": "Text",
+      "X": 77,
+      "Y": 413,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": "Email:"
+    },
+    {
+      "Type": "Text",
+      "X": 77,
+      "Y": 505,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": "Company:"
+    },
+    {
+      "Type": "Text",
+      "Variable": true,
+      "X": 295,
+      "Y": 231,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": ""
+    },
+    {
+      "Type": "Text",
+      "Variable": true,
+      "X": 509,
+      "Y": 320,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": ""
+    },
+    {
+      "Type": "Text",
+      "Variable": true,
+      "X": 295,
+      "Y": 410,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": ""
+    },
+    {
+      "Type": "Text",
+      "Variable": true,
+      "X": 396,
+      "Y": 502,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": ""
+    }
+  ],
+}
