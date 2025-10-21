@@ -26,5 +26,10 @@ namespace SimpleProject.Domain.Labels
         {
             return $"BOX {X},{Y},{Xend},{Yend},{LineThinkness}";
         }
+
+        public override void UpdateContent(string newValue)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

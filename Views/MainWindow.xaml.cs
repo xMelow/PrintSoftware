@@ -23,10 +23,12 @@ namespace SimpleProject
         private readonly LabelController _labelController;
         public MainWindow()
         {
+
             InitializeComponent();
             _printController = new PrintController();
             _labelController = new LabelController();
             UpdateLabelPreview();
+
         }
 
         private void PrintButton_Click(object sender, RoutedEventArgs e)
@@ -41,7 +43,7 @@ namespace SimpleProject
                 { "QR", QRTextBox.Text }
             };
 
-            var label = _labelController.CreateLabelWithData(labelData);
+            var label = _labelController.UpdateLabelWithData(labelData);
             _labelController.Printlabel(label);
         }
 
@@ -58,6 +60,16 @@ namespace SimpleProject
         
         private void UpdateLabelPreview()
         {
+            var labelData = new Dictionary<string, string>
+            {
+                { "Title", TitleTextBox.Text },
+                { "Name", NameTextBox.Text },
+                { "PhoneNumber", PhoneNumberTextBox.Text },
+                { "Email", EmailTextBox.Text },
+                { "Company", CompanyTextBox.Text },
+                { "QR", QRTextBox.Text }
+            };
+            _labelController.UpdateLabelWithData(labelData);
             LabelPreviewImage.Source = _labelController.GetPreview();
         }
     }

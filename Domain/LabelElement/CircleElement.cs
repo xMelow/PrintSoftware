@@ -25,5 +25,10 @@ namespace SimpleProject.Domain.Labels
             //CIRCLE 933,590,260,12
             return $"CIRCLE {X},{Y},{Radius},{Thickness}";
         }
+
+        public override void UpdateContent(string newValue)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

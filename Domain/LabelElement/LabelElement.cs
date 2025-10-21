@@ -13,9 +13,12 @@ namespace SimpleProject.Domain.Labels
         public double Y { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
+        public string? VariableName { get; set; }
 
         public abstract void Draw(DrawingContext dc, double scale);
 
         public abstract string CreateTspl();
+
+        public abstract void UpdateContent(string newValue);
     }
 }

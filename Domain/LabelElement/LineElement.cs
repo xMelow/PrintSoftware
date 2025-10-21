@@ -25,5 +25,10 @@ namespace SimpleProject.Domain.Labels
         {
             dc.DrawRectangle(Stroke, null, new Rect(X * scale, Y * scale, Width * scale, Height * scale));
         }
+
+        public override void UpdateContent(string newValue)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

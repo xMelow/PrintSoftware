@@ -11,8 +11,6 @@ namespace SimpleProject.Controller
     public class PrintController
     {
         private readonly PrintService _printService;
-        private readonly LabelService _labelService;
-
         public PrintController()
         {
             _printService = new PrintService();
@@ -26,13 +24,6 @@ namespace SimpleProject.Controller
         public void UpdatePrinterSettings(Dictionary<string, string> newSettings)
         {
             _printService.SetPrintSettings(newSettings);
-        }
-
-        public void Print(Dictionary<string, string> labelData)
-        {
-            Label label = _labelService.updateLabel();
-            //Label label = new Label(labelData);
-            _printService.PrintLabel(label);
         }
 
         public void SetPrintSettings(Dictionary<string, string> printSettings)

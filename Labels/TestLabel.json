@@ -6,7 +6,7 @@
   "LabelElements": [
     {
       "Type": "Text",
-      "Variable": true,
+      "VariableName":  "Title",
       "X": 427,
       "Y": 47,
       "FontFamily": "0",
@@ -40,6 +40,13 @@
       "Model": "M2",
       "Mask": "S7",
       "Content": "{QR}"
+    },
+    {
+      "Type": "Circle",
+      "X": 933,
+      "Y": 590,
+      "Radius": 120,
+      "Thickness": 12
     },
     {
       "Type": "Text",
@@ -79,7 +86,7 @@
     },
     {
       "Type": "Text",
-      "Variable": true,
+      "VariableName": "Name",
       "X": 295,
       "Y": 231,
       "FontFamily": "0",
@@ -89,7 +96,7 @@
     },
     {
       "Type": "Text",
-      "Variable": true,
+      "VariableName": "PhoneNumber",
       "X": 509,
       "Y": 320,
       "FontFamily": "0",
@@ -99,7 +106,7 @@
     },
     {
       "Type": "Text",
-      "Variable": true,
+      "VariableName": "Email",
       "X": 295,
       "Y": 410,
       "FontFamily": "0",
@@ -109,7 +116,7 @@
     },
     {
       "Type": "Text",
-      "Variable": true,
+      "VariableName": "Company",
       "X": 396,
       "Y": 502,
       "FontFamily": "0",
@@ -117,5 +124,5 @@
       "FontSize": 16,
       "Content": ""
     }
-  ],
+  ]
 }

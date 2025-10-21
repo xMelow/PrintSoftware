@@ -27,15 +27,9 @@ namespace SimpleProject.Controller
             return _labelService.GetLabel();
         }
 
-        public Label CreateLabelWithData(Dictionary<string, string> labelData)
+        public Label UpdateLabelWithData(Dictionary<string, string> labelData)
         {
-            Label label = _labelService.CreateLabel(labelData);
-            return label;
-        }
-
-        public Label CreateLabelWithElements(string title, string name, string phone, string email, string company)
-        {
-            return _labelService.CreateLabelWithElements(title, name, phone, email, company);
+            return _labelService.UpdateLabelData(labelData);
         }
 
         public BitmapSource GetPreview(int scale = 3)

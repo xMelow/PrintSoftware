@@ -18,8 +18,10 @@ namespace SimpleProject.Domain.Labels
 
         public override void Draw(DrawingContext dc, double scale)
         {
+            var textToDraw = Text ?? string.Empty;
+
             var formattedText = new FormattedText(
-                Text,
+                textToDraw,
                 CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight,
                 new Typeface(FontFamily),
@@ -34,7 +36,13 @@ namespace SimpleProject.Domain.Labels
         //TEXT x,y, « font « ,rotation,x-multiplication,y-multiplication,[alignment,] « content «
         public override string CreateTspl()
         {
-            return $"TEXT {X},{Y},\"0\",0,{FontSize},{FontSize},\"{Text}\"";
+            var content = Text ?? string.Empty;
+            return $"TEXT {X},{Y},\"0\",0,{FontSize},{FontSize},\"{content}\"";
+        }
+
+        public override void UpdateContent(string newValue)
+        {
+            Text = newValue;
         }
     }
 }

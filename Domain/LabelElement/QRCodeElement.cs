@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-//using QRCoder;
+using QRCoder;
 
 
 namespace SimpleProject.Domain.Labels
@@ -17,28 +17,35 @@ namespace SimpleProject.Domain.Labels
 
         public override void Draw(DrawingContext dc, double scale)
         {
-            throw new NotImplementedException();
-            // implement QRCode library QRCoder
-            //using (var qrGenerator = new QRCodeGenerator())
-            //{
-            //    var data = qrGenerator.CreateQrCode(Content, QRCodeGenerator.ECCLevel.Q);
-            //    var qrCode = new QRCode(data);
-            //    using (var bitmap = qrCode.GetGraphic(20))
-            //    {
-            //        var bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-            //            bitmap.GetHbitmap(),
-            //            IntPtr.Zero,
-            //            System.Windows.Int32Rect.Empty,
-            //            BitmapSizeOptions.FromWidthAndHeight(bitmap.Width, bitmap.Height)
-            //        );
-            //        dc.DrawImage(bitmapSource, new Rect(X, Y, Size, Size));
-            //    }
-            //}
+            if (string.IsNullOrEmpty(Content))
+                return;
+
+            using (var qrGenerator = new QRCodeGenerator())
+            using (var data = qrGenerator.CreateQrCode(Content, QRCodeGenerator.ECCLevel.Q))
+            using (var qrCode = new QRCode(data))
+            using (var bitmap = qrCode.GetGraphic(20))
+            {
+                var bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+                    bitmap.GetHbitmap(),
+                    IntPtr.Zero,
+                    Int32Rect.Empty,
+                    BitmapSizeOptions.FromWidthAndHeight(
+                        (int)(bitmap.Width * scale),
+                        (int)(bitmap.Height * scale))
+                );
+
+                dc.DrawImage(bitmapSource, new Rect(X, Y, Width * scale, Height * scale));
+            }
         }
 
         public override string CreateTspl()
         {
             return $"QRCODE {X},{Y},L,14,A,0,M2,S7,\"{Content}\"";
+        }
+
+        public override void UpdateContent(string newValue)
+        {
+            Content = newValue;
         }
     }
 }

@@ -21,5 +21,10 @@ namespace SimpleProject.Domain.Labels
         {
             return $"BARCODE {X},{Y},\"128\",{Height},1,0,2,2,\"{Content}\"";
         }
+
+        public override void UpdateContent(string newValue)
+        {
+            Content = newValue;
+        }
     }
 }
