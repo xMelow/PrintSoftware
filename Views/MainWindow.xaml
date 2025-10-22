@@ -18,32 +18,32 @@
         <StackPanel Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,50,0,0" Width="317">
             <StackPanel Orientation="Horizontal" Margin="0,10">
                 <TextBlock Text="Title:" Width="120" VerticalAlignment="Center" FontSize="16"/>
-                <TextBox x:Name="TitleTextBox" Width="150" TextChanged="Input_TextChanged" FontSize="16"/>
+                <TextBox x:Name="TitleTextBox" Width="150" LostFocus="Input_TextChanged" FontSize="16"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,10">
                 <TextBlock Text="Name:" Width="120" VerticalAlignment="Center" FontSize="16"/>
-                <TextBox x:Name="NameTextBox" Width="150" TextChanged="Input_TextChanged" FontSize="16"/>
+                <TextBox x:Name="NameTextBox" Width="150" LostFocus="Input_TextChanged" FontSize="16"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,10">
                 <TextBlock Text="Phone number:" Width="120" VerticalAlignment="Center" FontSize="16"/>
-                <TextBox x:Name="PhoneNumberTextBox" Width="150" TextChanged="Input_TextChanged" FontSize="16"/>
+                <TextBox x:Name="PhoneNumberTextBox" Width="150" LostFocus="Input_TextChanged" FontSize="16"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,10">
                 <TextBlock Text="Email:" Width="120" VerticalAlignment="Center" FontSize="16"/>
-                <TextBox x:Name="EmailTextBox" Width="150" TextChanged="Input_TextChanged" FontSize="16"/>
+                <TextBox x:Name="EmailTextBox" Width="150" LostFocus="Input_TextChanged" FontSize="16"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,10">
                 <TextBlock Text="Company:" Width="120" VerticalAlignment="Center" FontSize="16"/>
-                <TextBox x:Name="CompanyTextBox" Width="150" TextChanged="Input_TextChanged" FontSize="16"/>
+                <TextBox x:Name="CompanyTextBox" Width="150" LostFocus="Input_TextChanged" FontSize="16"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,10">
                 <TextBlock Text="QR Code:" Width="120" VerticalAlignment="Center" FontSize="16"/>
-                <TextBox x:Name="QRTextBox" Width="150" TextChanged="Input_TextChanged" FontSize="16"/>
+                <TextBox x:Name="QRTextBox" Width="150" LostFocus="Input_TextChanged" FontSize="16"/>
             </StackPanel>
         </StackPanel>
 

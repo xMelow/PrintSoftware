@@ -53,7 +53,7 @@ namespace SimpleProject
             SettingsWindow.Show();
         }
 
-        private void Input_TextChanged(object sender, TextChangedEventArgs e)
+        private void Input_TextChanged(object sender, RoutedEventArgs e)
         {
             UpdateLabelPreview();
         }

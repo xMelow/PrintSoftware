@@ -49,7 +49,7 @@ namespace SimpleProject.Domain
             foreach (LabelElement element in LabelElements)
             {
                 if (!string.IsNullOrEmpty(element.VariableName) &&
-                    labelData.TryGetValue(element.VariableName, out string newValue))
+                    labelData.TryGetValue(element.VariableName, out string? newValue))
                 {
                     element.UpdateContent(newValue);
                 }

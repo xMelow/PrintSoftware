@@ -53,22 +53,29 @@ namespace SimpleProject.Services
             return _currentLabel;
         }
 
-        public BitmapSource RenderLabelPreview(int visibilityScale = 1)
+        public BitmapSource RenderLabelPreview(int visibilityScale = 10)
         {
-            Debug.WriteLine($"Label '{_currentLabel.Name}' has {_currentLabel.LabelElements.Count} elements.");
+            const double mmPerInch = 25.4;
+            const double dpi = 300;
+            double pixelWidth = (_currentLabel.Width / mmPerInch) * dpi * visibilityScale;
+            double pixelHeight = (_currentLabel.Height / mmPerInch) * dpi * visibilityScale;
+
+            if (pixelWidth <= 0 || pixelHeight <= 0)
+                throw new InvalidOperationException($"Invalid label size: {pixelWidth}x{pixelHeight}");
 
             var dv = new DrawingVisual();
-
             using (var dc = dv.RenderOpen())
             {
                 _currentLabel.Draw(dc, visibilityScale);
             }
 
+            Debug.WriteLine(_currentLabel.Width);
+
             var bmp = new RenderTargetBitmap(
-                 (int)(500 * visibilityScale),
-                 (int)(700 * visibilityScale),
-                 96 * visibilityScale,
-                 96 * visibilityScale,
+                 (int)(pixelWidth * visibilityScale),
+                 (int)(pixelHeight * visibilityScale),
+                 300,
+                 300,
                  PixelFormats.Pbgra32);
 
             bmp.Render(dv);
