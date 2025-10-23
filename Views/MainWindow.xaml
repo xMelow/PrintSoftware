@@ -64,7 +64,7 @@
             </Grid.RowDefinitions>
 
             <Button Content="Import Excel" Click="ImportExcelFile" Margin="-395,14,884,3" Grid.Row="1" />
-            <DataGrid x:Name="ExcelGrid" AutoGenerateColumns="True" Margin="-395,-320,395,90"/>
+            <DataGrid x:Name="ExcelGrid" AutoGenerateColumns="True" SelectionChanged="ExcelGrid_SelectionChanged" Margin="-395,-320,395,90"/>
 
             <Button x:Name="PrintButton" Content="PRINT" Width="75" Height="35" HorizontalAlignment="Right" Margin="0,10,0,0" Grid.Row="1" Click="PrintButton_Click" Background="#FF35EA93" BorderBrush="#FF0B0C0C" Grid.ColumnSpan="2"/>
             <Button x:Name="SettingsPage" Content="Settings" Width="70" HorizontalAlignment="Left" Margin="-776,12,0,11" Click="ViewSettingsPage_Click" Background="#FF35EA93" BorderBrush="#FF0B0C0C" Grid.Row="1" />

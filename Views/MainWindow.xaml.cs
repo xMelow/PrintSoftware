@@ -25,7 +25,7 @@ namespace SimpleProject
     {
         private readonly PrintController _printController;
         private readonly LabelController _labelController;
-        public DataTable ExcelData { get; set; }
+        public DataTable? ExcelData { get; set; }
 
         public MainWindow()
         {
@@ -37,17 +37,7 @@ namespace SimpleProject
 
         private void PrintButton_Click(object sender, RoutedEventArgs e)
         {
-            Dictionary<string, string> labelData = new Dictionary<string, string>
-            {
-                { "Title", TitleTextBox.Text },
-                { "Name", NameTextBox.Text },
-                { "PhoneNumber", PhoneNumberTextBox.Text },
-                { "Email", EmailTextBox.Text },
-                { "Company", CompanyTextBox.Text },
-                { "QR", QRTextBox.Text }
-            };
-
-            var label = _labelController.UpdateLabelWithData(labelData);
+            var label = _labelController.GetLabel();
             _labelController.Printlabel(label);
         }
 
@@ -64,7 +54,7 @@ namespace SimpleProject
         
         private void UpdateLabelPreview()
         {
-            var labelData = new Dictionary<string, string>
+            Dictionary<string, string> labelData = new Dictionary<string, string>
             {
                 { "Title", TitleTextBox.Text },
                 { "Name", NameTextBox.Text },
@@ -84,14 +74,39 @@ namespace SimpleProject
                 Filter = "Excel Files|*.xlsx;*.xls"
             };
 
-            Debug.WriteLine("Excel file opened");
-
             if (openFileDialog.ShowDialog() == true)
             {
                 var service = new ExcelImportService();
                 var table = service.ImportExcel(openFileDialog.FileName);
 
                 ExcelGrid.ItemsSource = table.DefaultView;
+            }
+        }
+
+        private void ExcelGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ExcelGrid.SelectedItem is DataRowView selectedRow) 
+            {
+                var row = selectedRow.Row;
+                var labelData = new Dictionary<string, string>
+                {
+                    { "Title", row["ID"].ToString() },
+                    { "Name", row["NAME"].ToString() },
+                    { "PhoneNumber", row["PHONENUMBER"].ToString() },
+                    { "Email", row["EMAIL"].ToString() },
+                    { "Company", row["OCCUPATION"].ToString() },
+                    { "QR", row["POSTCODE"].ToString() }
+                };
+
+                //TitleTextBox.Text = row["ID"].ToString();
+                //NameTextBox.Text = row["NAME"].ToString();
+                //PhoneNumberTextBox.Text = row["PHONENUMBER"].ToString();
+                //EmailTextBox.Text = row["EMAIL"].ToString();
+                //CompanyTextBox.Text = row["OCCUPATION"].ToString();
+                //QRTextBox.Text = row["POSTCODE"].ToString();
+
+                _labelController.UpdateLabelWithData(labelData);
+                //LabelPreviewImage.Source = _labelController.GetPreview();
             }
         }
     }
