@@ -15,7 +15,7 @@ namespace SimpleProject.Domain.Labels
         public double Height { get; set; }
         public string? VariableName { get; set; }
 
-        public abstract void Draw(DrawingContext dc, double scale);
+        public abstract void Draw(DrawingContext dc, double scale, double dpi);
 
         public abstract string CreateTspl();
 

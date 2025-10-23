@@ -1,6 +1,10 @@
-﻿using SimpleProject.Controller;
+﻿using Microsoft.Win32;
+using SimpleProject.Controller;
 using SimpleProject.Domain;
 using SimpleProject.Domain.Labels;
+using SimpleProject.Services;
+using System.Data;
+using System.Diagnostics;
 using System.Net.Sockets;
 using System.Text;
 using System.Windows;
@@ -21,14 +25,14 @@ namespace SimpleProject
     {
         private readonly PrintController _printController;
         private readonly LabelController _labelController;
+        public DataTable ExcelData { get; set; }
+
         public MainWindow()
         {
-
             InitializeComponent();
             _printController = new PrintController();
             _labelController = new LabelController();
             UpdateLabelPreview();
-
         }
 
         private void PrintButton_Click(object sender, RoutedEventArgs e)
@@ -71,6 +75,24 @@ namespace SimpleProject
             };
             _labelController.UpdateLabelWithData(labelData);
             LabelPreviewImage.Source = _labelController.GetPreview();
+        }
+
+        public void ImportExcelFile(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                Filter = "Excel Files|*.xlsx;*.xls"
+            };
+
+            Debug.WriteLine("Excel file opened");
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                var service = new ExcelImportService();
+                var table = service.ImportExcel(openFileDialog.FileName);
+
+                ExcelGrid.ItemsSource = table.DefaultView;
+            }
         }
     }
 }

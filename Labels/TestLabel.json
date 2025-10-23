@@ -1,6 +1,6 @@
 {
   "Name": "Test label",
-  "Width": 110,
+  "Width": 105.6,
   "Height": 110,
   "Unit": "mm",
   "LabelElements": [
@@ -23,14 +23,15 @@
     },
     {
       "Type": "Box",
-      "Xstart": 33,
-      "Ystart": 178,
-      "XEnd": 1232,
-      "YEnd": 890,
+      "X": 33,
+      "Y": 178,
+      "Xend": 1232,
+      "Yend": 890,
       "Radius": 6
     },
     {
       "Type": "QRcode",
+      "VariableName": "QR",
       "X": 938,
       "Y": 951,
       "ECCLevel": "L",
@@ -39,13 +40,13 @@
       "Rotation": 0,
       "Model": "M2",
       "Mask": "S7",
-      "Content": "{QR}"
+      "Content": ""
     },
     {
       "Type": "Circle",
       "X": 933,
       "Y": 590,
-      "Radius": 120,
+      "Radius": 260,
       "Thickness": 12
     },
     {

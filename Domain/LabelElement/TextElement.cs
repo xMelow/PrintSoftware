@@ -16,7 +16,7 @@ namespace SimpleProject.Domain.Labels
         public double FontSize { get; set; } = 12;
         public Brush Color { get; set; } = Brushes.Black;
 
-        public override void Draw(DrawingContext dc, double scale)
+        public override void Draw(DrawingContext dc, double scale, double dpi)
         {
             var textToDraw = Text ?? string.Empty;
 
@@ -27,9 +27,14 @@ namespace SimpleProject.Domain.Labels
                 new Typeface(FontFamily),
                 FontSize * scale,
                 Color,
-                1.0);
+                dpi / 96.0);
 
-            dc.DrawText(formattedText, new Point(X, Y));
+            double xPx = (X / 25.4) * dpi * scale;
+            double yPx = (Y / 25.4) * dpi * scale;
+
+            dc.PushTransform(new TranslateTransform(xPx, yPx));
+            dc.DrawText(formattedText, new Point(0, 0));
+            dc.Pop();
         }
 
         //TEXT 77,505,""0"",0,16,16,""Company:""

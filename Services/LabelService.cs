@@ -53,7 +53,7 @@ namespace SimpleProject.Services
             return _currentLabel;
         }
 
-        public BitmapSource RenderLabelPreview(int visibilityScale = 10)
+        public BitmapSource RenderLabelPreview(int visibilityScale = 1)
         {
             const double mmPerInch = 25.4;
             const double dpi = 300;
@@ -66,16 +66,14 @@ namespace SimpleProject.Services
             var dv = new DrawingVisual();
             using (var dc = dv.RenderOpen())
             {
-                _currentLabel.Draw(dc, visibilityScale);
+                _currentLabel.Draw(dc, visibilityScale, dpi);
             }
-
-            Debug.WriteLine(_currentLabel.Width);
 
             var bmp = new RenderTargetBitmap(
                  (int)(pixelWidth * visibilityScale),
                  (int)(pixelHeight * visibilityScale),
-                 300,
-                 300,
+                 dpi,
+                 dpi,
                  PixelFormats.Pbgra32);
 
             bmp.Render(dv);

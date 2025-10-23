@@ -13,7 +13,7 @@ namespace SimpleProject.Domain.Labels
         public string Type { get; set; }
         public string Content { get; set; }
 
-        public override void Draw(DrawingContext dc, double scale)
+        public override void Draw(DrawingContext dc, double scale, double dpi)
         {
             throw new NotImplementedException();
         }

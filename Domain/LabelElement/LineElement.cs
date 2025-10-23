@@ -12,16 +12,15 @@ namespace SimpleProject.Domain.Labels
 {
     public class LineElement : LabelElement
     {
-        public int Thickness { get; set; }
         public Brush Stroke { get; set; } = Brushes.Black;
 
         public override string CreateTspl()
         {
-            // BAR 33,135,1199,7 
-            return $"BAR {X},{Y},{Width},{Thickness}";
+            // BAR 33,135,1199,7 -> data and tspl
+            return $"BAR {X},{Y},{Width},{Height}";
         }
 
-        public override void Draw(DrawingContext dc, double scale)
+        public override void Draw(DrawingContext dc, double scale, double dpi)
         {
             dc.DrawRectangle(Stroke, null, new Rect(X * scale, Y * scale, Width * scale, Height * scale));
         }
