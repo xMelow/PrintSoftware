@@ -42,5 +42,10 @@ namespace SimpleProject.Controller
         {
             _printService.PrintLabel(label);
         }
+
+        public Label CreateLabelFromRow(DataRow row)
+        {
+           return _labelService.CreateLabelFromRow(row);
+        }
     }
 }

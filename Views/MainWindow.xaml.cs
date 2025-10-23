@@ -41,6 +41,18 @@ namespace SimpleProject
             _labelController.Printlabel(label);
         }
 
+        private void PrintAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ExcelGrid.ItemsSource is DataView dataView)
+            {
+                foreach (DataRow row in dataView.Table.Rows)
+                {
+                    var label = _labelController.CreateLabelFromRow(row);
+                    _labelController.Printlabel(label);
+                }
+            }
+        }
+
         private void ViewSettingsPage_Click(object sender, RoutedEventArgs e)
         {
             var SettingsWindow = new SettingsWindow(_printController);
@@ -88,15 +100,20 @@ namespace SimpleProject
             if (ExcelGrid.SelectedItem is DataRowView selectedRow) 
             {
                 var row = selectedRow.Row;
-                var labelData = new Dictionary<string, string>
-                {
-                    { "Title", row["ID"].ToString() },
-                    { "Name", row["NAME"].ToString() },
-                    { "PhoneNumber", row["PHONENUMBER"].ToString() },
-                    { "Email", row["EMAIL"].ToString() },
-                    { "Company", row["OCCUPATION"].ToString() },
-                    { "QR", row["POSTCODE"].ToString() }
-                };
+                _labelController.CreateLabelFromRow(row);                
+                
+                
+                //var labelData = new Dictionary<string, string>
+
+
+                //{
+                //    { "Title", row["ID"].ToString() },
+                //    { "Name", row["NAME"].ToString() },
+                //    { "PhoneNumber", row["PHONENUMBER"].ToString() },
+                //    { "Email", row["EMAIL"].ToString() },
+                //    { "Company", row["OCCUPATION"].ToString() },
+                //    { "QR", row["POSTCODE"].ToString() }
+                //};
 
                 //TitleTextBox.Text = row["ID"].ToString();
                 //NameTextBox.Text = row["NAME"].ToString();
@@ -105,7 +122,7 @@ namespace SimpleProject
                 //CompanyTextBox.Text = row["OCCUPATION"].ToString();
                 //QRTextBox.Text = row["POSTCODE"].ToString();
 
-                _labelController.UpdateLabelWithData(labelData);
+                //_labelController.UpdateLabelWithData(labelData);
                 //LabelPreviewImage.Source = _labelController.GetPreview();
             }
         }

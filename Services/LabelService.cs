@@ -80,5 +80,20 @@ namespace SimpleProject.Services
             bmp.Render(dv);
             return bmp;
         }
+
+        public Label CreateLabelFromRow(DataRow row)
+        {
+            var labelData = new Dictionary<string, string>
+                {
+                    { "Title", row["ID"].ToString() },
+                    { "Name", row["NAME"].ToString() },
+                    { "PhoneNumber", row["PHONENUMBER"].ToString() },
+                    { "Email", row["EMAIL"].ToString() },
+                    { "Company", row["OCCUPATION"].ToString() },
+                    { "QR", row["POSTCODE"].ToString() }
+                };
+
+            return UpdateLabelData(labelData);
+        }
     }
 }
