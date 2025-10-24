@@ -65,7 +65,6 @@ namespace SimpleProject.Domain
             {
                 sb.AppendLine(element.CreateTspl());
             }
-            sb.AppendLine("PRINT 1,1");
             return sb.ToString();
         }
     }

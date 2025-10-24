@@ -37,18 +37,21 @@ namespace SimpleProject
 
         private void PrintButton_Click(object sender, RoutedEventArgs e)
         {
+            int amount = Int32.Parse(AmountTextBox.Text);
             var label = _labelController.GetLabel();
-            _labelController.Printlabel(label);
+            _labelController.Printlabel(label, amount);
         }
 
         private void PrintAllButton_Click(object sender, RoutedEventArgs e)
         {
+            int amount = Int32.Parse(AmountTextBox.Text);
+
             if (ExcelGrid.ItemsSource is DataView dataView)
             {
                 foreach (DataRow row in dataView.Table.Rows)
                 {
                     var label = _labelController.CreateLabelFromRow(row);
-                    _labelController.Printlabel(label);
+                    _labelController.Printlabel(label, amount);
                 }
             }
         }
@@ -97,33 +100,10 @@ namespace SimpleProject
 
         private void ExcelGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ExcelGrid.SelectedItem is DataRowView selectedRow) 
+            if (ExcelGrid.SelectedItem is DataRowView selectedRow)
             {
                 var row = selectedRow.Row;
-                _labelController.CreateLabelFromRow(row);                
-                
-                
-                //var labelData = new Dictionary<string, string>
-
-
-                //{
-                //    { "Title", row["ID"].ToString() },
-                //    { "Name", row["NAME"].ToString() },
-                //    { "PhoneNumber", row["PHONENUMBER"].ToString() },
-                //    { "Email", row["EMAIL"].ToString() },
-                //    { "Company", row["OCCUPATION"].ToString() },
-                //    { "QR", row["POSTCODE"].ToString() }
-                //};
-
-                //TitleTextBox.Text = row["ID"].ToString();
-                //NameTextBox.Text = row["NAME"].ToString();
-                //PhoneNumberTextBox.Text = row["PHONENUMBER"].ToString();
-                //EmailTextBox.Text = row["EMAIL"].ToString();
-                //CompanyTextBox.Text = row["OCCUPATION"].ToString();
-                //QRTextBox.Text = row["POSTCODE"].ToString();
-
-                //_labelController.UpdateLabelWithData(labelData);
-                //LabelPreviewImage.Source = _labelController.GetPreview();
+                _labelController.CreateLabelFromRow(row);
             }
         }
     }

@@ -39,7 +39,7 @@ namespace SimpleProject.Services
                 { "Density", "11"},
                 { "Direction", "0" },
                 { "Gap", "3" },
-                { "Cutter", "OFF" },
+                { "Cutter", "ON" },
                 { "Offset", "0" },
                 { "Tear", "ON" },
             };
@@ -53,7 +53,7 @@ namespace SimpleProject.Services
             }
         }
 
-        public void PrintLabel(Label label)
+        public void PrintLabel(Label label, int amount = 1)
         {
             string settingsTspl = settingsTsplTemplate;
             foreach (var setting in CurrentSettings)
@@ -62,6 +62,7 @@ namespace SimpleProject.Services
             }
 
             string labelTspl = label.CreateLabelTspl();
+            labelTspl += $"PRINT {amount},1";
             SendTspl(settingsTspl + labelTspl);
         }
 

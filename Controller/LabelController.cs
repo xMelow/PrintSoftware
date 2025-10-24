@@ -38,9 +38,9 @@ namespace SimpleProject.Controller
             return _labelService.RenderLabelPreview(scale);
         }
 
-        public void Printlabel(Label label)
+        public void Printlabel(Label label, int amount)
         {
-            _printService.PrintLabel(label);
+            _printService.PrintLabel(label, amount);
         }
 
         public Label CreateLabelFromRow(DataRow row)
