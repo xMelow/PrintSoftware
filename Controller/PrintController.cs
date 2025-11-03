@@ -30,5 +30,11 @@ namespace SimpleProject.Controller
         {
             _printService.SetPrintSettings(printSettings);
         }
+
+        public void Printlabel(Label label, int amount)
+        {
+            _printService.PrintLabel(label, amount);
+        }
+
     }
 }

@@ -15,12 +15,10 @@ namespace SimpleProject.Controller
     public class LabelController
     {
         private readonly LabelService _labelService;
-        private readonly PrintService _printService;
 
         public LabelController()
         {
             _labelService = new LabelService();
-            _printService = new PrintService();
         }
 
         public Label GetLabel()
@@ -36,11 +34,6 @@ namespace SimpleProject.Controller
         public BitmapSource GetPreview(int scale = 3)
         {
             return _labelService.RenderLabelPreview(scale);
-        }
-
-        public void Printlabel(Label label, int amount)
-        {
-            _printService.PrintLabel(label, amount);
         }
 
         public Label CreateLabelFromRow(DataRow row)

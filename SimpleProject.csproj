@@ -24,4 +24,8 @@
     <PackageReference Include="QRCoder" Version="1.7.0" />
   </ItemGroup>
 
+	<ItemGroup>
+		<PackageReference Include="WPF-UI" Version="4.0.3" />
+	</ItemGroup>
+
 </Project>

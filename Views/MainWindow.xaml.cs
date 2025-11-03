@@ -15,13 +15,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Wpf.Ui.Controls;
+
 
 namespace SimpleProject
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Wpf.Ui.Controls.FluentWindow
     {
         private readonly PrintController _printController;
         private readonly LabelController _labelController;
@@ -39,7 +41,7 @@ namespace SimpleProject
         {
             int amount = Int32.Parse(AmountTextBox.Text);
             var label = _labelController.GetLabel();
-            _labelController.Printlabel(label, amount);
+            _printController.Printlabel(label, amount);
         }
 
         private void PrintAllButton_Click(object sender, RoutedEventArgs e)
@@ -51,7 +53,7 @@ namespace SimpleProject
                 foreach (DataRow row in dataView.Table.Rows)
                 {
                     var label = _labelController.CreateLabelFromRow(row);
-                    _labelController.Printlabel(label, amount);
+                    _printController.Printlabel(label, amount);
                 }
             }
         }
@@ -105,6 +107,31 @@ namespace SimpleProject
                 var row = selectedRow.Row;
                 _labelController.CreateLabelFromRow(row);
             }
+            // update label preview
+        }
+
+        private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                this.DragMove();
+        }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Normal)
+                this.WindowState = WindowState.Maximized;
+            else
+                this.WindowState = WindowState.Normal;
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
