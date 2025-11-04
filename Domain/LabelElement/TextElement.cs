@@ -25,17 +25,23 @@ namespace SimpleProject.Domain.Labels
             double xPx = X * scale;
             double yPx = Y * scale;
 
-            Debug.WriteLine($"Text: X={X}, Y={Y}, W={Width}, H={Height}, xPx={xPx}, yPx={yPx}");
+            //Debug.WriteLine($"Text: X={X}, Y={Y}, W={Width}, H={Height}, xPx={xPx}, yPx={yPx}");
 
+            var typeface = new Typeface(
+                    new FontFamily(FontFamily),
+                    FontStyles.Normal,
+                    FontWeights.Bold,
+                    FontStretches.Normal
+                );
 
             var formattedText = new FormattedText(
                 Text,
                 CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight,
-                new Typeface(FontFamily),
-                FontSize * scale * 3,
+                typeface,
+                FontSize * 40,
                 Color,
-                96.0);
+                96);
 
             dc.PushTransform(new TranslateTransform(xPx, yPx));
             dc.DrawText(formattedText, new Point(0, 0));

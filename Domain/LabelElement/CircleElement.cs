@@ -18,7 +18,7 @@ namespace SimpleProject.Domain.Labels
 
         public override void Draw(DrawingContext dc, double scale)
         {
-            dc.DrawEllipse(Fill, new Pen(Stroke, Thickness * scale), new Point(X * scale, Y * scale), Radius * scale, Radius * scale);
+            dc.DrawEllipse(Fill, new Pen(Stroke, Thickness * scale), new Point(X * scale, Y * scale), Radius * 3, Radius * 3);
         }
         public override string CreateTspl()
         {

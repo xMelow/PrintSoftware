@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +18,6 @@ namespace SimpleProject.Domain.Labels
 
         public override void Draw(DrawingContext dc, double scale)
         {
-            if (string.IsNullOrEmpty(Content))
-                return;
-
             using (var qrGenerator = new QRCodeGenerator())
             using (var data = qrGenerator.CreateQrCode(Content, QRCodeGenerator.ECCLevel.Q))
             using (var qrCode = new QRCode(data))
@@ -34,7 +32,14 @@ namespace SimpleProject.Domain.Labels
                         (int)(bitmap.Height * scale))
                 );
 
-                dc.DrawImage(bitmapSource, new Rect(X, Y, Width * scale, Height * scale));
+                double xPx = X * scale;
+                double yPx = Y * scale;
+                double widthPx = (Width > 0 ? Width : bitmap.Width) * scale;
+                double heightPx = (Height > 0 ? Height : bitmap.Height) * scale;
+
+                //Debug.WriteLine($"QRCode: X={X} y={Y} width={Width} height={Height}");
+
+                dc.DrawImage(bitmapSource, new Rect(xPx, yPx, widthPx, heightPx));
             }
         }
 

@@ -24,6 +24,8 @@ namespace SimpleProject.Services
                 ConfigureDataTable = _ => new ExcelDataTableConfiguration() { UseHeaderRow = true }
             });
 
+            // ask the user for which page
+
             var table = result.Tables[0];
             Console.WriteLine($"Rows: {table.Rows.Count}, Cols: {table.Columns.Count}");
 

@@ -68,7 +68,7 @@ namespace SimpleProject.Services
 
         private void SendTspl(string tspl)
         {
-            string ip = "192.168.1.113";
+            string ip = "192.168.1.133";
             int port = 9100;
             Debug.WriteLine(tspl);
             try

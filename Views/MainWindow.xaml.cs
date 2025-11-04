@@ -37,7 +37,7 @@ namespace SimpleProject
             _printController = new Controller.PrintController();
             _labelController = new LabelController();
             UpdateLabelPreview();
-            PopulateComboBox();
+            PopulateData();
         }
 
         private void PrintButton_Click(object sender, RoutedEventArgs e)
@@ -72,7 +72,7 @@ namespace SimpleProject
             UpdateLabelPreview();
         }
         
-        private void UpdateLabelPreview()
+        private async void UpdateLabelPreview()
         {
             Dictionary<string, string> labelData = new Dictionary<string, string>
             {
@@ -109,8 +109,19 @@ namespace SimpleProject
             {
                 var row = selectedRow.Row;
                 _labelController.CreateLabelFromRow(row);
+                LabelPreviewImage.Source = _labelController.GetPreview();
+                SetLabelDataFields(row);
             }
-            // update label preview
+        }
+
+        private void SetLabelDataFields(DataRow row)
+        {
+            TitleTextBox.Text = row["ID"].ToString();
+            NameTextBox.Text = row["NAME"].ToString();
+            PhoneNumberTextBox.Text = row["PHONENUMBER"].ToString();
+            EmailTextBox.Text = row["EMAIL"].ToString();
+            CompanyTextBox.Text = row["OCCUPATION"].ToString();
+            QRTextBox.Text = row["POSTCODE"].ToString();
         }
 
         private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -137,13 +148,14 @@ namespace SimpleProject
             this.Close();
         }
 
-        private void PopulateComboBox()
+        private void PopulateData()
         {
             foreach (string printer in PrinterSettings.InstalledPrinters)
                 PrinterComboBox.Items.Add(printer);
 
             PrinterComboBox.SelectedItem = new PrinterSettings().PrinterName;
-            Debug.WriteLine(PrinterComboBox.SelectedItem);
+
+            AmountTextBox.Text = "1";
 
         }
     }

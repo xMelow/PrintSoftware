@@ -56,7 +56,7 @@ namespace SimpleProject.Services
 
         public BitmapSource RenderLabelPreview()
         {
-            int scale = 10;
+            int scale = 12;
             int dpi = 96;
 
             double maxX = _currentLabel.LabelElements.Max(e => e.Xend > 0 ? e.Xend : e.X);
@@ -64,6 +64,8 @@ namespace SimpleProject.Services
 
             double pixelWidth = maxX * scale;
             double pixelHeight = maxY * scale;
+
+            Debug.WriteLine($"pixelWidth: {pixelWidth}, pixelHeight: {pixelHeight}");
 
             var dv = new DrawingVisual();
             using (var dc = dv.RenderOpen())
