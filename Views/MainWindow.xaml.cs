@@ -16,6 +16,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Wpf.Ui.Controls;
+using System.Drawing.Printing;
+
 
 
 namespace SimpleProject
@@ -23,18 +25,19 @@ namespace SimpleProject
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Wpf.Ui.Controls.FluentWindow
+    public partial class MainWindow : FluentWindow
     {
-        private readonly PrintController _printController;
+        private readonly Controller.PrintController _printController;
         private readonly LabelController _labelController;
         public DataTable? ExcelData { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
-            _printController = new PrintController();
+            _printController = new Controller.PrintController();
             _labelController = new LabelController();
             UpdateLabelPreview();
+            PopulateComboBox();
         }
 
         private void PrintButton_Click(object sender, RoutedEventArgs e)
@@ -132,6 +135,16 @@ namespace SimpleProject
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void PopulateComboBox()
+        {
+            foreach (string printer in PrinterSettings.InstalledPrinters)
+                PrinterComboBox.Items.Add(printer);
+
+            PrinterComboBox.SelectedItem = new PrinterSettings().PrinterName;
+            Debug.WriteLine(PrinterComboBox.SelectedItem);
+
         }
     }
 }
