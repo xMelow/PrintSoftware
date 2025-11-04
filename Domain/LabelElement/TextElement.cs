@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -16,21 +17,25 @@ namespace SimpleProject.Domain.Labels
         public double FontSize { get; set; } = 12;
         public Brush Color { get; set; } = Brushes.Black;
 
-        public override void Draw(DrawingContext dc, double scale, double dpi)
+        public override void Draw(DrawingContext dc, double scale)
         {
-            var textToDraw = Text ?? string.Empty;
+            if (string.IsNullOrEmpty(Text))
+                return;
+
+            double xPx = X * scale;
+            double yPx = Y * scale;
+
+            Debug.WriteLine($"Text: X={X}, Y={Y}, W={Width}, H={Height}, xPx={xPx}, yPx={yPx}");
+
 
             var formattedText = new FormattedText(
-                textToDraw,
+                Text,
                 CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight,
                 new Typeface(FontFamily),
-                FontSize * scale,
+                FontSize * scale * 3,
                 Color,
-                dpi / 96.0);
-
-            double xPx = (X / 25.4) * dpi * scale;
-            double yPx = (Y / 25.4) * dpi * scale;
+                96.0);
 
             dc.PushTransform(new TranslateTransform(xPx, yPx));
             dc.DrawText(formattedText, new Point(0, 0));

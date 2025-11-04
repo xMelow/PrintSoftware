@@ -107,8 +107,8 @@
                         <Border Height="2" Background="#FF008896" Margin="0,10,0,10"/>
 
 
-                        <Viewbox Stretch="Uniform">
-                            <Image x:Name="LabelPreviewImage" Stretch="None"/>
+                        <Viewbox Stretch="Uniform" Height="300" Width="400">
+                            <Image x:Name="LabelPreviewImage"/>
                         </Viewbox>
                     </StackPanel>
                 </ui:Card>

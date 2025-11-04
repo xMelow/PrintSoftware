@@ -31,9 +31,9 @@ namespace SimpleProject.Controller
             return _labelService.UpdateLabelData(labelData);
         }
 
-        public BitmapSource GetPreview(int scale = 3)
+        public BitmapSource GetPreview()
         {
-            return _labelService.RenderLabelPreview(scale);
+            return _labelService.RenderLabelPreview();
         }
 
         public Label CreateLabelFromRow(DataRow row)

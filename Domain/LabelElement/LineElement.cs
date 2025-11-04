@@ -20,7 +20,7 @@ namespace SimpleProject.Domain.Labels
             return $"BAR {X},{Y},{Width},{Height}";
         }
 
-        public override void Draw(DrawingContext dc, double scale, double dpi)
+        public override void Draw(DrawingContext dc, double scale)
         {
             dc.DrawRectangle(Stroke, null, new Rect(X * scale, Y * scale, Width * scale, Height * scale));
         }

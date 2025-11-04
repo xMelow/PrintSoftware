@@ -14,7 +14,7 @@
         ExtendsContentIntoTitleBar="True">
 
     <DockPanel LastChildFill="True">
-        <!-- Header -->
+        <!-- HEADER -->
         <DockPanel DockPanel.Dock="Top" Background="#008896" Height="50" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
 
             <TextBlock Text="Settings"

@@ -15,7 +15,7 @@ namespace SimpleProject.Domain.Labels
     {
         public string Content { get; set; }
 
-        public override void Draw(DrawingContext dc, double scale, double dpi)
+        public override void Draw(DrawingContext dc, double scale)
         {
             if (string.IsNullOrEmpty(Content))
                 return;

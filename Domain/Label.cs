@@ -36,11 +36,11 @@ namespace SimpleProject.Domain
 
         public List<LabelElement> LabelElements { get; set; } = new List<LabelElement>();
 
-        public void Draw(DrawingContext dc, double scale, double dpi)
+        public void Draw(DrawingContext dc, double scale)
         {
             foreach(var element in LabelElements)
             {
-                element.Draw(dc, scale, dpi);
+                element.Draw(dc, scale);
             }
         }
 

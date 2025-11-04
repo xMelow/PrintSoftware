@@ -12,23 +12,28 @@ namespace SimpleProject.Domain.Labels
     public class RectangleElement : LabelElement
     {
         public Brush Fill { get; set; } = Brushes.LightBlue;
-        public int Xend { get; set; }
-        public int Yend { get; set; }
         public int LineThinkness { get; set; } = 6;
         public Pen Border { get; set; } = new Pen(Brushes.Black, 1);
 
-
-        public override void Draw(DrawingContext dc, double scale, double dpi)
+        public override void Draw(DrawingContext dc, double scale)
         {
-            Debug.WriteLine($"Rect: X={X}, Y={Y}, W={Width}, H={Height}");
+            double rectWidth = Xend - X;
+            double rectHeight = Yend - Y;
 
-            double xPx = (X / 25.4) * dpi * scale;
-            double yPx = (Y / 25.4) * dpi * scale;
-            double widthPx = (Width / 25.4) * dpi * scale;
-            double heightPx = (Height / 25.4) * dpi * scale;
-            var border = new Pen(Border.Brush, Border.Thickness * dpi / 96.0);
+            if (rectWidth == 0) Width = 1;
+            if (rectHeight == 0) Height = 1;
 
-            dc.DrawRectangle(Fill, border, new Rect(xPx, yPx, widthPx, heightPx));
+            Debug.WriteLine($"Rect: X={X}, Y={Y}, W={Width}, H={Height}, Xend={Xend}, Yend={Yend}");
+
+            double xPx = X * scale;
+            double yPx = Y * scale;
+            double widthPx = rectWidth * scale;
+            double heightPx = rectHeight * scale;
+
+            dc.DrawRectangle(Fill, new Pen(Border.Brush, Border.Thickness * scale), new Rect(xPx, yPx, widthPx, heightPx));
+
+            Debug.WriteLine($"Rect: xP={xPx}, yP={yPx}, widthPx={widthPx}, heightPx={heightPx}");
+
         }
 
         //BOX 33,178,1232,890,6 -> data and tspl

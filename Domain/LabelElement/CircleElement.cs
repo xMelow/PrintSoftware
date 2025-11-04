@@ -16,7 +16,7 @@ namespace SimpleProject.Domain.Labels
         public int Thickness { get; set; } = 6;
         public Brush Stroke { get; set; } = Brushes.Black;
 
-        public override void Draw(DrawingContext dc, double scale, double dpi)
+        public override void Draw(DrawingContext dc, double scale)
         {
             dc.DrawEllipse(Fill, new Pen(Stroke, Thickness * scale), new Point(X * scale, Y * scale), Radius * scale, Radius * scale);
         }

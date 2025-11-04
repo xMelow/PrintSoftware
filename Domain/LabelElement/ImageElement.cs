@@ -13,7 +13,7 @@ namespace SimpleProject.Domain.Labels
         public ImageSource Source { get; set; }
         public string Path { get; set; } = "";
 
-        public override void Draw(DrawingContext dc, double scale, double dpi)
+        public override void Draw(DrawingContext dc, double scale)
         {
             if (Source != null)
             {
