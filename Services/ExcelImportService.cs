@@ -25,10 +25,9 @@ namespace SimpleProject.Services
             });
 
             // ask the user for which page
+            // add multiple pages and switch between pages
 
             var table = result.Tables[0];
-            Console.WriteLine($"Rows: {table.Rows.Count}, Cols: {table.Columns.Count}");
-
             return result.Tables[0];
         }
     }

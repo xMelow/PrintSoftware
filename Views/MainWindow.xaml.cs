@@ -36,7 +36,7 @@ namespace SimpleProject
             InitializeComponent();
             _printController = new Controller.PrintController();
             _labelController = new LabelController();
-            UpdateLabelPreview();
+            LabelPreviewImage.Source = _labelController.GetPreview();
             PopulateData();
         }
 
@@ -72,7 +72,7 @@ namespace SimpleProject
             UpdateLabelPreview();
         }
         
-        private async void UpdateLabelPreview()
+        private void UpdateLabelPreview()
         {
             Dictionary<string, string> labelData = new Dictionary<string, string>
             {

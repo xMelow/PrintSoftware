@@ -40,6 +40,7 @@ namespace SimpleProject.Domain
         {
             foreach(var element in LabelElements)
             {
+
                 element.Draw(dc, scale);
             }
         }

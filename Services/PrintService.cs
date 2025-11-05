@@ -13,8 +13,8 @@ namespace SimpleProject.Services
     public class PrintService
     {
         private readonly string settingsTsplTemplate = @"
-                SIZE 105.6 mm, 110 mm
-                GAP {Gap} mm,0 mm
+                SIZE 110 mm, 110 mm
+                GAP {Gap} mm, 0 mm
                 REFERENCE 0,0
                 SPEED {Speed}
                 DENSITY {Density}
@@ -70,7 +70,9 @@ namespace SimpleProject.Services
         {
             string ip = "192.168.1.133";
             int port = 9100;
+
             Debug.WriteLine(tspl);
+
             try
             {
                 using (TcpClient client = new TcpClient(ip, port))
