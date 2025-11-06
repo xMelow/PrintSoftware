@@ -29,14 +29,18 @@ namespace SimpleProject
     {
         private readonly Controller.PrintController _printController;
         private readonly LabelController _labelController;
+        private readonly LabelPreviewService _labelPreviewService;
         public DataTable? ExcelData { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
+
             _printController = new Controller.PrintController();
             _labelController = new LabelController();
-            LabelPreviewImage.Source = _labelController.GetPreview();
+            _labelPreviewService = new LabelPreviewService(_labelController.GetLabel());
+
+            LabelPreviewImage.Source = _labelPreviewService.RenderFullLabelPreview();
             PopulateData();
         }
 
@@ -84,7 +88,7 @@ namespace SimpleProject
                 { "QR", QRTextBox.Text }
             };
             _labelController.UpdateLabelWithData(labelData);
-            LabelPreviewImage.Source = _labelController.GetPreview();
+            _labelPreviewService.RenderDynamicLabelPreview();
         }
 
         public void ImportExcelFile(object sender, RoutedEventArgs e)
@@ -109,7 +113,7 @@ namespace SimpleProject
             {
                 var row = selectedRow.Row;
                 _labelController.CreateLabelFromRow(row);
-                LabelPreviewImage.Source = _labelController.GetPreview();
+                _labelPreviewService.RenderDynamicLabelPreview();
                 SetLabelDataFields(row);
             }
         }

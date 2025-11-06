@@ -11,21 +11,34 @@ namespace SimpleProject.Services
 {
     public class LabelPreviewService
     {
-        private DrawingVisual _staticVisual;
-        private DrawingVisual _dynamicVisual;
-        private RenderTargetBitmap _cachedBitmap;
+        private RenderTargetBitmap _labelPreview;
+        private readonly Label _label;
+        private int _Scale = 12;
+        private int _Dpi = 96;
+        private double PixelWidth;
+        private double PixelHeight;
 
-        public LabelPreviewService() { }
+        public LabelPreviewService(Label label) 
+        {
+            _label = label;
+            CalculateLabelPreviewPixelSize();
 
-        private DrawingVisual RenderLabelPart(Label label, double scale, bool renderDynamic)
+            _labelPreview = new RenderTargetBitmap(
+                            (int)PixelWidth,
+                            (int)PixelHeight,
+                            _Dpi,
+                            _Dpi,
+                            PixelFormats.Pbgra32);
+        }
+
+        private DrawingVisual RenderLabelPart(double scale, bool renderDynamic)
         {
             DrawingVisual visual = new DrawingVisual();
             using (var dc = visual.RenderOpen())
             {
-                foreach (var element in label.LabelElements)
+                foreach (var element in _label.LabelElements)
                 {
                     bool isDynamic = !string.IsNullOrEmpty(element.VariableName);
-
                     if (renderDynamic == isDynamic)
                     {
                         element.Draw(dc, scale);
@@ -35,14 +48,58 @@ namespace SimpleProject.Services
             return visual;
         }
 
-        //public BitmapSource RenderDynamicLabelPreview()
-        //{
-        //    return
-        //}
+        private void CalculateLabelPreviewPixelSize()
+        {
+            double maxX = _label.LabelElements.Max(e => e.Xend > 0 ? e.Xend : e.X);
+            double maxY = _label.LabelElements.Max(e => e.Yend > 0 ? e.Yend : e.Y);
 
-        //public BitmapSource RenderStaticLabelPreview()
+            PixelWidth = maxX * _Scale;
+            PixelHeight = maxY * _Scale;
+        }
+
+        public BitmapSource RenderDynamicLabelPreview()
+        {
+            DrawingVisual _dynamicVisual = RenderLabelPart(_Scale, renderDynamic: true);
+            _labelPreview.Render(_dynamicVisual);
+            return _labelPreview;
+        }
+
+        public BitmapSource RenderStaticLabelPreview()
+        {
+            DrawingVisual _dynamicVisual = RenderLabelPart(_Scale, renderDynamic: false);
+            _labelPreview.Render(_dynamicVisual);
+            return _labelPreview;
+        }
+
+        public BitmapSource RenderFullLabelPreview()
+        {
+            RenderDynamicLabelPreview();
+            RenderStaticLabelPreview();
+            return _labelPreview;
+        }
+
+        //public BitmapSource RenderLabelPreview()
         //{
-        //    return 
+        //    
+
+        //    if (_labelBitmap == null)
+        //    {
+        //        _labelBitmap = new RenderTargetBitmap(
+        //                    (int)pixelWidth,
+        //                    (int)pixelHeight,
+        //                    dpi,
+        //                    dpi,
+        //                    PixelFormats.Pbgra32);
+        //    }
+
+        //    if (_staticVisual == null) 
+        //        _staticVisual = RenderLabelPart(scale, renderDynamic: false);
+
+        //   
+
+        //    _labelBitmap.Render(_staticVisual);
+        //    _labelBitmap.Render(_dynamicVisual);
+        //    return _labelBitmap;
         //}
 
         //public BitmapSource RenderLabelPreview()
@@ -90,39 +147,6 @@ namespace SimpleProject.Services
         //    _labelBitmap.Render(_staticVisual);
         //    _labelBitmap.Render(_dynamicVisual);
 
-        //    return _labelBitmap;
-        //}
-
-
-        //public BitmapSource RenderLabelPreview()
-        //{
-        //    int scale = 12;
-        //    int dpi = 96;
-
-        //    // move to label for faster loading
-        //    double maxX = _currentLabel.LabelElements.Max(e => e.Xend > 0 ? e.Xend : e.X);
-        //    double maxY = _currentLabel.LabelElements.Max(e => e.Yend > 0 ? e.Yend : e.Y);
-
-        //    double pixelWidth = maxX * scale;
-        //    double pixelHeight = maxY * scale;
-
-        //    if (_labelBitmap == null)
-        //    {
-        //        _labelBitmap = new RenderTargetBitmap(
-        //                    (int)pixelWidth,
-        //                    (int)pixelHeight,
-        //                    dpi,
-        //                    dpi,
-        //                    PixelFormats.Pbgra32);
-        //    }
-
-        //    if (_staticVisual == null) 
-        //        _staticVisual = RenderLabelPart(scale, renderDynamic: false);
-
-        //    _dynamicVisual = RenderLabelPart(scale, renderDynamic: true);
-
-        //    _labelBitmap.Render(_staticVisual);
-        //    _labelBitmap.Render(_dynamicVisual);
         //    return _labelBitmap;
         //}
     }

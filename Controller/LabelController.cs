@@ -31,11 +31,6 @@ namespace SimpleProject.Controller
             return _labelService.UpdateLabelData(labelData);
         }
 
-        public BitmapSource GetPreview()
-        {
-            return _labelService.RenderLabelPreview();
-        }
-
         public Label CreateLabelFromRow(DataRow row)
         {
            return _labelService.CreateLabelFromRow(row);
