@@ -29,7 +29,7 @@ namespace SimpleProject
     {
         private readonly Controller.PrintController _printController;
         private readonly LabelController _labelController;
-        private readonly LabelPreviewService _labelPreviewService;
+        private readonly LabelPreviewController _labelPreviewController;
         public DataTable? ExcelData { get; set; }
 
         public MainWindow()
@@ -38,9 +38,9 @@ namespace SimpleProject
 
             _printController = new Controller.PrintController();
             _labelController = new LabelController();
-            _labelPreviewService = new LabelPreviewService(_labelController.GetLabel());
+            _labelPreviewController = new LabelPreviewController(_labelController.GetLabel());
 
-            LabelPreviewImage.Source = _labelPreviewService.RenderFullLabelPreview();
+            LabelPreviewImage.Source = _labelPreviewController.RenderFullLabelPreview();
             PopulateData();
         }
 
@@ -73,11 +73,14 @@ namespace SimpleProject
 
         private void Input_TextChanged(object sender, RoutedEventArgs e)
         {
+            Debug.WriteLine($"Sender: {sender}");
             UpdateLabelPreview();
         }
         
         private void UpdateLabelPreview()
         {
+            //change to update only field with data
+
             Dictionary<string, string> labelData = new Dictionary<string, string>
             {
                 { "Title", TitleTextBox.Text },
@@ -88,7 +91,7 @@ namespace SimpleProject
                 { "QR", QRTextBox.Text }
             };
             _labelController.UpdateLabelWithData(labelData);
-            _labelPreviewService.RenderDynamicLabelPreview();
+            _labelPreviewController.RenderDynamicLabelPreview();
         }
 
         public void ImportExcelFile(object sender, RoutedEventArgs e)
@@ -113,7 +116,7 @@ namespace SimpleProject
             {
                 var row = selectedRow.Row;
                 _labelController.CreateLabelFromRow(row);
-                _labelPreviewService.RenderDynamicLabelPreview();
+                _labelPreviewController.RenderDynamicLabelPreview();
                 SetLabelDataFields(row);
             }
         }
@@ -160,7 +163,6 @@ namespace SimpleProject
             PrinterComboBox.SelectedItem = new PrinterSettings().PrinterName;
 
             AmountTextBox.Text = "1";
-
         }
     }
 }
