@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -11,29 +12,35 @@ namespace SimpleProject.Services
 {
     public class LabelPreviewService
     {
-        private RenderTargetBitmap _labelPreview;
         private readonly Label _label;
-        private int _Scale = 12;
-        private int _Dpi = 96;
-        private double PixelWidth;
-        private double PixelHeight;
+        private readonly int _scale = 12;
+        private readonly int _dpi = 96;
+        private double _pixelWidth;
+        private double _pixelHeight;
+
+        private RenderTargetBitmap _labelPreview;
 
         public LabelPreviewService(Label label) 
         {
             _label = label;
             CalculateLabelPreviewPixelSize();
-
-            _labelPreview = new RenderTargetBitmap(
-                            (int)PixelWidth,
-                            (int)PixelHeight,
-                            _Dpi,
-                            _Dpi,
-                            PixelFormats.Pbgra32);
+            _labelPreview = CreateRenderTarget();
         }
 
-        private DrawingVisual RenderLabelPart(double scale, bool renderDynamic)
+        private RenderTargetBitmap CreateRenderTarget()
         {
-            DrawingVisual visual = new DrawingVisual();
+            return new RenderTargetBitmap(
+                (int)_pixelWidth,
+                (int)_pixelHeight,
+                _dpi,
+                _dpi,
+                PixelFormats.Pbgra32
+            );
+        }
+
+        private DrawingVisual RenderLabelPart(bool renderDynamic)
+        {
+            var visual = new DrawingVisual();
             using (var dc = visual.RenderOpen())
             {
                 foreach (var element in _label.LabelElements)
@@ -41,8 +48,22 @@ namespace SimpleProject.Services
                     bool isDynamic = !string.IsNullOrEmpty(element.VariableName);
                     if (renderDynamic == isDynamic)
                     {
-                        element.Draw(dc, scale);
+                        element.Draw(dc, _scale);
                     }
+                }
+            }
+            return visual;
+        }
+
+        private DrawingVisual DrawDynamicLabelPart(string fieldTag)
+        {
+            var visual = new DrawingVisual();
+            using (var dc = visual.RenderOpen())
+            {
+                foreach (var element in _label.LabelElements)
+                {
+                    if (element.VariableName == fieldTag) 
+                        element.Draw(dc, _scale);
                 }
             }
             return visual;
@@ -53,28 +74,28 @@ namespace SimpleProject.Services
             double maxX = _label.LabelElements.Max(e => e.Xend > 0 ? e.Xend : e.X);
             double maxY = _label.LabelElements.Max(e => e.Yend > 0 ? e.Yend : e.Y);
 
-            PixelWidth = maxX * _Scale;
-            PixelHeight = maxY * _Scale;
+            _pixelWidth = maxX * _scale;
+            _pixelHeight = maxY * _scale;
         }
 
-        public BitmapSource RenderDynamicLabelPreview()
+        public RenderTargetBitmap RenderDynamicLabelElements()
         {
-            DrawingVisual _dynamicVisual = RenderLabelPart(_Scale, renderDynamic: true);
-            _labelPreview.Render(_dynamicVisual);
+            var dynamicVisual = RenderLabelPart(true);
+            _labelPreview.Render(dynamicVisual);
+            return _labelPreview;
+        }
+        
+        public RenderTargetBitmap RenderDynamicLabelElement(string fieldTag)
+        {
+            var dynamicVisual = DrawDynamicLabelPart(fieldTag);
+            _labelPreview.Render(dynamicVisual);
             return _labelPreview;
         }
 
-        public BitmapSource RenderStaticLabelPreview()
+        public RenderTargetBitmap RenderStaticLabelPreview()
         {
-            DrawingVisual _dynamicVisual = RenderLabelPart(_Scale, renderDynamic: false);
-            _labelPreview.Render(_dynamicVisual);
-            return _labelPreview;
-        }
-
-        public BitmapSource RenderFullLabelPreview()
-        {
-            RenderDynamicLabelPreview();
-            RenderStaticLabelPreview();
+            var staticVisual = RenderLabelPart(false);
+            _labelPreview.Render(staticVisual);
             return _labelPreview;
         }
     }

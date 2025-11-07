@@ -45,8 +45,18 @@ namespace SimpleProject.Domain
             }
         }
 
+        public void UpdateLabelData(string fieldTag, string fieldData)
+        {
+            foreach (LabelElement element in LabelElements)
+            {
+               if (element.VariableName == fieldTag)
+                    element.UpdateContent(fieldData);
+            }
+        }
+
         public void UpdateLabelData(Dictionary<string, string> labelData)
         {
+            // improve code?
             foreach (LabelElement element in LabelElements)
             {
                 if (!string.IsNullOrEmpty(element.VariableName) &&

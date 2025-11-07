@@ -27,7 +27,7 @@ namespace SimpleProject.Services
             _currentLabel = LoadLabel("TestLabel");
         }
 
-        public Label LoadLabel(string name)
+        private Label LoadLabel(string name)
         {
             var filePath = Path.Combine(labelsPath, $"{name}.json");
 
@@ -47,13 +47,17 @@ namespace SimpleProject.Services
 
         public Label GetLabel() => _currentLabel;
 
+        public Label UpdateLabelData(string fieldTag, string fieldData)
+        {
+            _currentLabel.UpdateLabelData(fieldTag, fieldData);
+            return _currentLabel;
+        }
+
         public Label UpdateLabelData(Dictionary<string, string> labelData)
         {
             _currentLabel.UpdateLabelData(labelData);
             return _currentLabel;
         }
-
-       
 
         public Label CreateLabelFromRow(DataRow row)
         {

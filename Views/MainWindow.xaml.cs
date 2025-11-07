@@ -18,8 +18,6 @@ using System.Windows.Shapes;
 using Wpf.Ui.Controls;
 using System.Drawing.Printing;
 
-
-
 namespace SimpleProject
 {
     /// <summary>
@@ -40,8 +38,42 @@ namespace SimpleProject
             _labelController = new LabelController();
             _labelPreviewController = new LabelPreviewController(_labelController.GetLabel());
 
-            LabelPreviewImage.Source = _labelPreviewController.RenderFullLabelPreview();
+            LabelPreviewImage.Source = _labelPreviewController.RenderStaticElements();
             PopulateData();
+        }
+
+        private void PopulateData()
+        {
+            foreach (string printer in PrinterSettings.InstalledPrinters)
+                PrinterComboBox.Items.Add(printer);
+
+            PrinterComboBox.SelectedItem = new PrinterSettings().PrinterName;
+
+            AmountTextBox.Text = "1";
+        }
+
+        private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                this.DragMove();
+        }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Normal)
+                this.WindowState = WindowState.Maximized;
+            else
+                this.WindowState = WindowState.Normal;
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         private void PrintButton_Click(object sender, RoutedEventArgs e)
@@ -73,28 +105,21 @@ namespace SimpleProject
 
         private void Input_TextChanged(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine($"Sender: {sender}");
-            UpdateLabelPreview();
-        }
-        
-        private void UpdateLabelPreview()
-        {
-            //change to update only field with data
-
-            Dictionary<string, string> labelData = new Dictionary<string, string>
+            if (sender is Wpf.Ui.Controls.TextBox textbox)
             {
-                { "Title", TitleTextBox.Text },
-                { "Name", NameTextBox.Text },
-                { "PhoneNumber", PhoneNumberTextBox.Text },
-                { "Email", EmailTextBox.Text },
-                { "Company", CompanyTextBox.Text },
-                { "QR", QRTextBox.Text }
-            };
-            _labelController.UpdateLabelWithData(labelData);
-            _labelPreviewController.RenderDynamicLabelPreview();
+                string? fieldTag = textbox.Tag?.ToString();
+                string fieldData = textbox.Text;
+                UpdateLabelData(fieldTag, fieldData);
+            }
         }
 
-        public void ImportExcelFile(object sender, RoutedEventArgs e)
+        private void UpdateLabelData(string? fieldTag, string fieldData)
+        {
+            _labelController.UpdateLabelData(fieldTag, fieldData);
+            _labelPreviewController.RenderDynamicElement(fieldTag);
+        }
+
+        private void ImportExcelFile(object sender, RoutedEventArgs e)
         {
             var openFileDialog = new OpenFileDialog
             {
@@ -115,8 +140,12 @@ namespace SimpleProject
             if (ExcelGrid.SelectedItem is DataRowView selectedRow)
             {
                 var row = selectedRow.Row;
+                
+                //TODO: change function name UpdateLabelDataRow
                 _labelController.CreateLabelFromRow(row);
-                _labelPreviewController.RenderDynamicLabelPreview();
+                
+                _labelPreviewController.RenderDynamicElements();
+                
                 SetLabelDataFields(row);
             }
         }
@@ -129,40 +158,6 @@ namespace SimpleProject
             EmailTextBox.Text = row["EMAIL"].ToString();
             CompanyTextBox.Text = row["OCCUPATION"].ToString();
             QRTextBox.Text = row["POSTCODE"].ToString();
-        }
-
-        private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-                this.DragMove();
-        }
-
-        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
-
-        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (this.WindowState == WindowState.Normal)
-                this.WindowState = WindowState.Maximized;
-            else
-                this.WindowState = WindowState.Normal;
-        }
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-        private void PopulateData()
-        {
-            foreach (string printer in PrinterSettings.InstalledPrinters)
-                PrinterComboBox.Items.Add(printer);
-
-            PrinterComboBox.SelectedItem = new PrinterSettings().PrinterName;
-
-            AmountTextBox.Text = "1";
         }
     }
 }

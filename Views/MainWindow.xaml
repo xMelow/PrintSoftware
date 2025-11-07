@@ -48,17 +48,17 @@
 
                     <Border Height="2" Background="#FF008896" Margin="0,0,0,10"/>
 
-                    <ui:TextBox x:Name="TitleTextBox" PlaceholderText="Title"
+                    <ui:TextBox x:Name="TitleTextBox" PlaceholderText="Title" Tag="Title"
                          Icon="TextDescription24" LostFocus="Input_TextChanged" Margin="0,8"/>
-                    <ui:TextBox x:Name="NameTextBox" PlaceholderText="Name"
+                    <ui:TextBox x:Name="NameTextBox" PlaceholderText="Name" Tag="Name"
                          Icon="Person24" LostFocus="Input_TextChanged" Margin="0,8"/>
-                    <ui:TextBox x:Name="PhoneNumberTextBox" PlaceholderText="Phone Number"
+                    <ui:TextBox x:Name="PhoneNumberTextBox" PlaceholderText="Phone Number" Tag="PhoneNumber"
                          Icon="Call24" LostFocus="Input_TextChanged" Margin="0,8"/>
-                    <ui:TextBox x:Name="EmailTextBox" PlaceholderText="Email"
+                    <ui:TextBox x:Name="EmailTextBox" PlaceholderText="Email" Tag="Email"
                          Icon="Mail24" LostFocus="Input_TextChanged" Margin="0,8"/>
-                    <ui:TextBox x:Name="CompanyTextBox" PlaceholderText="Company"
+                    <ui:TextBox x:Name="CompanyTextBox" PlaceholderText="Company" Tag="Company"
                          Icon="Building24" LostFocus="Input_TextChanged" Margin="0,8"/>
-                    <ui:TextBox x:Name="QRTextBox" PlaceholderText="QR Code Content"
+                    <ui:TextBox x:Name="QRTextBox" PlaceholderText="QR Code Content" Tag="QR"
                          Icon="QrCode24" LostFocus="Input_TextChanged" Margin="0,8"/>
                 </StackPanel>
             </ui:Card>
@@ -97,7 +97,7 @@
 
                             <TextBlock Text="Label Preview" FontSize="18" FontWeight="Bold" Margin="10,0,180,10"/>
 
-                            <!-- change to import label -->
+                            <!-- TODO: change to import label -->
 
                             <ui:Button Content="Import Label"
                                         Icon="TableAdd24"

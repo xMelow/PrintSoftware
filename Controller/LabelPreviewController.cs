@@ -2,6 +2,7 @@
 using SimpleProject.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,20 +20,19 @@ namespace SimpleProject.Controller
             _LabelPreviewService = new LabelPreviewService(label);
         }
 
-        public BitmapSource RenderDynamicLabelPreview()
+        public BitmapSource RenderDynamicElements()
         {
-            return _LabelPreviewService.RenderDynamicLabelPreview();
+            return _LabelPreviewService.RenderDynamicLabelElements();
         }
-
-        public BitmapSource RenderStaticLabelPreview()
+        
+        public BitmapSource RenderDynamicElement(string fieldTag)
+        {
+            return _LabelPreviewService.RenderDynamicLabelElement(fieldTag);
+        }
+        
+        public BitmapSource RenderStaticElements()
         {
             return _LabelPreviewService.RenderStaticLabelPreview();
         }
-
-        public BitmapSource RenderFullLabelPreview()
-        {
-            return _LabelPreviewService.RenderFullLabelPreview();
-        }
-
     }
 }

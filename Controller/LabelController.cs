@@ -26,7 +26,12 @@ namespace SimpleProject.Controller
             return _labelService.GetLabel();
         }
 
-        public Label UpdateLabelWithData(Dictionary<string, string> labelData)
+        public Label UpdateLabelData(string fieldTag, string fieldData)
+        {
+            return _labelService.UpdateLabelData(fieldTag, fieldData);
+        }
+
+        public Label UpdateLabelData(Dictionary<string, string> labelData)
         {
             return _labelService.UpdateLabelData(labelData);
         }
