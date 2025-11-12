@@ -15,11 +15,10 @@ namespace SimpleProject.Services
     public class LabelPreviewService
     {
         private readonly Label _label;
-        private readonly int _scale = 12;
-        private readonly int _dpi = 96;
+        private readonly int _scale = 5;
+        private readonly int _dpi = 50;
         private double _pixelWidth;
         private double _pixelHeight;
-
         private RenderTargetBitmap _labelPreview;
 
         public LabelPreviewService(Label label) 

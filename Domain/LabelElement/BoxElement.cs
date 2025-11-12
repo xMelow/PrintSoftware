@@ -17,8 +17,16 @@ namespace SimpleProject.Domain.Labels
         public Brush Fill { get; } = Brushes.Transparent;
         public Pen Border { get; } = new Pen(Brushes.Black, 1);
 
-        public BoxElement(int xEnd, int yEnd, int radius)
+        public BoxElement()
         {
+            Type = "BOX";
+        }
+        
+        public BoxElement(int x, int y, int xEnd, int yEnd, int radius)
+        {
+            Type = "BOX";
+            X = x;
+            Y = y;
             XEnd = xEnd;
             YEnd = yEnd;
             Radius = radius;

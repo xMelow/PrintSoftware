@@ -24,10 +24,17 @@ namespace SimpleProject.Domain.Labels
         public string Mask { get; set; }
         public string Content { get; set; }
 
-        public QRCodeElement(string name, string eccLevel, int cellWidth, string mode, int rotation, string model, string mask, string content)
+        public QRCodeElement()
+        {
+            Type = "QRCode";
+        }
+        
+        public QRCodeElement(string name, int x, int y, string eccLevel, int cellWidth, string mode, int rotation, string model, string mask, string content)
         {
             Type = "QRCode";
             Name = name;
+            X = x;
+            Y = y;
             ECCLevel = eccLevel;
             CellWidth = cellWidth;
             Mode = mode;
@@ -40,7 +47,7 @@ namespace SimpleProject.Domain.Labels
 
         public override void Draw(DrawingContext dc, double scale)
         {
-            //TODO: FIX draw function QRCode not showing in the label preview
+            //TODO: FIX draw function QRCode not showing correct in the label preview
             using (var qrGenerator = new QRCodeGenerator())
             using (var data = qrGenerator.CreateQrCode(Content, QRCodeGenerator.ECCLevel.Q))
             using (var qrCode = new QRCode(data))

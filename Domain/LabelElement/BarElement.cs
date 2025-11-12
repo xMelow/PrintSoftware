@@ -16,8 +16,16 @@ namespace SimpleProject.Domain.Labels
         public int Width { get; set; }
         public int Height { get; set; }
 
-        public BarElement(int width, int height)
+        public BarElement()
         {
+            Type = "BAR";
+        }
+
+        public BarElement(int x, int y, int width, int height)
+        {
+            Type = "BAR";
+            X = x;
+            Y = y;
             Width = width;
             Height = height;
         }

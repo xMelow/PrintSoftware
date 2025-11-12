@@ -16,9 +16,16 @@ namespace SimpleProject.Domain.Labels
         public Brush Fill { get; set; } = Brushes.Transparent;
         public Brush Stroke { get; set; } = Brushes.Black;
 
-        public CircleElement(int radius, int thickness)
+        public CircleElement()
         {
             Type = "CIRCLE";
+        }
+        
+        public CircleElement(int radius, int x, int y, int thickness)
+        {
+            Type = "CIRCLE";
+            X = x;
+            Y = y;
             Radius = radius;
             Thickness = thickness;
         }
