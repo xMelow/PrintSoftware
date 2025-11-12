@@ -14,10 +14,32 @@ namespace SimpleProject.Domain.Labels
 {
     public class QRCodeElement : LabelElement
     {
+        private string Name { get; set; }
+        private string ECCLevel { get; set; }
+        private int CellWidth { get; set; }
+        private string Mode { get; set; }
+        private int Rotation { get; set; }
+        private string Model { get; set; }
+        private string Mask { get; set; }
         public string Content { get; set; }
+
+        public QRCodeElement(string name, int x, int y, string eccLevel, int cellWidth, string mode, int rotation, string model, string mask, string content)
+        {
+            Type = "QRCode";
+            Name = name;
+            ECCLevel = eccLevel;
+            CellWidth = cellWidth;
+            Mode = mode;
+            Rotation = rotation;
+            Model = model;
+            Mask = mask;
+            Content = content;
+        }
+        
 
         public override void Draw(DrawingContext dc, double scale)
         {
+            //TODO: FIX draw function QRCode not showing in the label preview
             using (var qrGenerator = new QRCodeGenerator())
             using (var data = qrGenerator.CreateQrCode(Content, QRCodeGenerator.ECCLevel.Q))
             using (var qrCode = new QRCode(data))
@@ -34,8 +56,8 @@ namespace SimpleProject.Domain.Labels
 
                 double xPx = X * scale;
                 double yPx = Y * scale;
-                double widthPx = (Width > 0 ? Width : bitmap.Width) * scale;
-                double heightPx = (Height > 0 ? Height : bitmap.Height) * scale;
+                double widthPx = (X > 0 ? X : bitmap.Width) * scale;
+                double heightPx = (Y > 0 ? Y : bitmap.Height) * scale;
 
                 //Debug.WriteLine($"QRCode: X={X} y={Y} width={Width} height={Height}");
 
@@ -43,12 +65,12 @@ namespace SimpleProject.Domain.Labels
             }
         }
 
-        public override string CreateTspl()
+        public override string GetTspl()
         {
-            return $"QRCODE {X},{Y},L,14,A,0,M2,S7,\"{Content}\"";
+            return $"{Type} {X},{Y},L,14,A,0,M2,S7,\"{Content}\"";
         }
 
-        public override void UpdateContent(string newValue)
+        public void UpdateQrCodeContent(string newValue)
         {
             Content = newValue;
         }

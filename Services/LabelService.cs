@@ -17,19 +17,18 @@ namespace SimpleProject.Services
 {
     public class LabelService
     {
-        private readonly string labelsPath;
-
-        private Label _currentLabel;
+        private readonly string _labelsPath;
+        private readonly Label _currentLabel;
 
         public LabelService()
         {
-            labelsPath = Path.Combine(AppContext.BaseDirectory, "Labels");
+            _labelsPath = Path.Combine(AppContext.BaseDirectory, "Labels");
             _currentLabel = LoadLabel("TestLabel");
         }
 
         private Label LoadLabel(string name)
         {
-            var filePath = Path.Combine(labelsPath, $"{name}.json");
+            var filePath = Path.Combine(_labelsPath, $"{name}.json");
 
             if (!File.Exists(filePath))
                 throw new FileNotFoundException($"Label {name} not found");

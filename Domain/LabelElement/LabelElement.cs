@@ -9,18 +9,12 @@ namespace SimpleProject.Domain.Labels
 {
     public abstract class LabelElement
     {
-        public double X { get; set; }
-        public double Y { get; set; }
-        public double Xend { get; set; }
-        public double Yend { get; set; }
-        public double Width { get; set; }
-        public double Height { get; set; }
-        public string? VariableName { get; set; }
-
+        protected string Type { get; set; }
+        protected double X { get; set; }
+        protected double Y { get; set; }
+       
         public abstract void Draw(DrawingContext dc, double scale);
 
-        public abstract string CreateTspl();
-
-        public abstract void UpdateContent(string newValue);
+        public abstract string GetTspl();
     }
 }

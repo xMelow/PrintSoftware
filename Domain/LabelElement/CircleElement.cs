@@ -11,24 +11,28 @@ namespace SimpleProject.Domain.Labels
 {
     public class CircleElement : LabelElement
     {
-        public Brush Fill { get; set; } = Brushes.Transparent;
-        public int Radius { get; set; } = 260;
-        public int Thickness { get; set; } = 6;
-        public Brush Stroke { get; set; } = Brushes.Black;
+        private int Radius { get; set; }
+        private int Thickness { get; set; }
+        private Brush Fill { get; set; } = Brushes.Transparent;
+        private Brush Stroke { get; set; } = Brushes.Black;
+
+        public CircleElement(int x, int y, int radius, int thickness)
+        {
+            Type = "CIRCLE";
+            X = x;
+            Y = y;
+            Radius = radius;
+            Thickness = thickness;
+        }
 
         public override void Draw(DrawingContext dc, double scale)
         {
             dc.DrawEllipse(Fill, new Pen(Stroke, Thickness * scale), new Point(X * scale, Y * scale), Radius * 3, Radius * 3);
         }
-        public override string CreateTspl()
+        public override string GetTspl()
         {
             //CIRCLE 933,590,260,12
-            return $"CIRCLE {X},{Y},{Radius},{Thickness}";
-        }
-
-        public override void UpdateContent(string newValue)
-        {
-            throw new NotImplementedException();
+            return $"{Type} {X},{Y},{Radius},{Thickness}";
         }
     }
 }

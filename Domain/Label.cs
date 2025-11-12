@@ -34,13 +34,21 @@ namespace SimpleProject.Domain
         public double Height { get; set; }
         public string Unit { get; set; }
 
-        public List<LabelElement> LabelElements { get; set; } = new List<LabelElement>();
+        public List<LabelElement> LabelElements { get; set; }
+
+        public Label(string name, double width , double height, string unit)
+        {
+            Name = name;
+            Width = width;
+            Height = height;
+            Unit = unit;
+            LabelElements = new List<LabelElement>();
+        }
 
         public void Draw(DrawingContext dc, double scale)
         {
             foreach(var element in LabelElements)
             {
-
                 element.Draw(dc, scale);
             }
         }
@@ -49,7 +57,10 @@ namespace SimpleProject.Domain
         {
             foreach (LabelElement element in LabelElements)
             {
-               if (element.VariableName == fieldTag)
+                // check if element can update its content
+                var? name = element.
+                
+               if (element.Name == fieldTag)
                     element.UpdateContent(fieldData);
             }
         }
@@ -74,7 +85,7 @@ namespace SimpleProject.Domain
 
             foreach (LabelElement element in LabelElements)
             {
-                sb.AppendLine(element.CreateTspl());
+                sb.AppendLine(element.GetTspl());
             }
             return sb.ToString();
         }

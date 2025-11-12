@@ -9,19 +9,31 @@ using System.Windows.Media;
 
 namespace SimpleProject.Domain.Labels
 {
-    public class RectangleElement : LabelElement
+    public class BoxElement : LabelElement
     {
-        public Brush Fill { get; set; } = Brushes.Transparent;
-        public int LineThinkness { get; set; } = 6;
-        public Pen Border { get; set; } = new Pen(Brushes.Black, 1);
+        private int XEnd { get; }
+        private int YEnd { get; }
+        private int Radius { get; }
+        private Brush Fill { get; } = Brushes.Transparent;
+        private Pen Border { get; } = new Pen(Brushes.Black, 1);
+
+        public BoxElement(int x, int y,  int xEnd, int yEnd, int radius)
+        {
+            Type = "BOX";
+            X = x;
+            Y = y;
+            XEnd = xEnd;
+            YEnd = yEnd;
+            Radius = radius;
+        }
 
         public override void Draw(DrawingContext dc, double scale)
         {
-            double rectWidth = Xend - X;
-            double rectHeight = Yend - Y;
+            double rectWidth = XEnd - X;
+            double rectHeight = YEnd - Y;
 
-            if (rectWidth == 0) Width = 1;
-            if (rectHeight == 0) Height = 1;
+            // if (rectWidth == 0) Width = 1;
+            // if (rectHeight == 0) Height = 1;
 
             double xPx = X * scale;
             double yPx = Y * scale;
@@ -35,14 +47,9 @@ namespace SimpleProject.Domain.Labels
         }
 
         //BOX 33,178,1232,890,6 -> data and tspl
-        public override string CreateTspl()
+        public override string GetTspl()
         {
-            return $"BOX {X},{Y},{Xend},{Yend},{LineThinkness}";
-        }
-
-        public override void UpdateContent(string newValue)
-        {
-            throw new NotImplementedException();
+            return $"{Type} {X},{Y},{XEnd},{YEnd},{Radius}";
         }
     }
 }

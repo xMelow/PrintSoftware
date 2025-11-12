@@ -10,19 +10,18 @@ namespace SimpleProject.Domain.Labels
 {
     public class BarcodeElement : LabelElement
     {
-        public string Type { get; set; }
-        public string Content { get; set; }
+        private string Content { get; set; }
 
         public override void Draw(DrawingContext dc, double scale)
         {
             throw new NotImplementedException();
         }
-        public override string CreateTspl()
+        public override string GetTspl()
         {
-            return $"BARCODE {X},{Y},\"128\",{Height},1,0,2,2,\"{Content}\"";
+            throw new NotImplementedException();
         }
 
-        public override void UpdateContent(string newValue)
+        public void UpdateContent(string newValue)
         {
             Content = newValue;
         }

@@ -10,24 +10,30 @@ using System.Windows.Media;
 
 namespace SimpleProject.Domain.Labels
 {
-    public class LineElement : LabelElement
+    public class BarElement : LabelElement
     {
-        public Brush Stroke { get; set; } = Brushes.Black;
+        private Brush Stroke { get; set; } = Brushes.Black;
+        private int Width { get; set; }
+        private int Height { get; set; }
 
-        public override string CreateTspl()
+        public BarElement(int x , int y, int width , int height)
         {
-            // BAR 33,135,1199,7 -> data and tspl
-            return $"BAR {X},{Y},{Width},{Height}";
+            Type = "BAR";
+            X = x;
+            Y = y;
+            Width = width;
+            Height = height;
         }
-
+        
         public override void Draw(DrawingContext dc, double scale)
         {
             dc.DrawRectangle(Stroke, null, new Rect(X * scale, Y * scale, Width * scale, Height * scale));
         }
-
-        public override void UpdateContent(string newValue)
+        
+        public override string GetTspl()
         {
-            throw new NotImplementedException();
+            // BAR 33,135,1199,7
+            return $"{Type} {X},{Y},{Width},{Height}";
         }
     }
 }

@@ -12,14 +12,38 @@ namespace SimpleProject.Domain.Labels
 {
     public class TextElement : LabelElement
     {
-        public string? Text { get; set; }
-        public string FontFamily { get; set; } = "Arial";
-        public double FontSize { get; set; } = 12;
-        public Brush Color { get; set; } = Brushes.Black;
+        private string? Name { get; set; }
+        private string Content { get; set; }
+        private string FontFamily { get; set; }
+        private int Rotation { get; set; }
+        private double FontSize { get; set; }
+        private Brush Color { get; set; } = Brushes.Black;
+
+        public TextElement(int x, int y, string fontFamily, int rotation ,double fontSize, string content)
+        {
+            Type = "TEXT";
+            X = x;
+            Y = y;
+            FontFamily = fontFamily;
+            Rotation = rotation;
+            FontSize = fontSize;
+            Content = content;
+        }
+        
+        public TextElement(string name, int x, int y, string content, string fontFamily, double fontSize)
+        {
+            Type = "TEXT";
+            Name = name;
+            X = x;
+            Y = y;
+            FontFamily = fontFamily;
+            FontSize = fontSize;
+            Content = content;
+        }
 
         public override void Draw(DrawingContext dc, double scale)
         {
-            if (string.IsNullOrEmpty(Text))
+            if (string.IsNullOrEmpty(Content))
                 return;
 
             double xPx = X * scale;
@@ -35,7 +59,7 @@ namespace SimpleProject.Domain.Labels
                 );
 
             var formattedText = new FormattedText(
-                Text,
+                Content,
                 CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight,
                 typeface,
@@ -50,15 +74,15 @@ namespace SimpleProject.Domain.Labels
 
         //TEXT 77,505,""0"",0,16,16,""Company:""
         //TEXT x,y, « font « ,rotation,x-multiplication,y-multiplication,[alignment,] « content «
-        public override string CreateTspl()
+        public override string GetTspl()
         {
-            var content = Text ?? string.Empty;
-            return $"TEXT {X},{Y},\"0\",0,{FontSize},{FontSize},\"{content}\"";
+            var content = Content ?? string.Empty;
+            return $"{Type} {X},{Y},\"0\",0,{FontSize},{FontSize},\"{content}\"";
         }
 
-        public override void UpdateContent(string newValue)
+        public void UpdateContent(string content)
         {
-            Text = newValue;
+            Content = content;
         }
     }
 }

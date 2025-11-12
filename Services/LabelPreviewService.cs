@@ -71,8 +71,8 @@ namespace SimpleProject.Services
 
         private void CalculateLabelPreviewPixelSize()
         {
-            double maxX = _label.LabelElements.Max(e => e.Xend > 0 ? e.Xend : e.X);
-            double maxY = _label.LabelElements.Max(e => e.Yend > 0 ? e.Yend : e.Y);
+            double maxX = _label.LabelElements.Max(e => e.XEnd > 0 ? e.XEnd : e.X);
+            double maxY = _label.LabelElements.Max(e => e.YEnd > 0 ? e.YEnd : e.Y);
 
             _pixelWidth = maxX * _scale;
             _pixelHeight = maxY * _scale;

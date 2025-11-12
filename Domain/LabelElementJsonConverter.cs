@@ -24,11 +24,13 @@ namespace SimpleProject.Domain
 
                 LabelElement? element = type switch
                 {
-                    "Text" => MapTextElement(root, options),
-                    "QRcode" => document.RootElement.Deserialize<QRCodeElement>(options),
-                    "Bar" => document.RootElement.Deserialize<LineElement>(options),
-                    "Box" => document.RootElement.Deserialize<RectangleElement>(options),
-                    "Circle" => document.RootElement.Deserialize<CircleElement>(options),
+                    "TEXT" => MapTextElement(root, options),
+                    "QRCODE" => document.RootElement.Deserialize<QRCodeElement>(options),
+                    "BAR" => document.RootElement.Deserialize<BarElement>(options),
+                    "BOX" => document.RootElement.Deserialize<BoxElement>(options),
+                    "CIRCLE" => document.RootElement.Deserialize<CircleElement>(options),
+                    "BARCODE" => document.RootElement.Deserialize<BarcodeElement>(options),
+                    "IMAGE" => document.RootElement.Deserialize<ImageElement>(options),
                     _ => throw new JsonException($"Unkown element type: {type}")
                 };
 
@@ -41,9 +43,9 @@ namespace SimpleProject.Domain
             var textElem = root.Deserialize<TextElement>(options) ?? new TextElement();
 
             if (root.TryGetProperty("Content", out var contentProp))
-                textElem.Text = contentProp.ValueKind == JsonValueKind.Null ? null : contentProp.GetString();
-            if (root.TryGetProperty("VariableName", out var varProp))
-                textElem.VariableName = varProp.ValueKind == JsonValueKind.Null ? null : varProp.GetString();
+                textElem.Content = contentProp.ValueKind == JsonValueKind.Null ? null : contentProp.GetString();
+            if (root.TryGetProperty("Name", out var varProp))
+                textElem.Name = varProp.ValueKind == JsonValueKind.Null ? null : varProp.GetString();
 
             return textElem;
         }
