@@ -11,16 +11,14 @@ namespace SimpleProject.Domain.Labels
 {
     public class CircleElement : LabelElement
     {
-        private int Radius { get; set; }
-        private int Thickness { get; set; }
-        private Brush Fill { get; set; } = Brushes.Transparent;
-        private Brush Stroke { get; set; } = Brushes.Black;
+        public int Radius { get; set; }
+        public int Thickness { get; set; }
+        public Brush Fill { get; set; } = Brushes.Transparent;
+        public Brush Stroke { get; set; } = Brushes.Black;
 
-        public CircleElement(int x, int y, int radius, int thickness)
+        public CircleElement(int radius, int thickness)
         {
             Type = "CIRCLE";
-            X = x;
-            Y = y;
             Radius = radius;
             Thickness = thickness;
         }

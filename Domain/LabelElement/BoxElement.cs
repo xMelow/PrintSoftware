@@ -11,17 +11,14 @@ namespace SimpleProject.Domain.Labels
 {
     public class BoxElement : LabelElement
     {
-        private int XEnd { get; }
-        private int YEnd { get; }
-        private int Radius { get; }
-        private Brush Fill { get; } = Brushes.Transparent;
-        private Pen Border { get; } = new Pen(Brushes.Black, 1);
+        public int XEnd { get; }
+        public int YEnd { get; }
+        public int Radius { get; }
+        public Brush Fill { get; } = Brushes.Transparent;
+        public Pen Border { get; } = new Pen(Brushes.Black, 1);
 
-        public BoxElement(int x, int y,  int xEnd, int yEnd, int radius)
+        public BoxElement(int xEnd, int yEnd, int radius)
         {
-            Type = "BOX";
-            X = x;
-            Y = y;
             XEnd = xEnd;
             YEnd = yEnd;
             Radius = radius;

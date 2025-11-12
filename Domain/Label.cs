@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using SimpleProject.Interfaces;
 
 namespace SimpleProject.Domain
 {
@@ -55,26 +56,20 @@ namespace SimpleProject.Domain
 
         public void UpdateLabelData(string fieldTag, string fieldData)
         {
-            foreach (LabelElement element in LabelElements)
-            {
-                // check if element can update its content
-                var? name = element.
-                
-               if (element.Name == fieldTag)
-                    element.UpdateContent(fieldData);
-            }
+            var element = LabelElements
+                .OfType<IDynamicElement>()
+                .FirstOrDefault(e => e.Name == fieldTag);
+            
+            element?.UpdateContent(fieldData);
         }
 
         public void UpdateLabelData(Dictionary<string, string> labelData)
         {
-            // improve code?
-            foreach (LabelElement element in LabelElements)
+            foreach (var element in LabelElements.OfType<IDynamicElement>())
             {
-                if (!string.IsNullOrEmpty(element.VariableName) &&
-                    labelData.TryGetValue(element.VariableName, out string? newValue))
-                {
+                if (!string.IsNullOrEmpty(element.Name) &&
+                    labelData.TryGetValue(element.Name, out var newValue)) 
                     element.UpdateContent(newValue);
-                }
             }
         }
 

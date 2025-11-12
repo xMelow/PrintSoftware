@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using SimpleProject.Domain.Labels;
+using SimpleProject.Interfaces;
 
 namespace SimpleProject.Services
 {
@@ -45,7 +47,7 @@ namespace SimpleProject.Services
             {
                 foreach (var element in _label.LabelElements)
                 {
-                    bool isDynamic = !string.IsNullOrEmpty(element.VariableName);
+                    bool isDynamic = element is IDynamicElement;
                     if (renderDynamic == isDynamic)
                     {
                         element.Draw(dc, _scale);
@@ -60,10 +62,10 @@ namespace SimpleProject.Services
             var visual = new DrawingVisual();
             using (var dc = visual.RenderOpen())
             {
-                foreach (var element in _label.LabelElements)
+                foreach (var element in _label.LabelElements.OfType<IDynamicElement>())
                 {
-                    if (element.VariableName == fieldTag) 
-                        element.Draw(dc, _scale);
+                    if (element.Name == fieldTag) 
+                        ((LabelElement)element).Draw(dc, _scale);
                 }
             }
             return visual;
@@ -71,8 +73,8 @@ namespace SimpleProject.Services
 
         private void CalculateLabelPreviewPixelSize()
         {
-            double maxX = _label.LabelElements.Max(e => e.XEnd > 0 ? e.XEnd : e.X);
-            double maxY = _label.LabelElements.Max(e => e.YEnd > 0 ? e.YEnd : e.Y);
+            double maxX = _label.LabelElements.Max(e => e.X);
+            double maxY = _label.LabelElements.Max(e => e.Y);
 
             _pixelWidth = maxX * _scale;
             _pixelHeight = maxY * _scale;

@@ -5,12 +5,14 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using SimpleProject.Interfaces;
 
 namespace SimpleProject.Domain.Labels
 {
-    public class BarcodeElement : LabelElement
+    public class BarcodeElement : LabelElement, IDynamicElement
     {
-        private string Content { get; set; }
+        public string Content { get; set; }
+        public string? Name { get; set; }
 
         public override void Draw(DrawingContext dc, double scale)
         {

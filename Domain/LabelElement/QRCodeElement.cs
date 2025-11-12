@@ -8,22 +8,23 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using QRCoder;
+using SimpleProject.Interfaces;
 
 
 namespace SimpleProject.Domain.Labels
 {
-    public class QRCodeElement : LabelElement
+    public class QRCodeElement : LabelElement, IDynamicElement
     {
-        private string Name { get; set; }
-        private string ECCLevel { get; set; }
-        private int CellWidth { get; set; }
-        private string Mode { get; set; }
-        private int Rotation { get; set; }
-        private string Model { get; set; }
-        private string Mask { get; set; }
+        public string Name { get; set; }
+        public string ECCLevel { get; set; }
+        public int CellWidth { get; set; }
+        public string Mode { get; set; }
+        public int Rotation { get; set; }
+        public string Model { get; set; }
+        public string Mask { get; set; }
         public string Content { get; set; }
 
-        public QRCodeElement(string name, int x, int y, string eccLevel, int cellWidth, string mode, int rotation, string model, string mask, string content)
+        public QRCodeElement(string name, string eccLevel, int cellWidth, string mode, int rotation, string model, string mask, string content)
         {
             Type = "QRCode";
             Name = name;
@@ -70,9 +71,9 @@ namespace SimpleProject.Domain.Labels
             return $"{Type} {X},{Y},L,14,A,0,M2,S7,\"{Content}\"";
         }
 
-        public void UpdateQrCodeContent(string newValue)
+        public void UpdateContent(string newContent)
         {
-            Content = newValue;
+            Content = newContent;
         }
     }
 }

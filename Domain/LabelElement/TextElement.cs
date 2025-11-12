@@ -7,17 +7,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using SimpleProject.Interfaces;
 
 namespace SimpleProject.Domain.Labels
 {
-    public class TextElement : LabelElement
+    public class TextElement : LabelElement, IDynamicElement
     {
-        private string? Name { get; set; }
-        private string Content { get; set; }
-        private string FontFamily { get; set; }
-        private int Rotation { get; set; }
-        private double FontSize { get; set; }
-        private Brush Color { get; set; } = Brushes.Black;
+        public string? Name { get; set; }
+        public string Content { get; set; }
+        public string FontFamily { get; set; }
+        public int Rotation { get; set; }
+        public double FontSize { get; set; }
+        public Brush Color { get; set; } = Brushes.Black;
+
+        public TextElement()
+        {
+            Type = "TEXT";
+        }
 
         public TextElement(int x, int y, string fontFamily, int rotation ,double fontSize, string content)
         {

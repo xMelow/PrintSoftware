@@ -17,7 +17,7 @@ namespace SimpleProject.Domain
             {
                 var root = document.RootElement;
 
-                if (!document.RootElement.TryGetProperty("Type", out JsonElement typeProperty))
+                if (!root.TryGetProperty("Type", out JsonElement typeProperty))
                     throw new JsonException("Missing type property in LabelElement");
 
                 string? type = typeProperty.GetString();
@@ -25,28 +25,25 @@ namespace SimpleProject.Domain
                 LabelElement? element = type switch
                 {
                     "TEXT" => MapTextElement(root, options),
-                    "QRCODE" => document.RootElement.Deserialize<QRCodeElement>(options),
-                    "BAR" => document.RootElement.Deserialize<BarElement>(options),
-                    "BOX" => document.RootElement.Deserialize<BoxElement>(options),
-                    "CIRCLE" => document.RootElement.Deserialize<CircleElement>(options),
-                    "BARCODE" => document.RootElement.Deserialize<BarcodeElement>(options),
-                    "IMAGE" => document.RootElement.Deserialize<ImageElement>(options),
+                    "QRCODE" => root.Deserialize<QRCodeElement>(options),
+                    "BAR" => root.Deserialize<BarElement>(options),
+                    "BOX" => root.Deserialize<BoxElement>(options),
+                    "CIRCLE" => root.Deserialize<CircleElement>(options),
+                    "BARCODE" => root.Deserialize<BarcodeElement>(options),
+                    "IMAGE" => root.Deserialize<ImageElement>(options),
                     _ => throw new JsonException($"Unkown element type: {type}")
                 };
-
                 return element;
             }
         }
-
+        
         private TextElement MapTextElement(JsonElement root, JsonSerializerOptions options)
         {
             var textElem = root.Deserialize<TextElement>(options) ?? new TextElement();
-
-            if (root.TryGetProperty("Content", out var contentProp))
-                textElem.Content = contentProp.ValueKind == JsonValueKind.Null ? null : contentProp.GetString();
+            
             if (root.TryGetProperty("Name", out var varProp))
                 textElem.Name = varProp.ValueKind == JsonValueKind.Null ? null : varProp.GetString();
-
+        
             return textElem;
         }
 

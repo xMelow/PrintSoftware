@@ -12,15 +12,12 @@ namespace SimpleProject.Domain.Labels
 {
     public class BarElement : LabelElement
     {
-        private Brush Stroke { get; set; } = Brushes.Black;
-        private int Width { get; set; }
-        private int Height { get; set; }
+        public Brush Stroke { get; set; } = Brushes.Black;
+        public int Width { get; set; }
+        public int Height { get; set; }
 
-        public BarElement(int x , int y, int width , int height)
+        public BarElement(int width, int height)
         {
-            Type = "BAR";
-            X = x;
-            Y = y;
             Width = width;
             Height = height;
         }
