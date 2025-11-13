@@ -15,17 +15,39 @@ namespace SimpleProject.Services
     public class LabelPreviewService
     {
         private readonly Label _label;
-        private readonly int _scale = 5;
+        private readonly int _scale = 8;
         private readonly int _dpi = 50;
         private double _pixelWidth;
         private double _pixelHeight;
-        private RenderTargetBitmap _labelPreview;
+        private readonly RenderTargetBitmap _labelPreview;
 
         public LabelPreviewService(Label label) 
         {
             _label = label;
-            CalculateLabelPreviewPixelSize();
+            CalculateLabelPreviewPixels();
             _labelPreview = CreateRenderTarget();
+        }
+        
+        private void CalculateLabelPreviewPixels()
+        {
+            // label 
+            // width = 110mm
+            // height = 110mm
+            
+            // label preview window element
+            // width = 400
+            // height = 500
+            
+            double maxX = _label.LabelElements.Max(e => e.X);
+            double maxY = _label.LabelElements.Max(e => e.Y);
+            
+            _pixelWidth = maxX * _scale;
+            _pixelHeight = maxY * _scale;
+            
+            // _pixelWidth = Math.Round(_label.Width * (_dpi / 25.4));
+            // _pixelHeight = Math.Round(_label.Height * (_dpi / 25.4));
+            
+            Console.WriteLine($"Preview size: {_pixelWidth}x{_pixelHeight}px at {_dpi} DPI and scale = {_scale}");
         }
 
         private RenderTargetBitmap CreateRenderTarget()
@@ -46,6 +68,7 @@ namespace SimpleProject.Services
             {
                 foreach (var element in _label.LabelElements)
                 {
+                    // TODO: non dynamic text elements not showing
                     bool isDynamic = element is IDynamicElement;
                     if (renderDynamic == isDynamic)
                     {
@@ -68,15 +91,6 @@ namespace SimpleProject.Services
                 }
             }
             return visual;
-        }
-
-        private void CalculateLabelPreviewPixelSize()
-        {
-            double maxX = _label.LabelElements.Max(e => e.X);
-            double maxY = _label.LabelElements.Max(e => e.Y);
-
-            _pixelWidth = maxX * _scale;
-            _pixelHeight = maxY * _scale;
         }
 
         public RenderTargetBitmap RenderDynamicLabelElements()

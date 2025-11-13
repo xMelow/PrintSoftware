@@ -16,5 +16,7 @@ namespace SimpleProject.Domain.Labels
         public abstract void Draw(DrawingContext dc, double scale);
 
         public abstract string GetTspl();
+        
+        
     }
 }

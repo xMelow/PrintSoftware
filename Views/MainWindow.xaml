@@ -89,7 +89,6 @@
             </ui:Card>
 
             <!-- LABEL PREVIEW -->
-
             <Grid Grid.Column="2" Margin="1,133,10,92">
                 <ui:Card Margin="0,-132,0,0" VerticalAlignment="Top" Height="615">
                     <StackPanel>
