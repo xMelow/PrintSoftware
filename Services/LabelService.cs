@@ -18,15 +18,15 @@ namespace SimpleProject.Services
     public class LabelService
     {
         private readonly string _labelsPath;
-        private readonly Label _currentLabel;
+        public Label CurrentLabel { get; set; }
 
         public LabelService()
         {
             _labelsPath = Path.Combine(AppContext.BaseDirectory, "Labels");
-            _currentLabel = LoadLabel("TestLabel");
+            CurrentLabel = GetLabelFromJson("TestLabel");
         }
 
-        private Label LoadLabel(string name)
+        private Label GetLabelFromJson(string name)
         {
             var filePath = Path.Combine(_labelsPath, $"{name}.json");
 
@@ -43,22 +43,20 @@ namespace SimpleProject.Services
             };
             return JsonSerializer.Deserialize<Label>(json, options);
         }
-
-        public Label GetLabel() => _currentLabel;
-
-        public Label UpdateLabelData(string fieldTag, string fieldData)
+        
+        public Label UpdateLabelData(string name, string data)
         {
-            _currentLabel.UpdateLabelData(fieldTag, fieldData);
-            return _currentLabel;
+            CurrentLabel.UpdateLabelData(name, data);
+            return CurrentLabel;
         }
 
         public Label UpdateLabelData(Dictionary<string, string> labelData)
         {
-            _currentLabel.UpdateLabelData(labelData);
-            return _currentLabel;
+            CurrentLabel.UpdateLabelData(labelData);
+            return CurrentLabel;
         }
 
-        public Label CreateLabelFromRow(DataRow row)
+        public Label UpdateLabelDataFromRow(DataRow row)
         {
             var labelData = new Dictionary<string, string>
                 {

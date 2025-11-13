@@ -23,12 +23,12 @@ namespace SimpleProject.Controller
 
         public Label GetLabel()
         {
-            return _labelService.GetLabel();
+            return _labelService.CurrentLabel;
         }
 
-        public Label UpdateLabelData(string fieldTag, string fieldData)
+        public Label UpdateLabelData(string name, string data)
         {
-            return _labelService.UpdateLabelData(fieldTag, fieldData);
+            return _labelService.UpdateLabelData(name, data);
         }
 
         public Label UpdateLabelData(Dictionary<string, string> labelData)
@@ -38,7 +38,7 @@ namespace SimpleProject.Controller
 
         public Label CreateLabelFromRow(DataRow row)
         {
-           return _labelService.CreateLabelFromRow(row);
+           return _labelService.UpdateLabelDataFromRow(row);
         }
     }
 }

@@ -107,16 +107,16 @@ namespace SimpleProject
         {
             if (sender is Wpf.Ui.Controls.TextBox textbox)
             {
-                string? fieldTag = textbox.Tag?.ToString();
-                string fieldData = textbox.Text;
-                UpdateLabelData(fieldTag, fieldData);
+                string? name = textbox.Tag?.ToString();
+                string data = textbox.Text;
+                UpdateLabelData(name, data);
             }
         }
 
-        private void UpdateLabelData(string? fieldTag, string fieldData)
+        private void UpdateLabelData(string? name, string data)
         {
-            _labelController.UpdateLabelData(fieldTag, fieldData);
-            _labelPreviewController.RenderDynamicElement(fieldTag);
+            _labelController.UpdateLabelData(name, data);
+            _labelPreviewController.RenderDynamicElement(name);
         }
 
         private void ImportExcelFile(object sender, RoutedEventArgs e)
