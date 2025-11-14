@@ -28,7 +28,7 @@ namespace SimpleProject.Controller
 
         public Label UpdateLabelData(string name, string data)
         {
-            return _labelService.UpdateLabelData(name, data);
+            return _labelService.UpdateLabelDataElement(name, data);
         }
 
         public Label UpdateLabelData(Dictionary<string, string> labelData)

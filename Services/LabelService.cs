@@ -44,7 +44,7 @@ namespace SimpleProject.Services
             return JsonSerializer.Deserialize<Label>(json, options);
         }
         
-        public Label UpdateLabelData(string name, string data)
+        public Label UpdateLabelDataElement(string name, string data)
         {
             CurrentLabel.UpdateLabelData(name, data);
             return CurrentLabel;

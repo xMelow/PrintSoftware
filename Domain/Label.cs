@@ -13,7 +13,6 @@ namespace SimpleProject.Domain
 {
     public class Label
     {
-
         // CLS 
         // TEXT 427,47,""0"",0,16,16,""{Title}"" 
         // BAR 33,135,1199,7 
@@ -34,10 +33,9 @@ namespace SimpleProject.Domain
         public double Width { get; set; }
         public double Height { get; set; }
         public string Unit { get; set; }
-
         public List<LabelElement> LabelElements { get; set; }
 
-        public Label(string name, double width , double height, string unit)
+        public Label(string name, double width, double height, string unit)
         {
             Name = name;
             Width = width;
@@ -48,7 +46,7 @@ namespace SimpleProject.Domain
 
         public void Draw(DrawingContext dc, double scale)
         {
-            foreach(var element in LabelElements)
+            foreach (var element in LabelElements)
             {
                 element.Draw(dc, scale);
             }
@@ -59,7 +57,7 @@ namespace SimpleProject.Domain
             var element = LabelElements
                 .OfType<IDynamicElement>()
                 .FirstOrDefault(e => e.Name == fieldTag);
-            
+
             element?.UpdateContent(fieldData);
         }
 
@@ -68,7 +66,7 @@ namespace SimpleProject.Domain
             foreach (var element in LabelElements.OfType<IDynamicElement>())
             {
                 if (!string.IsNullOrEmpty(element.Name) &&
-                    labelData.TryGetValue(element.Name, out var newValue)) 
+                    labelData.TryGetValue(element.Name, out var newValue))
                     element.UpdateContent(newValue);
             }
         }
@@ -82,6 +80,7 @@ namespace SimpleProject.Domain
             {
                 sb.AppendLine(element.GetTspl());
             }
+
             return sb.ToString();
         }
     }
