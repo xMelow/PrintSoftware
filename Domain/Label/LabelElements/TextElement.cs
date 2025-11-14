@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using SimpleProject.Interfaces;
+using PrintSoftware.Interfaces;
 
-namespace SimpleProject.Domain.Labels
+namespace PrintSoftware.Domain.Label.LabelElements
 {
     public class TextElement : LabelElement, IDynamicElement
     {

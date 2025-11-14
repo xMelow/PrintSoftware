@@ -1,5 +1,4 @@
-﻿using SimpleProject.Domain;
-using SimpleProject.Domain.Labels;
+﻿using PrintSoftware.Domain.Label;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,8 +11,9 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
+using PrintSoftware.Domain;
 
-namespace SimpleProject.Services
+namespace PrintSoftware.Services
 {
     public class LabelService
     {

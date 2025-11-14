@@ -1,12 +1,13 @@
-﻿using SimpleProject.Domain;
-using SimpleProject.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PrintSoftware.Domain;
+using PrintSoftware.Domain.Label;
+using PrintSoftware.Services;
 
-namespace SimpleProject.Controller
+namespace PrintSoftware.Controller
 {
     public class PrintController
     {

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using PrintSoftware.Interfaces;
 using QRCoder;
-using SimpleProject.Interfaces;
 
 
-namespace SimpleProject.Domain.Labels
+namespace PrintSoftware.Domain.Label.LabelElements
 {
     public class QRCodeElement : LabelElement, IDynamicElement
     {

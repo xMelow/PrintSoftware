@@ -7,7 +7,7 @@ using System.Windows.Ink;
 using System.Windows.Media;
 using System.Windows;
 
-namespace SimpleProject.Domain.Labels
+namespace PrintSoftware.Domain.Label.LabelElements
 {
     public class CircleElement : LabelElement
     {

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 
-namespace SimpleProject.Services
+namespace PrintSoftware.Services
 {
     public class ExcelImportService
     {

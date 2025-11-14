@@ -1,31 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using SimpleProject.Interfaces;
+using System.Windows;
 
-namespace SimpleProject.Domain.Labels
+namespace PrintSoftware.Domain.Label.LabelElements
 {
-    public class BarcodeElement : LabelElement, IDynamicElement
+    public class ImageElement : LabelElement
     {
-        public string Content { get; set; }
-        public string? Name { get; set; }
+        public ImageSource Source { get; set; }
+        public string Path { get; set; } = "";
 
         public override void Draw(DrawingContext dc, double scale)
         {
             throw new NotImplementedException();
         }
+
         public override string GetTspl()
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateContent(string newValue)
+        public void UpdatePath(string newValue)
         {
-            Content = newValue;
+            Path = newValue;
         }
     }
 }

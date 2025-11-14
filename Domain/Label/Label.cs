@@ -1,5 +1,4 @@
-﻿using SimpleProject.Domain.Labels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
@@ -7,9 +6,10 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using SimpleProject.Interfaces;
+using PrintSoftware.Domain.Label.LabelElements;
+using PrintSoftware.Interfaces;
 
-namespace SimpleProject.Domain
+namespace PrintSoftware.Domain.Label
 {
     public class Label
     {

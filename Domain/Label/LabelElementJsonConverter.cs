@@ -1,13 +1,14 @@
-﻿using SimpleProject.Domain.Labels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using PrintSoftware.Domain.Label;
+using PrintSoftware.Domain.Label.LabelElements;
 
-namespace SimpleProject.Domain
+namespace PrintSoftware.Domain.Label
 {
     public class LabelElementJsonConverter : JsonConverter<LabelElement>
     {

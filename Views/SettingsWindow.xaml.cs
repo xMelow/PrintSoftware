@@ -1,5 +1,4 @@
-﻿using SimpleProject.Controller;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,9 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using PrintSoftware.Controller;
 using Wpf.Ui.Controls;
 
-namespace SimpleProject
+namespace PrintSoftware
 {
     /// <summary>
     /// Interaction logic for SettingsWindow.xaml

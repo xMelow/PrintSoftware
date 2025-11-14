@@ -1,8 +1,6 @@
 ﻿using Microsoft.Win32;
-using SimpleProject.Controller;
-using SimpleProject.Domain;
-using SimpleProject.Domain.Labels;
-using SimpleProject.Services;
+using PrintSoftware.Domain;
+using PrintSoftware.Domain.Label;
 using System.Data;
 using System.Diagnostics;
 using System.Net.Sockets;
@@ -17,8 +15,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Wpf.Ui.Controls;
 using System.Drawing.Printing;
+using PrintSoftware.Controller;
+using PrintSoftware.Services;
 
-namespace SimpleProject
+namespace PrintSoftware
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

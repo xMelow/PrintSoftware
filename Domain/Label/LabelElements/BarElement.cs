@@ -1,4 +1,4 @@
-﻿using SimpleProject.Domain.Labels;
+﻿using PrintSoftware.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Ink;
 using System.Windows.Media;
 
-namespace SimpleProject.Domain.Labels
+namespace PrintSoftware.Domain.Label.LabelElements
 {
     public class BarElement : LabelElement
     {

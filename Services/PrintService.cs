@@ -1,5 +1,4 @@
-﻿using SimpleProject.Domain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,8 +6,9 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using PrintSoftware.Domain.Label;
 
-namespace SimpleProject.Services
+namespace PrintSoftware.Services
 {
     public class PrintService
     {

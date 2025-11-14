@@ -1,4 +1,4 @@
-﻿namespace SimpleProject.Interfaces;
+﻿namespace PrintSoftware.Interfaces;
 
 public interface IDynamicElement
 {
