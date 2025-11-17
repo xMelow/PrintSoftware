@@ -71,19 +71,19 @@ To successfully build and run this project, you need:
 
 ---
 
-## 💡 Usage
+## Usage
 
 **TODO**
 
 ---
 
-## 📄 License
+## License
 
 This project is currently developed for internal use and is **Proprietary** (All Rights Reserved). Distribution, modification, and reproduction are strictly prohibited without written consent.
 
 ---
 
-## 📧 Contact
+## Contact
 
 Your Name - [@xMelow]
 
