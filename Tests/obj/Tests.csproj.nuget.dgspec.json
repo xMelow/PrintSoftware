@@ -140,9 +140,13 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "dependencies": {
-            "MSTest": {
+            "JetBrains.Annotations": {
               "target": "Package",
-              "version": "[3.6.4, )"
+              "version": "[2025.2.2, )"
+            },
+            "MSTest.TestAdapter": {
+              "target": "Package",
+              "version": "[4.0.2, )"
             },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",

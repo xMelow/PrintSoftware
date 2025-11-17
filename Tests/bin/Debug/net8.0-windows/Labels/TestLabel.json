@@ -1,0 +1,129 @@
+{
+  "Name": "Test label",
+  "Width": 110,
+  "Height": 110,
+  "Unit": "mm",
+  "LabelElements": [
+    {
+      "Type": "TEXT",
+      "Name":  "Title",
+      "X": 427,
+      "Y": 47,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": ""
+    },
+    {
+      "Type": "BAR",
+      "X": 33,
+      "Y": 135,
+      "Width": 1199,
+      "Height": 7
+    },
+    {
+      "Type": "BOX",
+      "X": 33,
+      "Y": 178,
+      "XEnd": 1232,
+      "YEnd": 890,
+      "Radius": 6
+    },
+    {
+      "Type": "QRCODE",
+      "Name": "QR",
+      "X": 938,
+      "Y": 951,
+      "ECCLevel": "L",
+      "CellWidth": 14,
+      "Mode": "A",
+      "Rotation": 0,
+      "Model": "M2",
+      "Mask": "S7",
+      "Content": ""
+    },
+    {
+      "Type": "CIRCLE",
+      "X": 933,
+      "Y": 590,
+      "Radius": 260,
+      "Thickness": 12
+    },
+    {
+      "Type": "TEXT",
+      "X": 77,
+      "Y": 234,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": "Name:"
+    },
+    {
+      "Type": "TEXT",
+      "X": 77,
+      "Y": 322,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": "Phone number:"
+    },
+    {
+      "Type": "TEXT",
+      "X": 77,
+      "Y": 413,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": "Email:"
+    },
+    {
+      "Type": "TEXT",
+      "X": 77,
+      "Y": 505,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": "Company:"
+    },
+    {
+      "Type": "TEXT",
+      "Name": "Name",
+      "X": 295,
+      "Y": 231,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": ""
+    },
+    {
+      "Type": "TEXT",
+      "Name": "PhoneNumber",
+      "X": 509,
+      "Y": 320,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": ""
+    },
+    {
+      "Type": "TEXT",
+      "Name": "Email",
+      "X": 295,
+      "Y": 410,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": ""
+    },
+    {
+      "Type": "TEXT",
+      "Name": "Company",
+      "X": 396,
+      "Y": 502,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": ""
+    }
+  ]
+}
