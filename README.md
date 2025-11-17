@@ -53,12 +53,11 @@ To successfully build and run this project, you need:
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/xMelow/PrintSoftware](https://github.com/xMelow/PrintSoftware)
+    git clone https://github.com/xMelow/PrintSoftware
     ```
 2.  **Navigate to the project directory:**
     ```bash
     cd PrintSoftware
-    
     ```
 3.  **Restore dependencies and build the solution:**
     ```bash
