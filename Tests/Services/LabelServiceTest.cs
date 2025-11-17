@@ -34,6 +34,8 @@ namespace Tests
                 .OfType<TextElement>()
                 .FirstOrDefault(e => e.Name == "title");
             
+            Console.WriteLine(textElement.Content);
+            
             Assert.AreEqual("This is the title", textElement.Content);
         }
     }

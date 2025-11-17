@@ -35,6 +35,20 @@ namespace PrintSoftware.Domain.Label
         public string Unit { get; set; }
         public List<LabelElement> LabelElements { get; set; }
 
+        public Label()
+        {
+            LabelElements = new List<LabelElement>();
+        }
+        
+        public Label(string name)
+        {
+            Name = name;
+            Width = 100;
+            Height = 100;
+            Unit = "mm";
+            LabelElements = new List<LabelElement>();
+        }
+
         public Label(string name, double width, double height, string unit)
         {
             Name = name;
@@ -52,13 +66,13 @@ namespace PrintSoftware.Domain.Label
             }
         }
 
-        public void UpdateLabelData(string fieldTag, string fieldData)
+        public void UpdateLabelData(string fieldName, string data)
         {
             var element = LabelElements
                 .OfType<IDynamicElement>()
-                .FirstOrDefault(e => e.Name == fieldTag);
+                .FirstOrDefault(e => e.Name == fieldName);
 
-            element?.UpdateContent(fieldData);
+            element?.UpdateContent(data);
         }
 
         public void UpdateLabelData(Dictionary<string, string> labelData)

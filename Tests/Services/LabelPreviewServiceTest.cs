@@ -25,7 +25,9 @@ public class LabelPreviewServiceTest
             new CircleElement(933, 590, 260, 12), 
             new BoxElement(33, 178, 1199, 7, 6)
         };
-        _labelPreviewService = new LabelPreviewService(_testLabel);
+        
+        _labelPreviewService = new LabelPreviewService();
+        _labelPreviewService.SetLabel(_testLabel);
     }
 
     [TestMethod]

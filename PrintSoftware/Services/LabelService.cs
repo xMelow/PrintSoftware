@@ -17,13 +17,22 @@ namespace PrintSoftware.Services
 {
     public class LabelService
     {
-        private readonly string _labelsPath;
+        private readonly string _labelsPath = Path.Combine(AppContext.BaseDirectory, "Labels");
         public Label CurrentLabel { get; set; }
 
-        public LabelService()
+        public LabelService() { }
+
+        public void CreateLabel(string labelName)
         {
-            _labelsPath = Path.Combine(AppContext.BaseDirectory, "Labels");
-            CurrentLabel = GetLabelFromJson("TestLabel");
+            try
+            {
+                CurrentLabel = GetLabelFromJson(labelName);
+            }
+            catch (FileNotFoundException)
+            {
+                CurrentLabel = new Label(labelName);
+                //SaveLabelToJson(newLabel);
+            }
         }
 
         private Label GetLabelFromJson(string name)
@@ -43,11 +52,24 @@ namespace PrintSoftware.Services
             };
             return JsonSerializer.Deserialize<Label>(json, options);
         }
+
+        private void SaveLabelToJson(Label label)
+        {
+            var filePath = Path.Combine(_labelsPath, $"{label.Name}.json");
+
+            var options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                Converters = { new LabelElementJsonConverter() }
+            };
+            
+            string json = JsonSerializer.Serialize(label, options);
+            File.WriteAllText(filePath, json);
+        }
         
-        public Label UpdateLabelDataElement(string name, string data)
+        public void UpdateLabelDataElement(string name, string data)
         {
             CurrentLabel.UpdateLabelData(name, data);
-            return CurrentLabel;
         }
 
         public Label UpdateLabelData(Dictionary<string, string> labelData)

@@ -26,9 +26,14 @@ namespace PrintSoftware.Controller
             return _labelService.CurrentLabel;
         }
 
-        public Label UpdateLabelData(string name, string data)
+        public void CreateLabel(string labelName)
         {
-            return _labelService.UpdateLabelDataElement(name, data);
+            _labelService.CreateLabel(labelName);
+        }
+
+        public void UpdateLabelData(string name, string data)
+        {
+            _labelService.UpdateLabelDataElement(name, data);
         }
 
         public Label UpdateLabelData(Dictionary<string, string> labelData)
@@ -36,7 +41,7 @@ namespace PrintSoftware.Controller
             return _labelService.UpdateLabelData(labelData);
         }
 
-        public Label CreateLabelFromRow(DataRow row)
+        public Label UpdateLabelDataFromRow(DataRow row)
         {
            return _labelService.UpdateLabelDataFromRow(row);
         }
