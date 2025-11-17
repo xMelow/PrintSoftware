@@ -43,8 +43,6 @@ namespace PrintSoftware.Domain.Label
         public Label(string name)
         {
             Name = name;
-            Width = 100;
-            Height = 100;
             Unit = "mm";
             LabelElements = new List<LabelElement>();
         }
@@ -71,7 +69,10 @@ namespace PrintSoftware.Domain.Label
             var element = LabelElements
                 .OfType<IDynamicElement>()
                 .FirstOrDefault(e => e.Name == fieldName);
-
+            
+            if  (element == null)
+                throw new ArgumentException("LabelElement not found");
+                
             element?.UpdateContent(data);
         }
 

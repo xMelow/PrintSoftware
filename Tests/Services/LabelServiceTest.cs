@@ -27,6 +27,30 @@ namespace Tests
         }
 
         [TestMethod]
+        public void CreateLabelTest()
+        {
+            _labelService.CreateLabel("TestLabel");
+            
+            Assert.IsNotNull(_labelService.CurrentLabel);
+            Assert.IsNotNull(_labelService.CurrentLabel.LabelElements);
+            Assert.AreEqual("TestLabel", _labelService.CurrentLabel.Name);
+            Assert.HasCount(13,  _labelService.CurrentLabel.LabelElements);
+        }
+        
+        [TestMethod]
+        public void CreateLabelNameNotFoundTest()
+        {
+            _labelService.CreateLabel("Label does not exist");
+            
+            Assert.IsNotNull(_labelService.CurrentLabel);
+            Assert.IsNotNull(_labelService.CurrentLabel.LabelElements);
+            Assert.AreEqual("Label does not exist", _labelService.CurrentLabel.Name);
+            Assert.HasCount(0,  _labelService.CurrentLabel.LabelElements);
+        }
+        
+        // add test to test json files 
+
+        [TestMethod]
         public void UpdateLabelElementDataTest()
         {
             _labelService.UpdateLabelDataElement("title", "This is the title");
@@ -56,8 +80,15 @@ namespace Tests
                 .FirstOrDefault(e => e.Name == "name");
             
             _labelService.UpdateLabelData(data);
+            
             Assert.AreEqual("This is the title 2", titleElement.Content);
             Assert.AreEqual("Rolf Snamallets", nameElement.Content);
+        }
+
+        [TestMethod]
+        public void UpdateLabelElementWithWrongNameTest()
+        {
+            Assert.Throws(_labelService.UpdateLabelDataElement("name2", "this is invalid"), "LabelElement not found");
         }
     }
 }
