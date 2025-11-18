@@ -55,6 +55,14 @@ namespace PrintSoftware.Domain.Label
             Unit = unit;
             LabelElements = new List<LabelElement>();
         }
+        public Label(string name, double width, double height, string unit, List<LabelElement> labelElements)
+        {
+            Name = name;
+            Width = width;
+            Height = height;
+            Unit = unit;
+            LabelElements = labelElements;
+        }
 
         public void Draw(DrawingContext dc, double scale)
         {
@@ -88,15 +96,14 @@ namespace PrintSoftware.Domain.Label
 
         public string CreateLabelTspl()
         {
-            var sb = new StringBuilder();
-            sb.AppendLine("CLS");
+            var tspl = "CLS" + "\n";
 
             foreach (LabelElement element in LabelElements)
             {
-                sb.AppendLine(element.GetTspl());
+                tspl += element.GetTspl() + "\n";
             }
-
-            return sb.ToString();
+            
+            return tspl;
         }
     }
 }

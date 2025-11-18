@@ -4,7 +4,7 @@ using PrintSoftware.Interfaces;
 using PrintSoftware.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Tests
+namespace Tests.Services
 {
     [TestClass]
     public sealed class LabelServiceTest

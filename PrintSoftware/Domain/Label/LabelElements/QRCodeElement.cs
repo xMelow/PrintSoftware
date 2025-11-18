@@ -26,12 +26,12 @@ namespace PrintSoftware.Domain.Label.LabelElements
 
         public QRCodeElement()
         {
-            Type = "QRCode";
+            Type = "QRCODE";
         }
         
         public QRCodeElement(string name, int x, int y, string eccLevel, int cellWidth, string mode, int rotation, string model, string mask, string content)
         {
-            Type = "QRCode";
+            Type = "QRCODE";
             Name = name;
             X = x;
             Y = y;
@@ -44,7 +44,20 @@ namespace PrintSoftware.Domain.Label.LabelElements
             Content = content;
         }
         
-
+        public QRCodeElement(string name, int x, int y, string content)
+        {
+            Type = "QRCODE";
+            Name = name;
+            X = x;
+            Y = y;
+            ECCLevel = "L";
+            CellWidth = 5;
+            Mode = "A";
+            Rotation = 0;
+            Model = "M2";
+            Mask = "S7";
+            Content = content;
+        }
         public override void Draw(DrawingContext dc, double scale)
         {
             //TODO: FIX draw function QRCode not showing correct in the label preview
@@ -75,7 +88,7 @@ namespace PrintSoftware.Domain.Label.LabelElements
 
         public override string GetTspl()
         {
-            return $"{Type} {X},{Y},L,14,A,0,M2,S7,\"{Content}\"";
+            return $"{Type} {X},{Y},{ECCLevel},{CellWidth},{Mode},{Rotation},{Model},{Mask},\"{Content}\"";
         }
 
         public void UpdateContent(string newContent)

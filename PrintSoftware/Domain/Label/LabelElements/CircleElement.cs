@@ -21,7 +21,7 @@ namespace PrintSoftware.Domain.Label.LabelElements
             Type = "CIRCLE";
         }
         
-        public CircleElement(int radius, int x, int y, int thickness)
+        public CircleElement(int x, int y, int radius, int thickness)
         {
             Type = "CIRCLE";
             X = x;
