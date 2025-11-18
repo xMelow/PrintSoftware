@@ -2190,11 +2190,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Flor\\Documents\\1.Code\\Tests\\Tests.csproj",
+      "projectUniqueName": "C:\\Users\\Flor\\Documents\\Code\\AltecPrint\\Tests\\Tests.csproj",
       "projectName": "Tests",
-      "projectPath": "C:\\Users\\Flor\\Documents\\1.Code\\Tests\\Tests.csproj",
+      "projectPath": "C:\\Users\\Flor\\Documents\\Code\\AltecPrint\\Tests\\Tests.csproj",
       "packagesPath": "C:\\Users\\Flor\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Flor\\Documents\\1.Code\\Tests\\obj\\",
+      "outputPath": "C:\\Users\\Flor\\Documents\\Code\\AltecPrint\\Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -2215,8 +2215,8 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "projectReferences": {
-            "C:\\Users\\Flor\\Documents\\1.Code\\PrintSoftware\\PrintSoftware.csproj": {
-              "projectPath": "C:\\Users\\Flor\\Documents\\1.Code\\PrintSoftware\\PrintSoftware.csproj"
+            "C:\\Users\\Flor\\Documents\\Code\\AltecPrint\\PrintSoftware\\PrintSoftware.csproj": {
+              "projectPath": "C:\\Users\\Flor\\Documents\\Code\\AltecPrint\\PrintSoftware\\PrintSoftware.csproj"
             }
           }
         }
