@@ -2,6 +2,7 @@
 using PrintSoftware.Domain.Label.LabelElements;
 using PrintSoftware.Interfaces;
 using PrintSoftware.Services;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests
 {
@@ -31,8 +32,6 @@ namespace Tests
         {
             _labelService.CreateLabel("TestLabel");
             
-            Assert.IsNotNull(_labelService.CurrentLabel);
-            Assert.IsNotNull(_labelService.CurrentLabel.LabelElements);
             Assert.AreEqual("TestLabel", _labelService.CurrentLabel.Name);
             Assert.HasCount(13,  _labelService.CurrentLabel.LabelElements);
         }
@@ -42,14 +41,10 @@ namespace Tests
         {
             _labelService.CreateLabel("Label does not exist");
             
-            Assert.IsNotNull(_labelService.CurrentLabel);
-            Assert.IsNotNull(_labelService.CurrentLabel.LabelElements);
             Assert.AreEqual("Label does not exist", _labelService.CurrentLabel.Name);
             Assert.HasCount(0,  _labelService.CurrentLabel.LabelElements);
         }
         
-        // add test to test json files 
-
         [TestMethod]
         public void UpdateLabelElementDataTest()
         {
@@ -88,7 +83,12 @@ namespace Tests
         [TestMethod]
         public void UpdateLabelElementWithWrongNameTest()
         {
-            Assert.Throws(_labelService.UpdateLabelDataElement("name2", "this is invalid"), "LabelElement not found");
+            var ex = Assert.Throws<ArgumentException>(() =>
+            {
+                _labelService.UpdateLabelDataElement("name2", "this is invalid");
+            });
+            
+            Assert.AreEqual("LabelElement: 'name2' not found", ex.Message);
         }
     }
 }

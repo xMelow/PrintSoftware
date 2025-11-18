@@ -71,7 +71,7 @@ namespace PrintSoftware.Domain.Label
                 .FirstOrDefault(e => e.Name == fieldName);
             
             if  (element == null)
-                throw new ArgumentException("LabelElement not found");
+                throw new ArgumentException($"LabelElement: '{fieldName}' not found");
                 
             element?.UpdateContent(data);
         }
