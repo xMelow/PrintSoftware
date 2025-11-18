@@ -15,20 +15,52 @@ namespace PrintSoftware.Services
 {
     public class LabelPreviewService
     {
-        private readonly Label _label;
         private readonly int _scale = 8;
         private readonly int _dpi = 50;
-        private double _pixelWidth;
-        private double _pixelHeight;
-        private readonly RenderTargetBitmap _labelPreview;
+        private double _pixelWidth = 400;
+        private double _pixelHeight = 500;
+        
+        private RenderTargetBitmap _labelPreview;
+        private Label _label;
 
-        public LabelPreviewService(Label label) 
+        public LabelPreviewService()
+        {
+            
+        }
+
+        public void SetLabel(Label label)
         {
             _label = label;
-            CalculateLabelPreviewPixels();
+        }
+
+        public RenderTargetBitmap CreateNewPreview()
+        {
+            return new RenderTargetBitmap(
+                (int)_pixelWidth,
+                (int)_pixelHeight,
+                _dpi,
+                _dpi,
+                PixelFormats.Pbgra32
+            );
+        }
+
+        public RenderTargetBitmap CreateLabelPreview()
+        {
             _labelPreview = CreateRenderTarget();
+            return _labelPreview;
         }
         
+        private RenderTargetBitmap CreateRenderTarget()
+        {
+            CalculateLabelPreviewPixels();
+            return new RenderTargetBitmap(
+                (int)_pixelWidth,
+                (int)_pixelHeight,
+                _dpi,
+                _dpi,
+                PixelFormats.Pbgra32
+            );
+        }
         private void CalculateLabelPreviewPixels()
         {
             // label 
@@ -48,18 +80,7 @@ namespace PrintSoftware.Services
             // _pixelWidth = Math.Round(_label.Width * (_dpi / 25.4));
             // _pixelHeight = Math.Round(_label.Height * (_dpi / 25.4));
             
-            Console.WriteLine($"Preview size: {_pixelWidth}x{_pixelHeight}px at {_dpi} DPI and scale = {_scale}");
-        }
-
-        private RenderTargetBitmap CreateRenderTarget()
-        {
-            return new RenderTargetBitmap(
-                (int)_pixelWidth,
-                (int)_pixelHeight,
-                _dpi,
-                _dpi,
-                PixelFormats.Pbgra32
-            );
+            // Console.WriteLine($"Preview size: {_pixelWidth}x{_pixelHeight}px at {_dpi} DPI and scale = {_scale}");
         }
 
         private DrawingVisual RenderLabelPart(bool renderDynamic)

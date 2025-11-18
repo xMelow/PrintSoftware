@@ -14,26 +14,41 @@ namespace PrintSoftware.Controller
 {
     public class LabelPreviewController
     {
-        private readonly LabelPreviewService _LabelPreviewService;
+        private readonly LabelPreviewService _labelPreviewService;
 
-        public LabelPreviewController(Label label)
+        public LabelPreviewController()
         {
-            _LabelPreviewService = new LabelPreviewService(label);
+            _labelPreviewService = new LabelPreviewService();
         }
 
+        public void SetLabel(Label label)
+        {
+            _labelPreviewService.SetLabel(label);
+        }
+
+        public RenderTargetBitmap CreateNewPreview()
+        {
+            return _labelPreviewService.CreateNewPreview();
+        }
+        
+        public RenderTargetBitmap CreateLabelPreview()
+        {
+            return _labelPreviewService.CreateLabelPreview();
+        }
+        
         public BitmapSource RenderDynamicElements()
         {
-            return _LabelPreviewService.RenderDynamicLabelElements();
+            return _labelPreviewService.RenderDynamicLabelElements();
         }
         
         public BitmapSource RenderDynamicElement(string fieldTag)
         {
-            return _LabelPreviewService.RenderDynamicLabelElement(fieldTag);
+            return _labelPreviewService.RenderDynamicLabelElement(fieldTag);
         }
         
         public BitmapSource RenderStaticElements()
         {
-            return _LabelPreviewService.RenderStaticLabelPreview();
+            return _labelPreviewService.RenderStaticLabelPreview();
         }
     }
 }

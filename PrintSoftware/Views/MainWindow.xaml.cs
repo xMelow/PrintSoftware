@@ -28,6 +28,7 @@ namespace PrintSoftware
         private readonly Controller.PrintController _printController;
         private readonly LabelController _labelController;
         private readonly LabelPreviewController _labelPreviewController;
+        
         public DataTable? ExcelData { get; set; }
 
         public MainWindow()
@@ -36,20 +37,36 @@ namespace PrintSoftware
 
             _printController = new Controller.PrintController();
             _labelController = new LabelController();
-            _labelPreviewController = new LabelPreviewController(_labelController.GetLabel());
+            _labelPreviewController = new LabelPreviewController();
 
-            LabelPreviewImage.Source = _labelPreviewController.RenderStaticElements();
-            PopulateData();
+            InitLayout();
         }
 
-        private void PopulateData()
+        private void InitLayout()
+        {
+            InitLabelPreview();
+            InitPrinter();
+            
+            AmountTextBox.Text = "1";
+        }
+
+        private void InitLabelPreview()
+        {
+            _labelController.CreateLabel("TestLabel");
+            _labelPreviewController.SetLabel(_labelController.GetLabel());
+            
+            var preview = _labelPreviewController.CreateLabelPreview();
+            _labelPreviewController.RenderStaticElements();
+            
+            LabelPreviewImage.Source = preview;
+        }
+
+        private void InitPrinter()
         {
             foreach (string printer in PrinterSettings.InstalledPrinters)
                 PrinterComboBox.Items.Add(printer);
 
             PrinterComboBox.SelectedItem = new PrinterSettings().PrinterName;
-
-            AmountTextBox.Text = "1";
         }
 
         private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -91,7 +108,7 @@ namespace PrintSoftware
             {
                 foreach (DataRow row in dataView.Table.Rows)
                 {
-                    var label = _labelController.CreateLabelFromRow(row);
+                    var label = _labelController.UpdateLabelDataFromRow(row);
                     _printController.Printlabel(label, amount);
                 }
             }
@@ -116,6 +133,7 @@ namespace PrintSoftware
         private void UpdateLabelData(string? name, string data)
         {
             _labelController.UpdateLabelData(name, data);
+            
             _labelPreviewController.RenderDynamicElement(name);
         }
 
@@ -141,9 +159,7 @@ namespace PrintSoftware
             {
                 var row = selectedRow.Row;
                 
-                //TODO: change function name UpdateLabelDataRow
-                _labelController.CreateLabelFromRow(row);
-                
+                _labelController.UpdateLabelDataFromRow(row);
                 _labelPreviewController.RenderDynamicElements();
                 
                 SetLabelDataFields(row);
