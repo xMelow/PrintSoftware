@@ -18,8 +18,8 @@
       "Type": "BAR",
       "X": 33,
       "Y": 135,
-      "Width": 1199,
-      "Height": 7
+      "XEnd": 1199,
+      "YEnd": 7
     },
     {
       "Type": "BOX",

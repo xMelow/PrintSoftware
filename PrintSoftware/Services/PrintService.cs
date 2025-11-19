@@ -62,7 +62,7 @@ namespace PrintSoftware.Services
             }
 
             string labelTspl = label.CreateLabelTspl();
-            labelTspl += $"PRINT {amount},1";
+            labelTspl += $"PRINT {amount},1" + "\r\n";
             
             SendTsplIp(settingsTspl + labelTspl);
         }
@@ -78,7 +78,7 @@ namespace PrintSoftware.Services
             {
                 using (TcpClient client = new TcpClient(ip, port))
                 {
-                    byte[] data = Encoding.ASCII.GetBytes(tspl + "\r\n");
+                    byte[] data = Encoding.ASCII.GetBytes(tspl);
                     var stream = client.GetStream();
                     stream.Write(data, 0, data.Length);
                     stream.Close();
