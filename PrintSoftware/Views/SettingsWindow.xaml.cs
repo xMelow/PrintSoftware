@@ -23,12 +23,38 @@ namespace PrintSoftware
     public partial class SettingsWindow : FluentWindow
     {
         private readonly PrintController _printController;
-
+        private readonly PrinterController _printerController;
+        
         public SettingsWindow(PrintController printController)
         {
             _printController = printController;
+            _printerController = new PrinterController();
             InitializeComponent();
             SetDefaultValues();
+        }
+        
+        private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+                this.DragMove();
+        }
+
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Normal)
+                this.WindowState = WindowState.Maximized;
+            else
+                this.WindowState = WindowState.Normal;
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         private void SaveSettings_Click(object sender, RoutedEventArgs e)
@@ -65,28 +91,10 @@ namespace PrintSoftware
             TearCheckBox.IsChecked = defaultSettings["Tear"] == "ON";
         }
 
-        private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.LeftButton == MouseButtonState.Pressed)
-                this.DragMove();
-        }
 
-        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        private async void GetPrinters_OnClick(object sender, RoutedEventArgs e)
         {
-            this.WindowState = WindowState.Minimized;
-        }
-
-        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (this.WindowState == WindowState.Normal)
-                this.WindowState = WindowState.Maximized;
-            else
-                this.WindowState = WindowState.Normal;
-        }
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
+            await _printerController.DiscoverPrintersOnNetwork();
         }
     }
 }
