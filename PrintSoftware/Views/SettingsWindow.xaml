@@ -80,6 +80,18 @@
                     <CheckBox x:Name="TearCheckBox" Content="Enable Tear" IsChecked="False"/>
                 </StackPanel>
             </StackPanel>
+            
+            <Button x:Name="GetPrinters" 
+                    Content="Get Printers" 
+                    Width="90" 
+                    Height="35" 
+                    HorizontalAlignment="Right" 
+                    Padding="0,0,0,0"
+                    Margin="0,0,150,10" 
+                    Click="GetPrinters_OnClick" 
+                    VerticalAlignment="Bottom" 
+                    Foreground="White"
+                    Background="#008896"/>
 
             <Button x:Name="SaveButton" 
                     Content="Save" 

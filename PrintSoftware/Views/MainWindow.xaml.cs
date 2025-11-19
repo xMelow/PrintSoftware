@@ -46,7 +46,6 @@ namespace PrintSoftware
         {
             InitLabelPreview();
             InitPrinter();
-            
             AmountTextBox.Text = "1";
         }
 
