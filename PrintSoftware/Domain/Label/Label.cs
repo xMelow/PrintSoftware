@@ -96,11 +96,11 @@ namespace PrintSoftware.Domain.Label
 
         public string CreateLabelTspl()
         {
-            var tspl = "CLS" + "\n";
+            var tspl = "CLS\r\n";
 
             foreach (LabelElement element in LabelElements)
             {
-                tspl += element.GetTspl() + "\n";
+                tspl += element.GetTspl() + "\r\n";
             }
             
             return tspl;

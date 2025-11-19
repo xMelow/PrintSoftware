@@ -62,16 +62,17 @@ namespace PrintSoftware.Services
             }
 
             string labelTspl = label.CreateLabelTspl();
-            labelTspl += $"PRINT {amount},1";
-            SendTspl(settingsTspl + labelTspl);
+            labelTspl += $"PRINT {amount},1" + "\r\n";
+            
+            SendTsplIp(settingsTspl + labelTspl);
         }
 
-        private void SendTspl(string tspl)
+        private void SendTsplIp(string tspl)
         {
             string ip = "192.168.1.133";
             int port = 9100;
 
-            Debug.WriteLine(tspl);
+            Console.WriteLine(tspl);
 
             try
             {
