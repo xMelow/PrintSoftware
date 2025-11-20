@@ -17,6 +17,7 @@ using Wpf.Ui.Controls;
 using System.Drawing.Printing;
 using PrintSoftware.Controller;
 using PrintSoftware.Views;
+using MessageBox = System.Windows.MessageBox;
 
 namespace PrintSoftware
 {
@@ -51,7 +52,7 @@ namespace PrintSoftware
 
         private void InitLabelPreview()
         {
-            _labelController.CreateLabel("TestLabel");
+            _labelController.GetJsonLabel("TestLabel");
             _labelPreviewController.SetLabel(_labelController.GetLabel());
             
             var preview = _labelPreviewController.CreateLabelPreview();
@@ -177,8 +178,33 @@ namespace PrintSoftware
 
         private void SelectLabel_Click(object sender, RoutedEventArgs e)
         {
-            var labelWindow = new LabelSelectWindow(_labelController);
-            labelWindow.Show();
+            try
+            {
+                var labelWindow = new LabelSelectWindow(_labelController);
+                bool? result = labelWindow.ShowDialog();
+
+                if (result == true)
+                {
+                    string labelName = labelWindow.SelectedLabelName;
+                    UpdateLabelPreview(labelName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR:\n" + ex.GetType().Name + "\n" + ex.Message + "\n\n" + ex.StackTrace);
+                throw;
+            }
+        }
+
+        private void UpdateLabelPreview(string labelName)
+        {
+            _labelController.GetJsonLabel(labelName);
+            _labelPreviewController.SetLabel(_labelController.GetLabel());
+            
+            var preview = _labelPreviewController.CreateLabelPreview();
+            _labelPreviewController.RenderStaticElements();
+            
+            LabelPreviewImage.Source = preview;
         }
     }
 }

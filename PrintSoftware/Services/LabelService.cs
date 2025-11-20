@@ -22,7 +22,7 @@ namespace PrintSoftware.Services
 
         public LabelService() { }
 
-        public void CreateLabel(string labelName)
+        public void GetJsonLabel(string labelName)
         {
             try
             {

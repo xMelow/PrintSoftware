@@ -9,6 +9,7 @@ namespace PrintSoftware.Views;
 public partial class LabelSelectWindow : Window
 {
     private readonly LabelController _labelController;
+    public string SelectedLabelName { get; private set; }
     public LabelSelectWindow(LabelController labelController)
     {
         InitializeComponent();
@@ -20,15 +21,15 @@ public partial class LabelSelectWindow : Window
 
     private void LoadLabels()
     {
-        string labelsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Labels");
+        var labelsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Labels");
         
         if (!Directory.Exists(labelsFolder))
             MessageBox.Show("Labels folder does not exist");
-
+        
         var labelFiles = Directory.GetFiles(labelsFolder)
             .Select(Path.GetFileName)
             .ToList();
-
+        
         LabelList.ItemsSource = labelFiles;
     }
     
@@ -40,15 +41,10 @@ public partial class LabelSelectWindow : Window
             return;
         }
 
-        string selectedFile = LabelList.SelectedItem.ToString();
-        string filePath = Path.Combine(
-            AppDomain.CurrentDomain.BaseDirectory,
-            "labels",
-            selectedFile);
-
-        MessageBox.Show("Selected label: " + filePath);
-
-         // _labelService.CurrentLabel = ;
+        var selectedFile = LabelList.SelectedItem.ToString();
+        var labelName = selectedFile.Split(".")[0];
+        SelectedLabelName = labelName;
+        DialogResult = true;
     }
 
 }
