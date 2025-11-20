@@ -1,0 +1,16 @@
+﻿{
+  "Name": "ProductionLabel",
+  "Width": 110,
+  "Height": 110,
+  "Unit": "mm",
+  "LabelElements": [
+    {
+      "Type": "BOX",
+      "X": 33,
+      "Y": 178,
+      "XEnd": 1232,
+      "YEnd": 890,
+      "Radius": 6
+    }
+  ]
+}

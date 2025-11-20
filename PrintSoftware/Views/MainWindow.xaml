@@ -98,10 +98,10 @@
 
                             <!-- TODO: change to import label -->
 
-                            <ui:Button Content="Import Label"
+                            <ui:Button Content="Select Label"
                                         Icon="TableAdd24"
                                         Appearance="Primary"
-                                        Click="ImportExcelFile" 
+                                        Click="SelectLabel_Click" 
                                         Background="#008896"
                                         />
                         </StackPanel>

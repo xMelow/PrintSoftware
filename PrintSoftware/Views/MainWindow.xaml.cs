@@ -16,7 +16,8 @@ using System.Windows.Shapes;
 using Wpf.Ui.Controls;
 using System.Drawing.Printing;
 using PrintSoftware.Controller;
-using PrintSoftware.Services;
+using PrintSoftware.Views;
+using MessageBox = System.Windows.MessageBox;
 
 namespace PrintSoftware
 {
@@ -51,7 +52,7 @@ namespace PrintSoftware
 
         private void InitLabelPreview()
         {
-            _labelController.CreateLabel("TestLabel");
+            _labelController.GetJsonLabel("TestLabel");
             _labelPreviewController.SetLabel(_labelController.GetLabel());
             
             var preview = _labelPreviewController.CreateLabelPreview();
@@ -145,7 +146,7 @@ namespace PrintSoftware
 
             if (openFileDialog.ShowDialog() == true)
             {
-                var service = new ExcelImportService();
+                var service = new ExcelImportController();
                 var table = service.ImportExcel(openFileDialog.FileName);
 
                 ExcelGrid.ItemsSource = table.DefaultView;
@@ -173,6 +174,37 @@ namespace PrintSoftware
             EmailTextBox.Text = row["EMAIL"].ToString();
             CompanyTextBox.Text = row["OCCUPATION"].ToString();
             QRTextBox.Text = row["POSTCODE"].ToString();
+        }
+
+        private void SelectLabel_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var labelWindow = new LabelSelectWindow(_labelController);
+                bool? result = labelWindow.ShowDialog();
+
+                if (result == true)
+                {
+                    string labelName = labelWindow.SelectedLabelName;
+                    UpdateLabelPreview(labelName);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("ERROR:\n" + ex.GetType().Name + "\n" + ex.Message + "\n\n" + ex.StackTrace);
+                throw;
+            }
+        }
+
+        private void UpdateLabelPreview(string labelName)
+        {
+            _labelController.GetJsonLabel(labelName);
+            _labelPreviewController.SetLabel(_labelController.GetLabel());
+            
+            var preview = _labelPreviewController.CreateLabelPreview();
+            _labelPreviewController.RenderStaticElements();
+            
+            LabelPreviewImage.Source = preview;
         }
     }
 }

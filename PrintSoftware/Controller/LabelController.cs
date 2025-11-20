@@ -26,9 +26,9 @@ namespace PrintSoftware.Controller
             return _labelService.CurrentLabel;
         }
 
-        public void CreateLabel(string labelName)
+        public void GetJsonLabel(string labelName)
         {
-            _labelService.CreateLabel(labelName);
+            _labelService.GetJsonLabel(labelName);
         }
 
         public void UpdateLabelData(string name, string data)

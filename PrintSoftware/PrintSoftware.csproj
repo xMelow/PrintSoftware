@@ -17,6 +17,14 @@
     <Content Include="Labels\TestLabel.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Remove="Labels\ContinuLabel.json" />
+    <Content Include="Labels\ContinueLabel.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Remove="Labels\ProductionLabel.json" />
+    <Content Include="Labels\ProductionLabel.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

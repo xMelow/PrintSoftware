@@ -1,0 +1,26 @@
+﻿{
+  "Name": "ContinueLabel",
+  "Width": 110,
+  "Height": 110,
+  "Unit": "mm",
+  "LabelElements": [
+    {
+      "Type": "TEXT",
+      "Name":  "Title",
+      "X": 427,
+      "Y": 47,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": ""
+    },
+    {
+      "Type": "BOX",
+      "X": 33,
+      "Y": 178,
+      "XEnd": 1232,
+      "YEnd": 890,
+      "Radius": 6
+    }
+  ]
+}
