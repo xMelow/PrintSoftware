@@ -16,6 +16,15 @@ namespace PrintSoftware.ViewModels
         private readonly PrintController _printController;
         private readonly LabelController _labelController;
         private readonly LabelPreviewController _labelPreviewController;
+        
+        public ObservableCollection<string> Printers { get; set; } = new();
+        public ObservableCollection<string> Labels { get; set; } = new();
+        
+        public ICommand PrintCommand { get; }
+        public ICommand PrintAllCommand { get; }
+        public ICommand SelectLabelCommand { get; }
+        public ICommand ImportExcelCommand { get; }
+        public ICommand OpenSettingsCommand { get; }
 
         private string _selectedLabel;
         private string SelectedLabel
@@ -50,20 +59,12 @@ namespace PrintSoftware.ViewModels
             set { _selectedPrinter = value; OnPropertyChanged(); }
         }
 
-        public ObservableCollection<string> Printers { get; set; } = new();
-        public ObservableCollection<string> Labels { get; set; } = new();
-
         private DataTable _excelData;
         public DataTable ExcelData
         {
             get => _excelData;
             set { _excelData = value; OnPropertyChanged(); }
         }
-
-        public ICommand PrintCommand { get; }
-        public ICommand PrintAllCommand { get; }
-        public ICommand SelectLabelCommand { get; }
-        public ICommand ImportExcelCommand { get; }
 
         public MainWindowViewModel()
         {
@@ -78,48 +79,15 @@ namespace PrintSoftware.ViewModels
             PrintAllCommand = new RelayCommand(PrintAll);
             SelectLabelCommand = new RelayCommand(SelectLabel);
             ImportExcelCommand = new RelayCommand(ImportExcel);
+            OpenSettingsCommand = new RelayCommand(OpenSettingsWindow);
         }
-
-        private void LoadPrinters()
-        {
-            foreach (string printer in PrinterSettings.InstalledPrinters)
-                Printers.Add(printer);
-
-            SelectedPrinter = new PrinterSettings().PrinterName;
-        }
-
-        private void LoadDefaultLabel()
-        {
-            SelectedLabel = "TestLabel";
-        }
-
-        private void UpdateLabelPreview(string labelName)
-        {
-            if (string.IsNullOrEmpty(labelName)) return;
-
-            _labelController.GetJsonLabel(labelName);
-            _labelPreviewController.SetLabel(_labelController.GetLabel());
-
-            var preview = _labelPreviewController.CreateLabelPreview();
-            _labelPreviewController.RenderStaticElements();
-
-            LabelPreviewImage = preview;
-        }
-
-        public void UpdateLabelData(string name, string data)
-        {
-            _labelController.UpdateLabelData(name, data);
-            _labelPreviewController.RenderDynamicElement(name);
-
-            UpdateLabelPreview(SelectedLabel);
-        }
-
+        
         private void Print()
         {
             var label = _labelController.GetLabel();
             _printController.Printlabel(label, Amount);
         }
-
+        
         private void PrintAll()
         {
             if (ExcelData?.DefaultView == null) return;
@@ -154,6 +122,46 @@ namespace PrintSoftware.ViewModels
                 var service = new ExcelImportController();
                 ExcelData = service.ImportExcel(openFileDialog.FileName);
             }
+        }
+
+        private void OpenSettingsWindow()
+        {
+            var settingsWindow = new Views.SettingsWindow(_printController);
+            settingsWindow.ShowDialog();
+        }
+
+        private void LoadPrinters()
+        {
+            foreach (string printer in PrinterSettings.InstalledPrinters)
+                Printers.Add(printer);
+
+            SelectedPrinter = new PrinterSettings().PrinterName;
+        }
+
+        private void LoadDefaultLabel()
+        {
+            SelectedLabel = "TestLabel";
+        }
+
+        private void UpdateLabelPreview(string labelName)
+        {
+            if (string.IsNullOrEmpty(labelName)) return;
+
+            _labelController.GetJsonLabel(labelName);
+            _labelPreviewController.SetLabel(_labelController.GetLabel());
+
+            var preview = _labelPreviewController.CreateLabelPreview();
+            _labelPreviewController.RenderStaticElements();
+
+            LabelPreviewImage = preview;
+        }
+
+        public void UpdateLabelData(string name, string data)
+        {
+            _labelController.UpdateLabelData(name, data);
+            _labelPreviewController.RenderDynamicElement(name);
+
+            UpdateLabelPreview(SelectedLabel);
         }
     }
 }

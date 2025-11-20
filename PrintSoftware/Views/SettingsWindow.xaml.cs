@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using PrintSoftware.Controller;
 using Wpf.Ui.Controls;
 
-namespace PrintSoftware
+namespace PrintSoftware.Views
 {
     /// <summary>
     /// Interaction logic for SettingsWindow.xaml
