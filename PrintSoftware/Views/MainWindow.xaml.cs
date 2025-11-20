@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using Wpf.Ui.Controls;
 using System.Drawing.Printing;
 using PrintSoftware.Controller;
-using PrintSoftware.Services;
+using PrintSoftware.Views;
 
 namespace PrintSoftware
 {
@@ -145,7 +145,7 @@ namespace PrintSoftware
 
             if (openFileDialog.ShowDialog() == true)
             {
-                var service = new ExcelImportService();
+                var service = new ExcelImportController();
                 var table = service.ImportExcel(openFileDialog.FileName);
 
                 ExcelGrid.ItemsSource = table.DefaultView;
@@ -173,6 +173,12 @@ namespace PrintSoftware
             EmailTextBox.Text = row["EMAIL"].ToString();
             CompanyTextBox.Text = row["OCCUPATION"].ToString();
             QRTextBox.Text = row["POSTCODE"].ToString();
+        }
+
+        private void SelectLabel_Click(object sender, RoutedEventArgs e)
+        {
+            var labelWindow = new LabelSelectWindow(_labelController);
+            labelWindow.Show();
         }
     }
 }
