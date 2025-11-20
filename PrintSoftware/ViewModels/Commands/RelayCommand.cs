@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace PrintSoftware.ViewModels;
+namespace PrintSoftware.ViewModels.Commands;
 
 public class RelayCommand : ICommand
 {

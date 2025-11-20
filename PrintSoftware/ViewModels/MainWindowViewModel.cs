@@ -7,6 +7,7 @@ using System.Drawing.Printing;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using PrintSoftware.ViewModels.Commands;
 using PrintController = PrintSoftware.Controller.PrintController;
 
 namespace PrintSoftware.ViewModels
@@ -126,8 +127,8 @@ namespace PrintSoftware.ViewModels
 
         private void OpenSettingsWindow()
         {
-            var settingsWindow = new Views.SettingsWindow(_printController);
-            settingsWindow.ShowDialog();
+            var labelWindow = new Views.SettingsWindow();
+            labelWindow.ShowDialog();
         }
 
         private void LoadPrinters()

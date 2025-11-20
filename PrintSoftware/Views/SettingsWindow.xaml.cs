@@ -22,15 +22,10 @@ namespace PrintSoftware.Views
     /// </summary>
     public partial class SettingsWindow : FluentWindow
     {
-        private readonly PrintController _printController;
-        private readonly PrinterController _printerController;
         
-        public SettingsWindow(PrintController printController)
+        public SettingsWindow()
         {
-            _printController = printController;
-            _printerController = new PrinterController();
             InitializeComponent();
-            SetDefaultValues();
         }
         
         private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -55,46 +50,6 @@ namespace PrintSoftware.Views
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-        }
-
-        private void SaveSettings_Click(object sender, RoutedEventArgs e)
-        {
-            string directionSetting = (DirectionComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
-            bool isCutterEnalbed = CutterCheckBox.IsChecked == true;
-            bool isTearEnalbed = TearCheckBox.IsChecked == true;
-
-            Dictionary<string, string> printSettings = new Dictionary<string, string>
-            {
-                { "Density", DensityBox.Text },
-                { "Speed", SpeedBox.Text },
-                { "Direction", directionSetting == "Default" ? "0" : "1" },
-                { "Gap", GapBox.Text },
-                { "Cutter",  isCutterEnalbed ? "ON" : "OFF"},
-                { "Offset", OffsetBox.Text },
-                { "Tear", isTearEnalbed ? "ON" : "OFF" },
-
-            };
-            _printController.SetPrintSettings(printSettings);
-            Close();
-        }
-
-        private void SetDefaultValues()
-        {
-            Dictionary<string, string> defaultSettings = _printController.GetPrinterSettings();
-
-            SpeedBox.Text = defaultSettings["Speed"];
-            DensityBox.Text = defaultSettings["Density"];
-            DirectionComboBox.SelectedItem = defaultSettings["Direction"];
-            GapBox.Text = defaultSettings["Gap"];
-            CutterCheckBox.IsChecked = defaultSettings["Cutter"] == "ON";
-            OffsetBox.Text = defaultSettings["Offset"];
-            TearCheckBox.IsChecked = defaultSettings["Tear"] == "ON";
-        }
-
-
-        private async void GetPrinters_OnClick(object sender, RoutedEventArgs e)
-        {
-            await _printerController.DiscoverPrintersOnNetwork();
         }
     }
 }
