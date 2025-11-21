@@ -23,29 +23,9 @@ namespace PrintSoftware.Services
         private RenderTargetBitmap _labelPreview;
         private Label _label;
 
-        public LabelPreviewService()
-        {
-            
-        }
-
-        public void SetLabel(Label label)
+        public RenderTargetBitmap CreateLabelPreview(Label label)
         {
             _label = label;
-        }
-
-        public RenderTargetBitmap CreateNewPreview()
-        {
-            return new RenderTargetBitmap(
-                (int)_pixelWidth,
-                (int)_pixelHeight,
-                _dpi,
-                _dpi,
-                PixelFormats.Pbgra32
-            );
-        }
-
-        public RenderTargetBitmap CreateLabelPreview()
-        {
             _labelPreview = CreateRenderTarget();
             return _labelPreview;
         }

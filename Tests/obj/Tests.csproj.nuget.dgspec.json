@@ -58,6 +58,18 @@
               "target": "Package",
               "version": "[3.8.0, )"
             },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[10.0.0, )"
+            },
+            "Microsoft.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[10.0.0, )"
+            },
+            "Microsoft.Extensions.Logging": {
+              "target": "Package",
+              "version": "[10.0.0, )"
+            },
             "QRCoder": {
               "target": "Package",
               "version": "[1.7.0, )"
