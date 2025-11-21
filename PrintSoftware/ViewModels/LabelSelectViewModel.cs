@@ -11,39 +11,32 @@ namespace PrintSoftware.ViewModels;
 
 public class LabelSelectViewModel : BaseViewModel
 {
-    //TODO: UPDATE THIS FILE 
+    private readonly ILabelController _labelController;
     
-    public ObservableCollection<string> Labels { get; } = new();
+    public ObservableCollection<Label> Labels { get; } = new();
     public Label? SelectedLabel { get; set; }
 
     public ICommand SelectLabelCommand { get; }
 
     public event Action<Label?>? LabelSelected;
 
-    public LabelSelectViewModel()
+    public LabelSelectViewModel(ILabelController labelController)
     {
+        _labelController = labelController;
+        
         LoadLabels();
         SelectLabelCommand = new RelayCommand(SelectLabel);
     }
 
     private void LoadLabels()
     {
-        var labelsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Labels");
-
-        if (!Directory.Exists(labelsFolder))
-        {
-            // Optionally, raise an error event instead of using MessageBox
-            LabelSelected?.Invoke(null);
-            return;
-        }
-
-        var labelFiles = Directory.GetFiles(labelsFolder)
-            .Select(Path.GetFileNameWithoutExtension)
-            .ToList();
-
+        var labels = _labelController.GetAllLabels();
+        
         Labels.Clear();
-        foreach (var label in labelFiles)
+        foreach (var label in labels)
+        {
             Labels.Add(label);
+        }
     }
 
     private void SelectLabel()

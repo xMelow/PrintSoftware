@@ -15,15 +15,14 @@ namespace PrintSoftware.ViewModels;
 
 public class MainWindowViewModel : BaseViewModel
 {
-    private readonly PrintController _printController;
+    private readonly IPrintController _printController;
     private readonly ILabelController _labelController;
-    private readonly LabelPreviewController _previewController;
-    private readonly ExcelImportController _excelImportController;
+    private readonly ILabelPreviewController _previewController;
+    private readonly IExcelImportService _excelImportController;
     private readonly IWindowService _windowService;
 
     public ObservableCollection<string> Printers { get; } = new();
-    public ObservableCollection<string> Labels { get; } = new();
-
+    
     public ICommand PrintCommand { get; }
     public ICommand PrintBatchCommand { get; }
     public ICommand SelectLabelCommand { get; }
@@ -69,12 +68,18 @@ public class MainWindowViewModel : BaseViewModel
         set { _excelData = value; OnPropertyChanged(); }
     }
 
-    public MainWindowViewModel()
-    {
-        _printController = new PrintController();
-        _previewController = new  LabelPreviewController();
-        _excelImportController = new  ExcelImportController();
-        _windowService = new WindowService();
+    public MainWindowViewModel(
+        IPrintController printController,
+        ILabelController labelController,
+        ILabelPreviewController previewController,
+        IExcelImportService excelImportService,
+        IWindowService windowService
+    ) {
+        _printController = printController;
+        _labelController = labelController;
+        _previewController = previewController;
+        _excelImportController = excelImportService;
+        _windowService = windowService;
 
         PrintCommand = new RelayCommand(PrintCurrentLabel);
         PrintBatchCommand = new RelayCommand(PrintExcelBatch);
@@ -105,7 +110,7 @@ public class MainWindowViewModel : BaseViewModel
     private void PrintCurrentLabel()
     {
         var label = _labelController.GetCurrentLabel();
-        _printController.Printlabel(label, Amount);
+        _printController.PrintLabel(label, Amount);
     }
 
     private void PrintExcelBatch()
@@ -115,7 +120,7 @@ public class MainWindowViewModel : BaseViewModel
         foreach (DataRow row in GetExcelRows())
         {
             _labelController.UpdateLabelDataFromRow(row);
-            _printController.Printlabel(_label, Amount);
+            _printController.PrintLabel(_label, Amount);
         }
     }
 
@@ -136,7 +141,7 @@ public class MainWindowViewModel : BaseViewModel
     {
         var path = _windowService.OpenExcelDialog();
         if (path != null)
-            ExcelData = _excelImportController.ImportExcel(path);
+            ExcelData = _excelImportController.ImportExcelFile(path);
     }
 
     private void OpenSettings() =>
@@ -145,6 +150,6 @@ public class MainWindowViewModel : BaseViewModel
     private void RefreshLabelPreview()
     {
         _previewController.RenderStaticElements();
-        LabelPreviewImage = _previewController.CreateLabelPreview();
+        LabelPreviewImage = _previewController.CreateLabelPreview(Label);
     }
 }

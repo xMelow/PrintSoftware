@@ -27,6 +27,11 @@ namespace PrintSoftware.Controller
             return _labelService.GetLabel(labelName);
         }
 
+        public List<Label> GetAllLabels()
+        {
+            return _labelService.GetAllLabels();
+        }
+
         public Label GetCurrentLabel()
         {
             return _labelService.CurrentLabel;

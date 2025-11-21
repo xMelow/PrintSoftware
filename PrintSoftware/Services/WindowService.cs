@@ -30,7 +30,7 @@ public class WindowService : IWindowService
 
     public Label? ShowLabelSelectScreen()
     {
-        var vm = new LabelSelectViewModel();
+        var vm = new LabelSelectViewModel(_labelController);
         var window = new LabelSelectWindow();
 
         Label? selected = null;

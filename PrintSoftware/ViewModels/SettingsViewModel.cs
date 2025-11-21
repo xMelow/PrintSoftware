@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows.Media;
+using PrintSoftware.Interfaces;
 using PrintSoftware.ViewModels.Commands;
 
 namespace PrintSoftware.ViewModels
 {
     public class SettingsViewModel : BaseViewModel
     {
-        private readonly PrintController _printController;
+        private readonly IPrintController _printController;
         private readonly PrinterController _printerController;
         public ObservableCollection<string> Printers { get; }
         public ICommand SaveSettingsCommand { get; }
@@ -64,9 +65,11 @@ namespace PrintSoftware.ViewModels
             set { _tearEnabled = value; OnPropertyChanged(); }
         }
 
-        public SettingsViewModel()
-        {
-            _printController = new PrintController();
+        public SettingsViewModel(
+            IPrintController printController,
+            PrinterController printerController
+        ) {
+            _printController = printController;
             _printerController = new PrinterController();
 
             Printers = new ObservableCollection<string>();
@@ -103,7 +106,7 @@ namespace PrintSoftware.ViewModels
                 { "Tear", TearEnabled ? "ON" : "OFF" }
             };
 
-            _printController.SetPrintSettings(settings);
+            _printController.SetPrinterSettings(settings);
         }
     }
 }
