@@ -1,4 +1,5 @@
 ﻿<Window x:Class="PrintSoftware.Views.LabelSelectWindow"
+        xmlns:vm="clr-namespace:PrintSoftware.ViewModels"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,6 +7,11 @@
         xmlns:local="clr-namespace:PrintSoftware.Views"
         mc:Ignorable="d"
         Title="LabelSelectWindow" Height="450" Width="800">
+    
+    <Window.DataContext>
+        <vm:LabelSelectViewModel />
+    </Window.DataContext>
+    
     <Grid>
         <StackPanel Margin="20">
             <TextBlock Text="Select a Label" FontSize="20" Margin="0 0 0 10" />

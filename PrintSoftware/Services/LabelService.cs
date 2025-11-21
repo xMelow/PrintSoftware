@@ -22,17 +22,9 @@ namespace PrintSoftware.Services
 
         public LabelService() { }
 
-        public void GetJsonLabel(string labelName)
+        public Label GetLabel(string labelName)
         {
-            try
-            {
-                CurrentLabel = GetLabelFromJson(labelName);
-            }
-            catch (FileNotFoundException)
-            {
-                CurrentLabel = new Label(labelName);
-                //SaveLabelToJson(newLabel);
-            }
+            return GetLabelFromJson(labelName);
         }
 
         private Label GetLabelFromJson(string name)

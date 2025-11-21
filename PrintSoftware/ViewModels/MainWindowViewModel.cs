@@ -4,15 +4,19 @@ using System.Drawing.Printing;
 using System.Windows.Input;
 using System.Windows.Media;
 using PrintSoftware.Controller;
+using PrintSoftware.Domain.Label;
 using PrintSoftware.Interfaces;
+using PrintSoftware.Services;
 using PrintSoftware.ViewModels;
 using PrintSoftware.ViewModels.Commands;
 using PrintController = PrintSoftware.Controller.PrintController;
 
+namespace PrintSoftware.ViewModels;
+
 public class MainWindowViewModel : BaseViewModel
 {
     private readonly PrintController _printController;
-    private readonly LabelController _labelController;
+    private readonly ILabelController _labelController;
     private readonly LabelPreviewController _previewController;
     private readonly ExcelImportController _excelImportController;
     private readonly IWindowService _windowService;
@@ -26,14 +30,14 @@ public class MainWindowViewModel : BaseViewModel
     public ICommand ImportExcelCommand { get; }
     public ICommand OpenSettingsCommand { get; }
 
-    private string _selectedLabel;
-    public string SelectedLabel
+    private Label _label;
+    public Label Label
     {
-        get => _selectedLabel;
+        get => _label;
         set
         {
-            if (_selectedLabel == value) return;
-            _selectedLabel = value;
+            if (_label == value) return;
+            _label = value;
             OnPropertyChanged();
             RefreshLabelPreview();
         }
@@ -65,18 +69,12 @@ public class MainWindowViewModel : BaseViewModel
         set { _excelData = value; OnPropertyChanged(); }
     }
 
-    public MainWindowViewModel(
-        PrintController printController,
-        LabelController labelController,
-        LabelPreviewController previewController,
-        ExcelImportController excelController,
-        IWindowService windowService)
+    public MainWindowViewModel()
     {
-        _printController = printController;
-        _labelController = labelController;
-        _previewController = previewController;
-        _excelImportController = excelController;
-        _windowService = windowService;
+        _printController = new PrintController();
+        _previewController = new  LabelPreviewController();
+        _excelImportController = new  ExcelImportController();
+        _windowService = new WindowService();
 
         PrintCommand = new RelayCommand(PrintCurrentLabel);
         PrintBatchCommand = new RelayCommand(PrintExcelBatch);
@@ -94,7 +92,7 @@ public class MainWindowViewModel : BaseViewModel
     }
 
     private void InitializeDefaultLabel() =>
-        SelectedLabel = "TestLabel";
+        Label = _labelController.GetLabel("TestLabel");
 
     private void LoadInstalledPrinters()
     {
@@ -106,7 +104,7 @@ public class MainWindowViewModel : BaseViewModel
 
     private void PrintCurrentLabel()
     {
-        var label = _labelController.GetLabel();
+        var label = _labelController.GetCurrentLabel();
         _printController.Printlabel(label, Amount);
     }
 
@@ -116,8 +114,8 @@ public class MainWindowViewModel : BaseViewModel
 
         foreach (DataRow row in GetExcelRows())
         {
-            var label = _labelController.UpdateLabelDataFromRow(row);
-            _printController.Printlabel(label, Amount);
+            _labelController.UpdateLabelDataFromRow(row);
+            _printController.Printlabel(_label, Amount);
         }
     }
 
@@ -129,29 +127,24 @@ public class MainWindowViewModel : BaseViewModel
 
     private void SelectLabel()
     {
-        var result = _windowService.ShowLabelSelectDialog();
-        if (result != null)
-            SelectedLabel = result;
+        var selectedLabel = _windowService.ShowLabelSelectScreen();
+        if (selectedLabel != null)
+            Label = selectedLabel;
     }
 
     private void ImportExcelFile()
     {
-        var path = _windowService.ShowOpenExcelDialog();
+        var path = _windowService.OpenExcelDialog();
         if (path != null)
             ExcelData = _excelImportController.ImportExcel(path);
     }
 
     private void OpenSettings() =>
-        _windowService.ShowSettingsDialog();
+        _windowService.ShowSettingsScreen();
 
     private void RefreshLabelPreview()
     {
-        if (string.IsNullOrWhiteSpace(SelectedLabel)) return;
-
-        _labelController.GetJsonLabel(SelectedLabel);
-        _previewController.SetLabel(_labelController.GetLabel());
         _previewController.RenderStaticElements();
-
         LabelPreviewImage = _previewController.CreateLabelPreview();
     }
 }

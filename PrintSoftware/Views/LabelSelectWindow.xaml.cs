@@ -11,23 +11,29 @@ public partial class LabelSelectWindow : Window
 {
     public string? SelectedLabelName { get; private set; }
 
-    public LabelSelectWindow(LabelSelectViewModel vm)
+    public LabelSelectWindow()
     {
         InitializeComponent();
-        DataContext = vm;
-
-        // Subscribe to the event
-        vm.LabelSelected += label =>
-        {
-            if (!string.IsNullOrEmpty(label))
-            {
-                SelectedLabelName = label;
-                DialogResult = true;
-            }
-            else
-            {
-                MessageBox.Show("Please select a label."); // View handles UI
-            }
-        };
     }
+    
+    // //TODO: MOVE THIS CODE! IS IT NECCESSARY?
+    // public LabelSelectWindow(LabelSelectViewModel vm) : this()
+    // {
+    //     InitializeComponent();
+    //     DataContext = vm;
+    //
+    //     // Subscribe to the event
+    //     vm.LabelSelected += label =>
+    //     {
+    //         if (!string.IsNullOrEmpty(label))
+    //         {
+    //             SelectedLabelName = label;
+    //             DialogResult = true;
+    //         }
+    //         else
+    //         {
+    //             MessageBox.Show("Please select a label."); // View handles UI
+    //         }
+    //     };
+    // }
 }

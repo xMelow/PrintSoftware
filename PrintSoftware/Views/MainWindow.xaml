@@ -15,7 +15,7 @@
                  ExtendsContentIntoTitleBar="True">
 
     <Window.DataContext>
-        <global:MainWindowViewModel />
+        <vm:MainWindowViewModel />
     </Window.DataContext>
 
     <Grid>

@@ -1,8 +1,11 @@
-﻿namespace PrintSoftware.Interfaces;
+﻿
+using PrintSoftware.Domain.Label;
+
+namespace PrintSoftware.Interfaces;
 
 public interface IWindowService
 {
-    string? ShowOpenExcelDialog();
-    string? ShowLabelSelectDialog();
-    void ShowSettingsDialog();
+    string? OpenExcelDialog();
+    Label? ShowLabelSelectScreen();
+    void ShowSettingsScreen();
 }

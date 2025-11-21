@@ -30,7 +30,7 @@ namespace Tests.Services
         [TestMethod]
         public void CreateLabelTest()
         {
-            _labelService.GetJsonLabel("TestLabel");
+            _labelService.GetLabel("TestLabel");
             
             Assert.AreEqual("TestLabel", _labelService.CurrentLabel.Name);
             Assert.HasCount(13,  _labelService.CurrentLabel.LabelElements);
@@ -39,7 +39,7 @@ namespace Tests.Services
         [TestMethod]
         public void CreateLabelNameNotFoundTest()
         {
-            _labelService.GetJsonLabel("Label does not exist");
+            _labelService.GetLabel("Label does not exist");
             
             Assert.AreEqual("Label does not exist", _labelService.CurrentLabel.Name);
             Assert.HasCount(0,  _labelService.CurrentLabel.LabelElements);

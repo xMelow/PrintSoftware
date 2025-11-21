@@ -7,33 +7,23 @@ using PrintSoftware.Interfaces;
 using PrintSoftware.ViewModels;
 using PrintSoftware.ViewModels.Commands;
 
+namespace PrintSoftware.ViewModels;
+
 public class LabelSelectViewModel : BaseViewModel
 {
-    private readonly ILabelController _labelController;
+    //TODO: UPDATE THIS FILE 
+    
     public ObservableCollection<string> Labels { get; } = new();
-
-    private string? _selectedLabel;
-    public string? SelectedLabel
-    {
-        get => _selectedLabel;
-        set
-        {
-            if (_selectedLabel == value) return;
-            _selectedLabel = value;
-            OnPropertyChanged();
-        }
-    }
+    public Label? SelectedLabel { get; set; }
 
     public ICommand SelectLabelCommand { get; }
 
-    public event Action<string?>? LabelSelected;
+    public event Action<Label?>? LabelSelected;
 
-    public LabelSelectViewModel(ILabelController labelController)
+    public LabelSelectViewModel()
     {
-        _labelController = labelController;
-        SelectLabelCommand = new RelayCommand(SelectLabel);
-
         LoadLabels();
+        SelectLabelCommand = new RelayCommand(SelectLabel);
     }
 
     private void LoadLabels()
@@ -58,13 +48,6 @@ public class LabelSelectViewModel : BaseViewModel
 
     private void SelectLabel()
     {
-        if (string.IsNullOrWhiteSpace(SelectedLabel))
-        {
-            LabelSelected?.Invoke(null);
-            return;
-        }
-
-        // Notify subscribers (usually the WindowService) that a label has been selected
         LabelSelected?.Invoke(SelectedLabel);
     }
 }

@@ -8,11 +8,12 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using PrintSoftware.Domain;
+using PrintSoftware.Interfaces;
 using PrintSoftware.Services;
 
 namespace PrintSoftware.Controller
 {
-    public class LabelController
+    public class LabelController : ILabelController
     {
         private readonly LabelService _labelService;
 
@@ -21,29 +22,29 @@ namespace PrintSoftware.Controller
             _labelService = new LabelService();
         }
 
-        public Label GetLabel()
+        public Label? GetLabel(string labelName)
+        {
+            return _labelService.GetLabel(labelName);
+        }
+
+        public Label GetCurrentLabel()
         {
             return _labelService.CurrentLabel;
         }
 
-        public void GetJsonLabel(string labelName)
-        {
-            _labelService.GetJsonLabel(labelName);
-        }
+        // public Label GetJsonLabel(string labelName)
+        // {
+        //     return _labelService.GetJsonLabel(labelName);
+        // }
 
-        public void UpdateLabelData(string name, string data)
+        public void UpdateLabelElementData(string name, string data)
         {
             _labelService.UpdateLabelDataElement(name, data);
         }
 
-        public Label UpdateLabelData(Dictionary<string, string> labelData)
+        public void UpdateLabelDataFromRow(DataRow row)
         {
-            return _labelService.UpdateLabelData(labelData);
-        }
-
-        public Label UpdateLabelDataFromRow(DataRow row)
-        {
-           return _labelService.UpdateLabelDataFromRow(row);
+           _labelService.UpdateLabelDataFromRow(row);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using PrintSoftware.Domain.Label;
 using PrintSoftware.Interfaces;
 using PrintSoftware.ViewModels;
 using PrintSoftware.Views;
@@ -13,16 +14,11 @@ public class WindowService : IWindowService
     // 2. don't return null in ShowLabelSelectDialog
     // 3. labelSelectWindow needs label controller
     
-    // this is a comment 
-    
     private readonly ILabelController _labelController;
-
-    public WindowService(ILabelController labelController)
-    {
-        _labelController = labelController;
-    }
     
-    public string? ShowOpenExcelDialog()
+    public WindowService() { }
+    
+    public string? OpenExcelDialog()
     {
         var dialog = new OpenFileDialog()
         {
@@ -32,17 +28,19 @@ public class WindowService : IWindowService
         return dialog.ShowDialog() == true ? dialog.FileName : null;
     }
 
-    public string? ShowLabelSelectDialog()
+    public Label? ShowLabelSelectScreen()
     {
-        var vm = new LabelSelectViewModel(_labelController);
-        var window = new LabelSelectWindow(vm);
+        var vm = new LabelSelectViewModel();
+        var window = new LabelSelectWindow();
 
-        return window.ShowDialog() == true
-            ? vm.SelectedLabel
-            : null;
+        Label? selected = null;
+        vm.LabelSelected += label => selected = label;
+
+        window.ShowDialog();
+        return selected;
     }
 
-    public void ShowSettingsDialog()
+    public void ShowSettingsScreen()
     {
         var window = new Views.SettingsWindow();
         window.ShowDialog();
