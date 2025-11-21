@@ -9,7 +9,6 @@ using PrintSoftware.Interfaces;
 using PrintSoftware.Services;
 using PrintSoftware.ViewModels;
 using PrintSoftware.ViewModels.Commands;
-using PrintController = PrintSoftware.Controller.PrintController;
 
 namespace PrintSoftware.ViewModels;
 
@@ -93,11 +92,8 @@ public class MainWindowViewModel : BaseViewModel
     private void Initialize()
     {
         LoadInstalledPrinters();
-        InitializeDefaultLabel();
+        // Label = _labelController.GetLabel("Testlabel");
     }
-
-    private void InitializeDefaultLabel() =>
-        Label = _labelController.GetLabel("TestLabel");
 
     private void LoadInstalledPrinters()
     {

@@ -66,8 +66,7 @@ namespace PrintSoftware.ViewModels
         }
 
         public SettingsViewModel(
-            IPrintController printController,
-            PrinterController printerController
+            IPrintController printController
         ) {
             _printController = printController;
             _printerController = new PrinterController();

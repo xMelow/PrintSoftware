@@ -22,8 +22,7 @@ public class LabelSelectViewModel : BaseViewModel
 
     public LabelSelectViewModel(ILabelController labelController)
     {
-        _labelController = labelController;
-        
+        _labelController = labelController ?? throw new ArgumentNullException(nameof(labelController));;
         LoadLabels();
         SelectLabelCommand = new RelayCommand(SelectLabel);
     }

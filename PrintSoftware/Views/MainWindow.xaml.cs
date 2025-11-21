@@ -14,8 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Wpf.Ui.Controls;
-using System.Drawing.Printing;
 using PrintSoftware.Controller;
+using PrintSoftware.Services;
+using PrintSoftware.ViewModels;
 using PrintSoftware.Views;
 using MessageBox = System.Windows.MessageBox;
 
@@ -26,10 +27,10 @@ namespace PrintSoftware
     /// </summary>
     public partial class MainWindow : FluentWindow
     {
-
-        public MainWindow()
+        public MainWindow(MainWindowViewModel vm)
         {
             InitializeComponent();
+            DataContext = vm;
         }
 
         private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -55,7 +56,5 @@ namespace PrintSoftware
         {
             this.Close();
         }
-        
-        
     }
 }

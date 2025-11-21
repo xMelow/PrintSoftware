@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Win32;
+using PrintSoftware.Controller;
 using PrintSoftware.Domain.Label;
 using PrintSoftware.Interfaces;
 using PrintSoftware.ViewModels;
@@ -11,12 +13,19 @@ public class WindowService : IWindowService
     
     //TODO:
     // 1. update function names
-    // 2. don't return null in ShowLabelSelectDialog
-    // 3. labelSelectWindow needs label controller
     
     private readonly ILabelController _labelController;
+    private readonly IPrintController _printController;
     
-    public WindowService() { }
+    public WindowService() {}
+    
+    public WindowService(
+        ILabelController labelController,
+        IPrintController printController
+    ) {
+        _labelController = labelController ?? throw new ArgumentNullException(nameof(labelController));
+        _printController = printController ?? throw new ArgumentNullException(nameof(printController));
+    }
     
     public string? OpenExcelDialog()
     {
@@ -30,11 +39,16 @@ public class WindowService : IWindowService
 
     public Label? ShowLabelSelectScreen()
     {
-        var vm = new LabelSelectViewModel(_labelController);
-        var window = new LabelSelectWindow();
+        var vm = App.HostContainer.Services.GetRequiredService<LabelSelectViewModel>();
+        var window = App.HostContainer.Services.GetRequiredService<LabelSelectWindow>();
+        window.DataContext = vm;
 
         Label? selected = null;
-        vm.LabelSelected += label => selected = label;
+        vm.LabelSelected += label =>
+        {
+            selected = label;
+            window.DialogResult = true;
+        };
 
         window.ShowDialog();
         return selected;
@@ -42,7 +56,13 @@ public class WindowService : IWindowService
 
     public void ShowSettingsScreen()
     {
-        var window = new Views.SettingsWindow();
+        var vm = new SettingsViewModel(_printController);
+        var window = new SettingsWindow
+        {
+            DataContext = vm,
+            Owner = System.Windows.Application.Current.MainWindow
+        };
+
         window.ShowDialog();
     }
 }
