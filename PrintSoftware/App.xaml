@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:PrintSoftware"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              Startup="OnStartup">
+             <!-- StartupUri="Views/MainWindow.xaml"> -->
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

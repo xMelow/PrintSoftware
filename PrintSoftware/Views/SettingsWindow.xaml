@@ -13,9 +13,7 @@
         WindowCornerPreference="Round"
         ExtendsContentIntoTitleBar="True">
 
-    <ui:FluentWindow.DataContext>
-        <vm:SettingsViewModel />
-    </ui:FluentWindow.DataContext>
+    <!-- DataContext is provided by DI in code-behind via WindowService -->
 
     <DockPanel LastChildFill="True">
         <!-- HEADER -->

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
 using PrintSoftware.Controller;
 using PrintSoftware.Domain.Label;
@@ -40,8 +41,9 @@ public class WindowService : IWindowService
     public Label? ShowLabelSelectScreen()
     {
         var vm = App.HostContainer.Services.GetRequiredService<LabelSelectViewModel>();
-        var window = App.HostContainer.Services.GetRequiredService<LabelSelectWindow>();
+        var window = new LabelSelectWindow();
         window.DataContext = vm;
+        window.Owner = Application.Current.MainWindow;
 
         Label? selected = null;
         vm.LabelSelected += label =>
@@ -51,18 +53,16 @@ public class WindowService : IWindowService
         };
 
         window.ShowDialog();
+
         return selected;
     }
 
     public void ShowSettingsScreen()
     {
-        var vm = new SettingsViewModel(_printController);
-        var window = new SettingsWindow
-        {
-            DataContext = vm,
-            Owner = System.Windows.Application.Current.MainWindow
-        };
-
+        var vm = App.HostContainer.Services.GetRequiredService<SettingsViewModel>();
+        var window = App.HostContainer.Services.GetRequiredService<SettingsWindow>();
+        window.DataContext = vm;
+        window.Owner = Application.Current.MainWindow;
         window.ShowDialog();
     }
 }
