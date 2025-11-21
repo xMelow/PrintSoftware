@@ -145,7 +145,13 @@ public class MainWindowViewModel : BaseViewModel
 
     private void RefreshLabelPreview()
     {
-        _previewController.RenderStaticElements();
-        LabelPreviewImage = _previewController.CreateLabelPreview(Label);
+        if (Label == null)
+        {
+            LabelPreviewImage = null;
+            return;
+        }
+
+        _previewController.CreateLabelPreview(Label);
+        LabelPreviewImage = _previewController.RenderStaticElements();
     }
 }
