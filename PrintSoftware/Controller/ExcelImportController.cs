@@ -4,11 +4,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PrintSoftware.Interfaces;
 using PrintSoftware.Services;
 
 namespace PrintSoftware.Controller
 {
-    public class ExcelImportController
+    public class ExcelImportController : IExcelImportService
     {
         private readonly ExcelImportService _excelService;
 
@@ -17,9 +18,9 @@ namespace PrintSoftware.Controller
             _excelService = new ExcelImportService();
         }
 
-        public DataTable ImportExcel(string filePath)
+        public DataTable ImportExcelFile(string filePath)
         {
-            return _excelService.ImportExcel(filePath);
+            return _excelService.ImportExcelFile(filePath);
         }
 
     }

@@ -14,8 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Wpf.Ui.Controls;
-using System.Drawing.Printing;
 using PrintSoftware.Controller;
+using PrintSoftware.Services;
+using PrintSoftware.ViewModels;
 using PrintSoftware.Views;
 using MessageBox = System.Windows.MessageBox;
 
@@ -26,47 +27,10 @@ namespace PrintSoftware
     /// </summary>
     public partial class MainWindow : FluentWindow
     {
-        private readonly Controller.PrintController _printController;
-        private readonly LabelController _labelController;
-        private readonly LabelPreviewController _labelPreviewController;
-        
-        public DataTable? ExcelData { get; set; }
-
-        public MainWindow()
+        public MainWindow(MainWindowViewModel vm)
         {
             InitializeComponent();
-
-            _printController = new Controller.PrintController();
-            _labelController = new LabelController();
-            _labelPreviewController = new LabelPreviewController();
-
-            InitLayout();
-        }
-
-        private void InitLayout()
-        {
-            InitLabelPreview();
-            InitPrinter();
-            AmountTextBox.Text = "1";
-        }
-
-        private void InitLabelPreview()
-        {
-            _labelController.GetJsonLabel("TestLabel");
-            _labelPreviewController.SetLabel(_labelController.GetLabel());
-            
-            var preview = _labelPreviewController.CreateLabelPreview();
-            _labelPreviewController.RenderStaticElements();
-            
-            LabelPreviewImage.Source = preview;
-        }
-
-        private void InitPrinter()
-        {
-            foreach (string printer in PrinterSettings.InstalledPrinters)
-                PrinterComboBox.Items.Add(printer);
-
-            PrinterComboBox.SelectedItem = new PrinterSettings().PrinterName;
+            DataContext = vm;
         }
 
         private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -91,120 +55,6 @@ namespace PrintSoftware
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
-        }
-
-        private void PrintButton_Click(object sender, RoutedEventArgs e)
-        {
-            int amount = Int32.Parse(AmountTextBox.Text);
-            var label = _labelController.GetLabel();
-            _printController.Printlabel(label, amount);
-        }
-
-        private void PrintAllButton_Click(object sender, RoutedEventArgs e)
-        {
-            int amount = Int32.Parse(AmountTextBox.Text);
-
-            if (ExcelGrid.ItemsSource is DataView dataView)
-            {
-                foreach (DataRow row in dataView.Table.Rows)
-                {
-                    var label = _labelController.UpdateLabelDataFromRow(row);
-                    _printController.Printlabel(label, amount);
-                }
-            }
-        }
-
-        private void ViewSettingsPage_Click(object sender, RoutedEventArgs e)
-        {
-            var SettingsWindow = new SettingsWindow(_printController);
-            SettingsWindow.Show();
-        }
-
-        private void Input_TextChanged(object sender, RoutedEventArgs e)
-        {
-            if (sender is Wpf.Ui.Controls.TextBox textbox)
-            {
-                string? name = textbox.Tag?.ToString();
-                string data = textbox.Text;
-                UpdateLabelData(name, data);
-            }
-        }
-
-        private void UpdateLabelData(string? name, string data)
-        {
-            _labelController.UpdateLabelData(name, data);
-            
-            _labelPreviewController.RenderDynamicElement(name);
-        }
-
-        private void ImportExcelFile(object sender, RoutedEventArgs e)
-        {
-            var openFileDialog = new OpenFileDialog
-            {
-                Filter = "Excel Files|*.xlsx;*.xls"
-            };
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                var service = new ExcelImportController();
-                var table = service.ImportExcel(openFileDialog.FileName);
-
-                ExcelGrid.ItemsSource = table.DefaultView;
-            }
-        }
-
-        private void ExcelGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (ExcelGrid.SelectedItem is DataRowView selectedRow)
-            {
-                var row = selectedRow.Row;
-                
-                _labelController.UpdateLabelDataFromRow(row);
-                _labelPreviewController.RenderDynamicElements();
-                
-                SetLabelDataFields(row);
-            }
-        }
-
-        private void SetLabelDataFields(DataRow row)
-        {
-            TitleTextBox.Text = row["ID"].ToString();
-            NameTextBox.Text = row["NAME"].ToString();
-            PhoneNumberTextBox.Text = row["PHONENUMBER"].ToString();
-            EmailTextBox.Text = row["EMAIL"].ToString();
-            CompanyTextBox.Text = row["OCCUPATION"].ToString();
-            QRTextBox.Text = row["POSTCODE"].ToString();
-        }
-
-        private void SelectLabel_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var labelWindow = new LabelSelectWindow(_labelController);
-                bool? result = labelWindow.ShowDialog();
-
-                if (result == true)
-                {
-                    string labelName = labelWindow.SelectedLabelName;
-                    UpdateLabelPreview(labelName);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("ERROR:\n" + ex.GetType().Name + "\n" + ex.Message + "\n\n" + ex.StackTrace);
-                throw;
-            }
-        }
-
-        private void UpdateLabelPreview(string labelName)
-        {
-            _labelController.GetJsonLabel(labelName);
-            _labelPreviewController.SetLabel(_labelController.GetLabel());
-            
-            var preview = _labelPreviewController.CreateLabelPreview();
-            _labelPreviewController.RenderStaticElements();
-            
-            LabelPreviewImage.Source = preview;
         }
     }
 }

@@ -22,17 +22,37 @@ namespace PrintSoftware.Services
 
         public LabelService() { }
 
-        public void GetJsonLabel(string labelName)
+        public Label GetLabel(string labelName)
         {
-            try
+            return GetLabelFromJson(labelName);
+        }
+
+        public List<Label> GetAllLabels()
+        {
+            var labelsFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Labels");
+
+            if (!Directory.Exists(labelsFolder))
+                throw new DirectoryNotFoundException($"Labels folder {labelsFolder} not found");
+
+            var labelFiles = Directory.GetFiles(labelsFolder)
+                .Select(Path.GetFileNameWithoutExtension)
+                .ToList();
+            
+            var labels = ConvertFileNamesToLabels(labelFiles);
+            
+            return labels;
+        }
+
+        private List<Label> ConvertFileNamesToLabels(List<string> labelFiles)
+        {
+            var result = new List<Label>();
+            
+            foreach (var labelFile in labelFiles)
             {
-                CurrentLabel = GetLabelFromJson(labelName);
+                var label = GetLabel(labelFile);
+                result.Add(label);
             }
-            catch (FileNotFoundException)
-            {
-                CurrentLabel = new Label(labelName);
-                //SaveLabelToJson(newLabel);
-            }
+            return result;
         }
 
         private Label GetLabelFromJson(string name)

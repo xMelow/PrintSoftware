@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System.Windows.Media.Imaging;
+using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PrintSoftware.Domain.Label;
 using PrintSoftware.Domain.Label.LabelElements;
@@ -11,13 +12,14 @@ namespace Tests.Services;
 public class LabelPreviewServiceTest
 {
     private Label _testLabel;
+    private RenderTargetBitmap  _labelPreview;
     private LabelPreviewService _labelPreviewService;
 
     [TestInitialize]
     public void TestInitialize()
     {
-        _testLabel = new Label("test label", 110, 110, "mm");
-        _testLabel.LabelElements = new List<LabelElement>()
+        var label = new Label("test label", 110, 110, "mm");
+        label.LabelElements = new List<LabelElement>()
         {
             new TextElement("title", 427, 47, "", "0", 20),
             new TextElement(77, 234, "0", 0, 12, "Name: "), 
@@ -27,7 +29,7 @@ public class LabelPreviewServiceTest
         };
         
         _labelPreviewService = new LabelPreviewService();
-        _labelPreviewService.SetLabel(_testLabel);
+        _labelPreview = _labelPreviewService.CreateLabelPreview(label);
     }
 
     [TestMethod]

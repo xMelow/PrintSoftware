@@ -12,7 +12,7 @@ namespace PrintSoftware.Services
 {
     public class ExcelImportService
     {
-        public DataTable ImportExcel(string filePath)
+        public DataTable ImportExcelFile(string filePath)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
@@ -23,9 +23,6 @@ namespace PrintSoftware.Services
             {
                 ConfigureDataTable = _ => new ExcelDataTableConfiguration() { UseHeaderRow = true }
             });
-
-            // ask the user for which page
-            // add multiple pages and switch between pages
 
             var table = result.Tables[0];
             return result.Tables[0];

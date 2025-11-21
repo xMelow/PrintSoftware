@@ -1,8 +1,5 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Net.Http;
 using PrintSoftware.Domain.Printer;
 using System.Collections.Concurrent;
 using System.Linq;
@@ -54,10 +51,9 @@ public class PrinterService
                 var open = await ProbePrinterPortsAsync(ip, port, timeoutMs);
                 if (open.Any())
                 {
-                    
                     result.Add(new PrinterInfo
                     {
-                        Model = "Unknown",
+                        Model = GetPrinterHostName(),
                         IP = ip.ToString(),
                         MAC = "Unknown",
                         Source = new IPEndPoint(ip, port),
@@ -74,6 +70,7 @@ public class PrinterService
         return result.OrderBy(p => p.IP).ToList();
     }
 
+
     private IEnumerable<IPAddress> GetAddressRange(IPAddress start, IPAddress end)
     {
         if (start.AddressFamily != AddressFamily.InterNetwork || end.AddressFamily != AddressFamily.InterNetwork)
@@ -87,6 +84,11 @@ public class PrinterService
         {
             yield return UintToIp(cur);
         }
+    }
+    
+    private string GetPrinterHostName()
+    {
+        return "";
     }
 
     private async Task<List<int>> ProbePrinterPortsAsync(IPAddress ip, int port, int timeoutMs)
@@ -131,4 +133,6 @@ public class PrinterService
         if (BitConverter.IsLittleEndian) Array.Reverse(bytes);
         return new IPAddress(bytes);
     }
+
+
 }
