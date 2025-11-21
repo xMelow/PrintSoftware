@@ -1,168 +1,157 @@
-﻿using PrintSoftware.Controller;
-using PrintSoftware.Domain.Label;
-using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Data;
 using System.Drawing.Printing;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using PrintSoftware.Controller;
+using PrintSoftware.Interfaces;
+using PrintSoftware.ViewModels;
 using PrintSoftware.ViewModels.Commands;
 using PrintController = PrintSoftware.Controller.PrintController;
 
-namespace PrintSoftware.ViewModels
+public class MainWindowViewModel : BaseViewModel
 {
-    public class MainWindowViewModel : BaseViewModel
+    private readonly PrintController _printController;
+    private readonly LabelController _labelController;
+    private readonly LabelPreviewController _previewController;
+    private readonly ExcelImportController _excelImportController;
+    private readonly IWindowService _windowService;
+
+    public ObservableCollection<string> Printers { get; } = new();
+    public ObservableCollection<string> Labels { get; } = new();
+
+    public ICommand PrintCommand { get; }
+    public ICommand PrintBatchCommand { get; }
+    public ICommand SelectLabelCommand { get; }
+    public ICommand ImportExcelCommand { get; }
+    public ICommand OpenSettingsCommand { get; }
+
+    private string _selectedLabel;
+    public string SelectedLabel
     {
-        private readonly PrintController _printController;
-        private readonly LabelController _labelController;
-        private readonly LabelPreviewController _labelPreviewController;
-        
-        public ObservableCollection<string> Printers { get; set; } = new();
-        public ObservableCollection<string> Labels { get; set; } = new();
-        
-        public ICommand PrintCommand { get; }
-        public ICommand PrintAllCommand { get; }
-        public ICommand SelectLabelCommand { get; }
-        public ICommand ImportExcelCommand { get; }
-        public ICommand OpenSettingsCommand { get; }
-
-        private string _selectedLabel;
-        private string SelectedLabel
+        get => _selectedLabel;
+        set
         {
-            get => _selectedLabel;
-            set
-            {
-                _selectedLabel = value;
-                OnPropertyChanged();
-                UpdateLabelPreview(_selectedLabel);
-            }
+            if (_selectedLabel == value) return;
+            _selectedLabel = value;
+            OnPropertyChanged();
+            RefreshLabelPreview();
         }
-
-        private ImageSource _labelPreviewImage;
-        public ImageSource LabelPreviewImage
+    }
+    
+    private string _selectedPrinter;
+    public string SelectedPrinter
+    {
+        get => _selectedPrinter;
+        set
         {
-            get => _labelPreviewImage;
-            set { _labelPreviewImage = value; OnPropertyChanged(); }
+            _selectedPrinter = value; OnPropertyChanged();
         }
+    }
 
-        private int _amount = 1;
-        public int Amount
+    private ImageSource _labelPreviewImage;
+    public ImageSource LabelPreviewImage
+    {
+        get => _labelPreviewImage;
+        set { _labelPreviewImage = value; OnPropertyChanged(); }
+    }
+
+    public int Amount { get; set; } = 1;
+
+    private DataTable _excelData;
+    public DataTable ExcelData
+    {
+        get => _excelData;
+        set { _excelData = value; OnPropertyChanged(); }
+    }
+
+    public MainWindowViewModel(
+        PrintController printController,
+        LabelController labelController,
+        LabelPreviewController previewController,
+        ExcelImportController excelController,
+        IWindowService windowService)
+    {
+        _printController = printController;
+        _labelController = labelController;
+        _previewController = previewController;
+        _excelImportController = excelController;
+        _windowService = windowService;
+
+        PrintCommand = new RelayCommand(PrintCurrentLabel);
+        PrintBatchCommand = new RelayCommand(PrintExcelBatch);
+        SelectLabelCommand = new RelayCommand(SelectLabel);
+        ImportExcelCommand = new RelayCommand(ImportExcelFile);
+        OpenSettingsCommand = new RelayCommand(OpenSettings);
+
+        Initialize();
+    }
+
+    private void Initialize()
+    {
+        LoadInstalledPrinters();
+        InitializeDefaultLabel();
+    }
+
+    private void InitializeDefaultLabel() =>
+        SelectedLabel = "TestLabel";
+
+    private void LoadInstalledPrinters()
+    {
+        foreach (string printer in PrinterSettings.InstalledPrinters)
+            Printers.Add(printer);
+
+        SelectedPrinter = new PrinterSettings().PrinterName;
+    }
+
+    private void PrintCurrentLabel()
+    {
+        var label = _labelController.GetLabel();
+        _printController.Printlabel(label, Amount);
+    }
+
+    private void PrintExcelBatch()
+    {
+        if (!HasExcelData()) return;
+
+        foreach (DataRow row in GetExcelRows())
         {
-            get => _amount;
-            set { _amount = value; OnPropertyChanged(); }
-        }
-
-        private string _selectedPrinter;
-        public string SelectedPrinter
-        {
-            get => _selectedPrinter;
-            set { _selectedPrinter = value; OnPropertyChanged(); }
-        }
-
-        private DataTable _excelData;
-        public DataTable ExcelData
-        {
-            get => _excelData;
-            set { _excelData = value; OnPropertyChanged(); }
-        }
-
-        public MainWindowViewModel()
-        {
-            _printController = new PrintController();
-            _labelController = new LabelController();
-            _labelPreviewController = new LabelPreviewController();
-
-            LoadPrinters();
-            LoadDefaultLabel();
-
-            PrintCommand = new RelayCommand(Print);
-            PrintAllCommand = new RelayCommand(PrintAll);
-            SelectLabelCommand = new RelayCommand(SelectLabel);
-            ImportExcelCommand = new RelayCommand(ImportExcel);
-            OpenSettingsCommand = new RelayCommand(OpenSettingsWindow);
-        }
-        
-        private void Print()
-        {
-            var label = _labelController.GetLabel();
+            var label = _labelController.UpdateLabelDataFromRow(row);
             _printController.Printlabel(label, Amount);
         }
-        
-        private void PrintAll()
-        {
-            if (ExcelData?.DefaultView == null) return;
+    }
 
-            foreach (DataRow row in ExcelData.DefaultView.Table.Rows)
-            {
-                var label = _labelController.UpdateLabelDataFromRow(row);
-                _printController.Printlabel(label, Amount);
-            }
-        }
+    private bool HasExcelData() =>
+        ExcelData?.DefaultView?.Table?.Rows?.Count > 0;
 
-        private void SelectLabel()
-        {
-            var labelWindow = new Views.LabelSelectWindow(_labelController);
-            bool? result = labelWindow.ShowDialog();
+    private IEnumerable<DataRow> GetExcelRows() =>
+        ExcelData.DefaultView.Table.Rows.Cast<DataRow>();
 
-            if (result == true)
-            {
-                SelectedLabel = labelWindow.SelectedLabelName;
-            }
-        }
+    private void SelectLabel()
+    {
+        var result = _windowService.ShowLabelSelectDialog();
+        if (result != null)
+            SelectedLabel = result;
+    }
 
-        private void ImportExcel()
-        {
-            var openFileDialog = new Microsoft.Win32.OpenFileDialog
-            {
-                Filter = "Excel Files|*.xlsx;*.xls"
-            };
+    private void ImportExcelFile()
+    {
+        var path = _windowService.ShowOpenExcelDialog();
+        if (path != null)
+            ExcelData = _excelImportController.ImportExcel(path);
+    }
 
-            if (openFileDialog.ShowDialog() == true)
-            {
-                var service = new ExcelImportController();
-                ExcelData = service.ImportExcel(openFileDialog.FileName);
-            }
-        }
+    private void OpenSettings() =>
+        _windowService.ShowSettingsDialog();
 
-        private void OpenSettingsWindow()
-        {
-            var labelWindow = new Views.SettingsWindow();
-            labelWindow.ShowDialog();
-        }
+    private void RefreshLabelPreview()
+    {
+        if (string.IsNullOrWhiteSpace(SelectedLabel)) return;
 
-        private void LoadPrinters()
-        {
-            foreach (string printer in PrinterSettings.InstalledPrinters)
-                Printers.Add(printer);
+        _labelController.GetJsonLabel(SelectedLabel);
+        _previewController.SetLabel(_labelController.GetLabel());
+        _previewController.RenderStaticElements();
 
-            SelectedPrinter = new PrinterSettings().PrinterName;
-        }
-
-        private void LoadDefaultLabel()
-        {
-            SelectedLabel = "TestLabel";
-        }
-
-        private void UpdateLabelPreview(string labelName)
-        {
-            if (string.IsNullOrEmpty(labelName)) return;
-
-            _labelController.GetJsonLabel(labelName);
-            _labelPreviewController.SetLabel(_labelController.GetLabel());
-
-            var preview = _labelPreviewController.CreateLabelPreview();
-            _labelPreviewController.RenderStaticElements();
-
-            LabelPreviewImage = preview;
-        }
-
-        public void UpdateLabelData(string name, string data)
-        {
-            _labelController.UpdateLabelData(name, data);
-            _labelPreviewController.RenderDynamicElement(name);
-
-            UpdateLabelPreview(SelectedLabel);
-        }
+        LabelPreviewImage = _previewController.CreateLabelPreview();
     }
 }

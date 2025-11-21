@@ -15,7 +15,7 @@
             <Button Content="Open Label"
                     Margin="0 10 0 0"
                     Width="120"
-                    Click="OpenLabel_Click" />
+                    Command="{Binding OpenSelectedLabel}" />
         </StackPanel>
     </Grid>
 </Window>

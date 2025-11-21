@@ -5,6 +5,7 @@
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 xmlns:global="clr-namespace:"
                  mc:Ignorable="d"
                  Title="Label Printing"
                  Width="1500" Height="800"
@@ -14,7 +15,7 @@
                  ExtendsContentIntoTitleBar="True">
 
     <Window.DataContext>
-        <vm:MainWindowViewModel />
+        <global:MainWindowViewModel />
     </Window.DataContext>
 
     <Grid>
