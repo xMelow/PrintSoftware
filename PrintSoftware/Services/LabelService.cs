@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 using PrintSoftware.Domain;
+using PrintSoftware.Domain.Label.LabelElements;
+using PrintSoftware.Interfaces;
 
 namespace PrintSoftware.Services
 {
@@ -24,7 +26,9 @@ namespace PrintSoftware.Services
 
         public Label GetLabel(string labelName)
         {
-            return GetLabelFromJson(labelName);
+            var label = GetLabelFromJson(labelName);
+            CurrentLabel = label;
+            return label;
         }
 
         public List<Label> GetAllLabels()
@@ -73,18 +77,19 @@ namespace PrintSoftware.Services
             return JsonSerializer.Deserialize<Label>(json, options);
         }
 
-        private void SaveLabelToJson(Label label)
+        public List<LabelField> GetLabelFields()
         {
-            var filePath = Path.Combine(_labelsPath, $"{label.Name}.json");
+            List<LabelField> result = new List<LabelField>();
 
-            var options = new JsonSerializerOptions
+            foreach (var element in CurrentLabel.LabelElements.OfType<IDynamicElement>())
             {
-                WriteIndented = true,
-                Converters = { new LabelElementJsonConverter() }
-            };
-            
-            string json = JsonSerializer.Serialize(label, options);
-            File.WriteAllText(filePath, json);
+                if (element.Content.Length < 1)
+                {
+                    var labelField = new LabelField(element.Name, element.Name, element.Content);
+                    result.Add(labelField);
+                }
+            }
+            return result;
         }
         
         public void UpdateLabelDataElement(string name, string data)

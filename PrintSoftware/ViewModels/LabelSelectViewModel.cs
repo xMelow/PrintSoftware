@@ -40,6 +40,7 @@ public class LabelSelectViewModel : BaseViewModel
 
     private void SelectLabel()
     {
+        _labelController.SetLabel(SelectedLabel);
         LabelSelected?.Invoke(SelectedLabel);
     }
 }
