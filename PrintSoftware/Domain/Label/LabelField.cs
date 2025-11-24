@@ -7,8 +7,21 @@ public class LabelField : INotifyPropertyChanged
 {
     public string Name { get; set; }
     public string PlaceHolder { get; set; }
-    public string Content { get; set; }
-
+    
+    private string _content;
+    public string Content
+    {
+        get => _content;
+        set
+        {
+            if (_content != value)
+            {
+                _content = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+    
     public LabelField(string name, string placeHolder, string content)
     {
         Name = name;

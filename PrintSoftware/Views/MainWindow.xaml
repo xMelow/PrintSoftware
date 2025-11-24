@@ -48,7 +48,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <ui:TextBox PlaceholderText="{Binding PlaceHolder}" 
-                                            Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}" 
+                                            Text="{Binding Content, UpdateSourceTrigger=LostFocus}" 
                                             Margin="0,5,0,5"/>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

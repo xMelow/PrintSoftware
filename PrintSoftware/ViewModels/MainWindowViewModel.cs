@@ -71,7 +71,10 @@ public class MainWindowViewModel : BaseViewModel
     public ImageSource LabelPreviewImage
     {
         get => _labelPreviewImage;
-        set { _labelPreviewImage = value; OnPropertyChanged(); }
+        set { 
+            _labelPreviewImage = value; 
+            OnPropertyChanged(nameof(LabelPreviewImage)); 
+        }
     }
 
     public int Amount { get; set; } = 1;
@@ -130,13 +133,13 @@ public class MainWindowViewModel : BaseViewModel
         {
             field.PropertyChanged += (s, e) =>
             {
+                Console.WriteLine($"PropertyChanged fired:  {e.PropertyName}, Value: {field.Content}");
                 if (e.PropertyName == nameof(LabelField.Content))
                     RefreshDynamicLabelPreviewElement(field.Name, field.Content);
             };
         }
     }
-
-
+    
     private void PrintCurrentLabel()
     {
         var label = _labelController.GetCurrentLabel();
@@ -192,8 +195,10 @@ public class MainWindowViewModel : BaseViewModel
         LabelPreviewImage = _previewController.RenderDynamicElements();
     }
 
-    private void RefreshDynamicLabelPreviewElement(string name, string data)
+    private void RefreshDynamicLabelPreviewElement(string name, string content)
     {
-        throw new NotImplementedException();
+        Console.WriteLine($"Name: {name}, Content: {content}");
+        _labelController.UpdateLabelElementData(name, content);
+        LabelPreviewImage = _previewController.RenderDynamicElement(name);
     }
 }
