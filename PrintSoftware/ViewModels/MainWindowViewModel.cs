@@ -126,14 +126,12 @@ public class MainWindowViewModel : BaseViewModel
     private void RenderSelectedLabelFields()
     {
         CurrentLabelFields = new ObservableCollection<LabelField>(_labelController.GetLabelFields());
-        
         OnPropertyChanged(nameof(CurrentLabelFields));
 
         foreach (var field in CurrentLabelFields)
         {
             field.PropertyChanged += (s, e) =>
             {
-                Console.WriteLine($"PropertyChanged fired:  {e.PropertyName}, Value: {field.Content}");
                 if (e.PropertyName == nameof(LabelField.Content))
                     RefreshDynamicLabelPreviewElement(field.Name, field.Content);
             };
@@ -197,7 +195,6 @@ public class MainWindowViewModel : BaseViewModel
 
     private void RefreshDynamicLabelPreviewElement(string name, string content)
     {
-        Console.WriteLine($"Name: {name}, Content: {content}");
         _labelController.UpdateLabelElementData(name, content);
         LabelPreviewImage = _previewController.RenderDynamicElement(name);
     }
