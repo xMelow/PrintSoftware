@@ -1,6 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Data;
 using System.Drawing.Printing;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using PrintSoftware.Controller;
@@ -9,6 +12,7 @@ using PrintSoftware.Interfaces;
 using PrintSoftware.Services;
 using PrintSoftware.ViewModels;
 using PrintSoftware.ViewModels.Commands;
+using Label = PrintSoftware.Domain.Label.Label;
 
 namespace PrintSoftware.ViewModels;
 
@@ -27,6 +31,17 @@ public class MainWindowViewModel : BaseViewModel
     public ICommand SelectLabelCommand { get; }
     public ICommand ImportExcelCommand { get; }
     public ICommand OpenSettingsCommand { get; }
+    
+    private ObservableCollection<LabelField> _currentLabelFields = new();
+    public ObservableCollection<LabelField> CurrentLabelFields
+    {
+        get => _currentLabelFields;
+        set
+        {
+            _currentLabelFields = value;
+            OnPropertyChanged();
+        }
+    }
 
     private Label _label;
     public Label Label
@@ -47,7 +62,8 @@ public class MainWindowViewModel : BaseViewModel
         get => _selectedPrinter;
         set
         {
-            _selectedPrinter = value; OnPropertyChanged();
+            _selectedPrinter = value; 
+            OnPropertyChanged();
         }
     }
 
@@ -92,7 +108,8 @@ public class MainWindowViewModel : BaseViewModel
     private void Initialize()
     {
         LoadInstalledPrinters();
-        // Label = _labelController.GetLabel("Testlabel");
+        Label = _labelController.GetLabel("Testlabel");
+        RenderSelectedLabelFields();
     }
 
     private void LoadInstalledPrinters()
@@ -102,6 +119,23 @@ public class MainWindowViewModel : BaseViewModel
 
         SelectedPrinter = new PrinterSettings().PrinterName;
     }
+
+    private void RenderSelectedLabelFields()
+    {
+        CurrentLabelFields = new ObservableCollection<LabelField>(_labelController.GetLabelFields());
+        
+        OnPropertyChanged(nameof(CurrentLabelFields));
+
+        foreach (var field in CurrentLabelFields)
+        {
+            field.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(LabelField.Content))
+                    RefreshDynamicLabelPreviewElement(field.Name, field.Content);
+            };
+        }
+    }
+
 
     private void PrintCurrentLabel()
     {
@@ -131,6 +165,8 @@ public class MainWindowViewModel : BaseViewModel
         var selectedLabel = _windowService.ShowLabelSelectScreen();
         if (selectedLabel != null)
             Label = selectedLabel;
+        
+        RenderSelectedLabelFields();
     }
 
     private void ImportExcelFile()
@@ -153,5 +189,11 @@ public class MainWindowViewModel : BaseViewModel
 
         _previewController.CreateLabelPreview(Label);
         LabelPreviewImage = _previewController.RenderStaticElements();
+        LabelPreviewImage = _previewController.RenderDynamicElements();
+    }
+
+    private void RefreshDynamicLabelPreviewElement(string name, string data)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -27,6 +27,11 @@ namespace PrintSoftware.Controller
             return _labelService.GetLabel(labelName);
         }
 
+        public void SetLabel(Label label)
+        {
+            _labelService.CurrentLabel = label;
+        }
+
         public List<Label> GetAllLabels()
         {
             return _labelService.GetAllLabels();
@@ -37,10 +42,10 @@ namespace PrintSoftware.Controller
             return _labelService.CurrentLabel;
         }
 
-        // public Label GetJsonLabel(string labelName)
-        // {
-        //     return _labelService.GetJsonLabel(labelName);
-        // }
+        public List<LabelField> GetLabelFields()
+        {
+            return _labelService.GetLabelFields();
+        }
 
         public void UpdateLabelElementData(string name, string data)
         {
