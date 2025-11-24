@@ -32,6 +32,8 @@ public class MainWindowViewModel : BaseViewModel
     public ICommand ImportExcelCommand { get; }
     public ICommand OpenSettingsCommand { get; }
     
+    public ICommand SelectExcelRowCommand { get; }
+    
     private ObservableCollection<LabelField> _currentLabelFields = new();
     public ObservableCollection<LabelField> CurrentLabelFields
     {
@@ -104,6 +106,7 @@ public class MainWindowViewModel : BaseViewModel
         SelectLabelCommand = new RelayCommand(SelectLabel);
         ImportExcelCommand = new RelayCommand(ImportExcelFile);
         OpenSettingsCommand = new RelayCommand(OpenSettings);
+        SelectExcelRowCommand = new RelayCommand(SelectExcelRow);
 
         Initialize();
     }
@@ -160,6 +163,16 @@ public class MainWindowViewModel : BaseViewModel
 
     private IEnumerable<DataRow> GetExcelRows() =>
         ExcelData.DefaultView.Table.Rows.Cast<DataRow>();
+
+    private void SelectExcelRow()
+    {
+        Console.WriteLine("selectExcelRow");
+        Console.WriteLine($"Datarow: {ExcelData.DefaultView.Table.Rows[0]}");
+        // update label data
+        _labelController.UpdateLabelDataFromRow(ExcelData.DefaultView.Table.Rows[0]);
+        // update label preview
+        _previewController.RenderDynamicElements();
+    }
 
     private void SelectLabel()
     {
