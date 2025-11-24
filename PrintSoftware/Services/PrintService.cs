@@ -69,14 +69,16 @@ namespace PrintSoftware.Services
 
         private void SendTsplIp(string tspl)
         {
-            string ip = "192.168.1.133";
+            // string printerFlorIp = "192.168.1.133";
+            string printerFlorHostname = "PRN-Flor";
+            // string printerKen = "192.168.0.53";
             int port = 9100;
 
             Console.WriteLine(tspl);
 
             try
             {
-                using (TcpClient client = new TcpClient(ip, port))
+                using (TcpClient client = new TcpClient(printerFlorHostname, port))
                 {
                     byte[] data = Encoding.ASCII.GetBytes(tspl);
                     var stream = client.GetStream();

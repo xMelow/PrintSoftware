@@ -27,7 +27,7 @@ public class MainWindowViewModel : BaseViewModel
     public ObservableCollection<string> Printers { get; } = new();
     
     public ICommand PrintCommand { get; }
-    public ICommand PrintBatchCommand { get; }
+    public ICommand PrintAllCommand { get; }
     public ICommand SelectLabelCommand { get; }
     public ICommand ImportExcelCommand { get; }
     public ICommand OpenSettingsCommand { get; }
@@ -100,7 +100,7 @@ public class MainWindowViewModel : BaseViewModel
         _windowService = windowService;
 
         PrintCommand = new RelayCommand(PrintCurrentLabel);
-        PrintBatchCommand = new RelayCommand(PrintExcelBatch);
+        PrintAllCommand = new RelayCommand(PrintBatchCommand);
         SelectLabelCommand = new RelayCommand(SelectLabel);
         ImportExcelCommand = new RelayCommand(ImportExcelFile);
         OpenSettingsCommand = new RelayCommand(OpenSettings);
@@ -144,7 +144,7 @@ public class MainWindowViewModel : BaseViewModel
         _printController.PrintLabel(label, Amount);
     }
 
-    private void PrintExcelBatch()
+    private void PrintBatchCommand()
     {
         if (!HasExcelData()) return;
 
