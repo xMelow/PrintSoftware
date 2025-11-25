@@ -15,11 +15,10 @@ namespace PrintSoftware.Services
 {
     public class LabelPreviewService
     {
-        private readonly int _scale = 8;
-        private readonly int _dpi = 50;
-        private double _pixelWidth = 400;
-        private double _pixelHeight = 500;
-        
+        private readonly int _scale = 1;
+        private readonly int _printerDPI = 300;
+        private int labelWidthInDots;
+        private int labelHeightInDots;
         private RenderTargetBitmap _labelPreview;
         private Label _label;
 
@@ -34,33 +33,21 @@ namespace PrintSoftware.Services
         {
             CalculateLabelPreviewPixels();
             return new RenderTargetBitmap(
-                (int)_pixelWidth,
-                (int)_pixelHeight,
-                _dpi,
-                _dpi,
+                labelWidthInDots,
+                labelHeightInDots,
+                _printerDPI,
+                _printerDPI,
                 PixelFormats.Pbgra32
             );
         }
         private void CalculateLabelPreviewPixels()
         {
-            // label 
-            // width = 110mm
-            // height = 110mm
+            // calculate label width and height from mm to dots
+            // set label preview width and height
+            labelWidthInDots = (int)((_label.Width * _printerDPI) / 25.4);
+            labelHeightInDots = (int)((_label.Height * _printerDPI) / 25.4);
             
-            // label preview window element
-            // width = 400
-            // height = 500
-            
-            double maxX = _label.LabelElements.Max(e => e.X);
-            double maxY = _label.LabelElements.Max(e => e.Y);
-            
-            _pixelWidth = maxX * _scale;
-            _pixelHeight = maxY * _scale;
-            
-            // _pixelWidth = Math.Round(_label.Width * (_dpi / 25.4));
-            // _pixelHeight = Math.Round(_label.Height * (_dpi / 25.4));
-            
-            // Console.WriteLine($"Preview size: {_pixelWidth}x{_pixelHeight}px at {_dpi} DPI and scale = {_scale}");
+            Console.WriteLine($"Preview size: {labelWidthInDots}x{labelHeightInDots}px at {_printerDPI} DPI and scale = {_scale}");
         }
 
         private DrawingVisual RenderLabelPart(bool renderDynamic)
@@ -70,7 +57,6 @@ namespace PrintSoftware.Services
             {
                 foreach (var element in _label.LabelElements)
                 {
-                    // TODO: non dynamic text elements not showing
                     bool isDynamic = element is IDynamicElement;
                     if (renderDynamic == isDynamic)
                     {
