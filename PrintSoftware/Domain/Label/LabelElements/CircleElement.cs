@@ -32,12 +32,11 @@ namespace PrintSoftware.Domain.Label.LabelElements
 
         public override void Draw(DrawingContext dc, int dpi)
         {
-            double scale = 1;
-            double scaleFactor = dpi / 96.0 * scale;
+            // double scaleFactor = dpi / 96.0;
 
-            Point center = new Point(X * scaleFactor, Y * scaleFactor);
-            double radius = Radius * scaleFactor;
-            double thickness = Thickness * scaleFactor;
+            Point center = new Point(X, Y);
+            double radius = Radius;
+            double thickness = Thickness;
 
             dc.DrawEllipse(Fill, new Pen(Stroke, thickness), center, radius, radius);
         }

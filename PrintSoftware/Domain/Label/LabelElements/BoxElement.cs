@@ -34,6 +34,8 @@ namespace PrintSoftware.Domain.Label.LabelElements
 
         public override void Draw(DrawingContext dc, int dpi)
         {
+            // double scale = dpi / 96.0;
+            
             var width = XEnd - X;
             var height = YEnd - Y;
             

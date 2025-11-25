@@ -34,11 +34,13 @@ namespace PrintSoftware.Domain.Label.LabelElements
         public override void Draw(DrawingContext dc, int dpi)
         {
            //TODO: LINE THICKNESS
+           // double scale = dpi / 96.0;
+           
             var line = new Pen(Brushes.Black, 1);
             Pen pen = new Pen(line.Brush, line.Thickness);
             
-            Point startPoint = new Point(X, Y);
-            Point endPoint = new Point(X + Width, Y);
+            Point startPoint = new Point(X , Y);
+            Point endPoint = new Point((X + Width), Y);
 
             dc.DrawLine(pen, startPoint, endPoint);
         }
