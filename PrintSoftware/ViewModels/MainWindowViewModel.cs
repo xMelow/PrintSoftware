@@ -32,8 +32,6 @@ public class MainWindowViewModel : BaseViewModel
     public ICommand ImportExcelCommand { get; }
     public ICommand OpenSettingsCommand { get; }
     
-    public ICommand SelectExcelRowCommand { get; }
-    
     private ObservableCollection<LabelField> _currentLabelFields = new();
     public ObservableCollection<LabelField> CurrentLabelFields
     {
@@ -87,6 +85,21 @@ public class MainWindowViewModel : BaseViewModel
         get => _excelData;
         set { _excelData = value; OnPropertyChanged(); }
     }
+    
+    private DataRowView _selectedExcelRow;
+    public DataRowView SelectedExcelRow
+    {
+        get => _selectedExcelRow;
+        set
+        {
+            _selectedExcelRow = value;
+            OnPropertyChanged();
+
+            if (value != null)
+                SelectExcelRow(value.Row); 
+        }
+    }
+
 
     public MainWindowViewModel(
         IPrintController printController,
@@ -106,7 +119,6 @@ public class MainWindowViewModel : BaseViewModel
         SelectLabelCommand = new RelayCommand(SelectLabel);
         ImportExcelCommand = new RelayCommand(ImportExcelFile);
         OpenSettingsCommand = new RelayCommand(OpenSettings);
-        SelectExcelRowCommand = new RelayCommand(SelectExcelRow);
 
         Initialize();
     }
@@ -164,14 +176,27 @@ public class MainWindowViewModel : BaseViewModel
     private IEnumerable<DataRow> GetExcelRows() =>
         ExcelData.DefaultView.Table.Rows.Cast<DataRow>();
 
-    private void SelectExcelRow()
+    private void SelectExcelRow(DataRow row)
     {
-        Console.WriteLine("selectExcelRow");
-        Console.WriteLine($"Datarow: {ExcelData.DefaultView.Table.Rows[0]}");
-        // update label data
-        _labelController.UpdateLabelDataFromRow(ExcelData.DefaultView.Table.Rows[0]);
-        // update label preview
+        Console.WriteLine(row);
+        _labelController.UpdateLabelDataFromRow(row);
         _previewController.RenderDynamicElements();
+        UpdateLabelDataFields(row);
+    }
+
+    private void UpdateLabelDataFields(DataRow row)
+    {
+        if (CurrentLabelFields == null)
+            return;
+
+        foreach (var field in CurrentLabelFields)
+        {
+            if (row.Table.Columns.Contains(field.Name))
+                field.Content = row[field.Name].ToString() ?? "";
+            
+            else
+                field.Content = "";
+        }
     }
 
     private void SelectLabel()
