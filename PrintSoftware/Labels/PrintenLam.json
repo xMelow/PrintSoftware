@@ -1,0 +1,41 @@
+﻿{
+  "Name": "PrintenLam",
+  "Width": 28,
+  "Height": 55,
+  "Unit": "mm",
+  "LabelElements": [
+    {
+      "Type": "TEXT",
+      "X": 19,
+      "Y": 34,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 16,
+      "Content": "Print & Lam"
+    },
+    {
+      "Type": "TEXT",
+      "X": 25,
+      "Y": 318,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 10,
+      "Content": "Counter: "
+    },
+    {
+      "Type": "BOX",
+      "X": 7,
+      "Y": 10,
+      "XEnd": 324,
+      "YEnd": 640,
+      "Thickness": 2
+    },
+    {
+      "Type": "BAR",
+      "X": 19,
+      "Y": 118,
+      "Width": 324,
+      "Height": 640
+    }
+  ]
+}

@@ -126,7 +126,7 @@ public class MainWindowViewModel : BaseViewModel
     private void Initialize()
     {
         LoadInstalledPrinters();
-        Label = _labelController.GetLabel("Testlabel");
+        Label = _labelController.GetLabel("PrintenLam");
         RenderSelectedLabelFields();
     }
 

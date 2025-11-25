@@ -13,7 +13,7 @@ namespace PrintSoftware.Domain.Label.LabelElements
         public ImageSource Source { get; set; }
         public string Path { get; set; } = "";
 
-        public override void Draw(DrawingContext dc, double scale)
+        public override void Draw(DrawingContext dc, int dpi)
         {
             throw new NotImplementedException();
         }

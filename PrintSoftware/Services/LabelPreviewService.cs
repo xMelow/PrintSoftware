@@ -15,10 +15,9 @@ namespace PrintSoftware.Services
 {
     public class LabelPreviewService
     {
-        private readonly int _scale = 1;
         private readonly int _printerDPI = 300;
-        private int labelWidthInDots;
-        private int labelHeightInDots;
+        private int _labelWidthInDots;
+        private int _labelHeightInDots;
         private RenderTargetBitmap _labelPreview;
         private Label _label;
 
@@ -33,21 +32,19 @@ namespace PrintSoftware.Services
         {
             CalculateLabelPreviewPixels();
             return new RenderTargetBitmap(
-                labelWidthInDots,
-                labelHeightInDots,
-                _printerDPI,
-                _printerDPI,
+                _labelWidthInDots,
+                _labelHeightInDots,
+                96,
+                96,
                 PixelFormats.Pbgra32
             );
         }
         private void CalculateLabelPreviewPixels()
         {
-            // calculate label width and height from mm to dots
-            // set label preview width and height
-            labelWidthInDots = (int)((_label.Width * _printerDPI) / 25.4);
-            labelHeightInDots = (int)((_label.Height * _printerDPI) / 25.4);
+            _labelWidthInDots = (int)Math.Round((_label.Width * _printerDPI) / 25.4);
+            _labelHeightInDots = (int)Math.Round((_label.Height * _printerDPI) / 25.4);
             
-            Console.WriteLine($"Preview size: {labelWidthInDots}x{labelHeightInDots}px at {_printerDPI} DPI and scale = {_scale}");
+            Console.WriteLine($"Preview size: {_labelWidthInDots}x{_labelHeightInDots}dots at {_printerDPI} DPI");
         }
 
         private DrawingVisual RenderLabelPart(bool renderDynamic)
@@ -55,14 +52,18 @@ namespace PrintSoftware.Services
             var visual = new DrawingVisual();
             using (var dc = visual.RenderOpen())
             {
+                double scale = _printerDPI / 96.0;
+                dc.PushTransform(new TranslateTransform(scale, scale));
+                
                 foreach (var element in _label.LabelElements)
                 {
                     bool isDynamic = element is IDynamicElement;
                     if (renderDynamic == isDynamic)
                     {
-                        element.Draw(dc, _scale);
+                        element.Draw(dc, _printerDPI);
                     }
                 }
+                dc.Pop();
             }
             return visual;
         }
@@ -75,7 +76,7 @@ namespace PrintSoftware.Services
                 foreach (var element in _label.LabelElements.OfType<IDynamicElement>())
                 {
                     if (element.Name == fieldTag) 
-                        ((LabelElement)element).Draw(dc, _scale);
+                        ((LabelElement)element).Draw(dc, _printerDPI);
                 }
             }
             return visual;

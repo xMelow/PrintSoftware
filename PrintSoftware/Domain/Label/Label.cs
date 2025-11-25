@@ -64,11 +64,11 @@ namespace PrintSoftware.Domain.Label
             LabelElements = labelElements;
         }
 
-        public void Draw(DrawingContext dc, double scale)
+        public void Draw(DrawingContext dc, int dpi)
         {
             foreach (var element in LabelElements)
             {
-                element.Draw(dc, scale);
+                element.Draw(dc, dpi);
             }
         }
 

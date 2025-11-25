@@ -30,10 +30,18 @@ namespace PrintSoftware.Domain.Label.LabelElements
             Thickness = thickness;
         }
 
-        public override void Draw(DrawingContext dc, double scale)
+        public override void Draw(DrawingContext dc, int dpi)
         {
-            dc.DrawEllipse(Fill, new Pen(Stroke, Thickness * scale), new Point(X * scale, Y * scale), Radius * 3, Radius * 3);
+            double scale = 1;
+            double scaleFactor = dpi / 96.0 * scale;
+
+            Point center = new Point(X * scaleFactor, Y * scaleFactor);
+            double radius = Radius * scaleFactor;
+            double thickness = Thickness * scaleFactor;
+
+            dc.DrawEllipse(Fill, new Pen(Stroke, thickness), center, radius, radius);
         }
+
         public override string GetTspl()
         {
             //CIRCLE 933,590,260,12

@@ -13,10 +13,8 @@ namespace PrintSoftware.Domain.Label.LabelElements
         public double X { get; set; }
         public double Y { get; set; }
        
-        public abstract void Draw(DrawingContext dc, double scale);
+        public abstract void Draw(DrawingContext dc, int dpi);
 
         public abstract string GetTspl();
-        
-        
     }
 }
