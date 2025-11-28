@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "OIolJtaVF5g=",
+  "dgSpecHash": "sACYtBjqBrg=",
   "success": true,
   "projectFilePath": "C:\\Users\\Flor\\Documents\\Code\\AltecPrint\\Tests\\Tests.csproj",
   "expectedPackageFiles": [
@@ -45,7 +45,7 @@
     "C:\\Users\\Flor\\.nuget\\packages\\microsoft.testplatform.adapterutilities\\18.0.1\\microsoft.testplatform.adapterutilities.18.0.1.nupkg.sha512",
     "C:\\Users\\Flor\\.nuget\\packages\\microsoft.testplatform.objectmodel\\18.0.1\\microsoft.testplatform.objectmodel.18.0.1.nupkg.sha512",
     "C:\\Users\\Flor\\.nuget\\packages\\microsoft.testplatform.testhost\\17.12.0\\microsoft.testplatform.testhost.17.12.0.nupkg.sha512",
-    "C:\\Users\\Flor\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\Flor\\.nuget\\packages\\microsoft.win32.systemevents\\9.0.10\\microsoft.win32.systemevents.9.0.10.nupkg.sha512",
     "C:\\Users\\Flor\\.nuget\\packages\\mstest.analyzers\\4.0.2\\mstest.analyzers.4.0.2.nupkg.sha512",
     "C:\\Users\\Flor\\.nuget\\packages\\mstest.testadapter\\4.0.2\\mstest.testadapter.4.0.2.nupkg.sha512",
     "C:\\Users\\Flor\\.nuget\\packages\\mstest.testframework\\4.0.2\\mstest.testframework.4.0.2.nupkg.sha512",
@@ -54,13 +54,15 @@
     "C:\\Users\\Flor\\.nuget\\packages\\system.collections.immutable\\8.0.0\\system.collections.immutable.8.0.0.nupkg.sha512",
     "C:\\Users\\Flor\\.nuget\\packages\\system.diagnostics.diagnosticsource\\10.0.0\\system.diagnostics.diagnosticsource.10.0.0.nupkg.sha512",
     "C:\\Users\\Flor\\.nuget\\packages\\system.diagnostics.eventlog\\10.0.0\\system.diagnostics.eventlog.10.0.0.nupkg.sha512",
-    "C:\\Users\\Flor\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
+    "C:\\Users\\Flor\\.nuget\\packages\\system.drawing.common\\9.0.10\\system.drawing.common.9.0.10.nupkg.sha512",
     "C:\\Users\\Flor\\.nuget\\packages\\system.io.pipelines\\10.0.0\\system.io.pipelines.10.0.0.nupkg.sha512",
     "C:\\Users\\Flor\\.nuget\\packages\\system.reflection.metadata\\8.0.0\\system.reflection.metadata.8.0.0.nupkg.sha512",
     "C:\\Users\\Flor\\.nuget\\packages\\system.text.encodings.web\\10.0.0\\system.text.encodings.web.10.0.0.nupkg.sha512",
     "C:\\Users\\Flor\\.nuget\\packages\\system.text.json\\10.0.0\\system.text.json.10.0.0.nupkg.sha512",
     "C:\\Users\\Flor\\.nuget\\packages\\wpf-ui\\4.0.3\\wpf-ui.4.0.3.nupkg.sha512",
-    "C:\\Users\\Flor\\.nuget\\packages\\wpf-ui.abstractions\\4.0.3\\wpf-ui.abstractions.4.0.3.nupkg.sha512"
+    "C:\\Users\\Flor\\.nuget\\packages\\wpf-ui.abstractions\\4.0.3\\wpf-ui.abstractions.4.0.3.nupkg.sha512",
+    "C:\\Users\\Flor\\.nuget\\packages\\zxing.net\\0.16.11\\zxing.net.0.16.11.nupkg.sha512",
+    "C:\\Users\\Flor\\.nuget\\packages\\zxing.net.bindings.windows.compatibility\\0.16.14\\zxing.net.bindings.windows.compatibility.0.16.14.nupkg.sha512"
   ],
   "logs": []
 }

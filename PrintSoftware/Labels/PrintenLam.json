@@ -46,6 +46,19 @@
       "Rotation": 0,
       "FontSize": 12,
       "Content": ""
+    },
+    {
+      "Type": "BARCODE",
+      "Name": "Barcode",
+      "X": 64,
+      "Y": 488,
+      "CodeType": "128M",
+      "Height": 116,
+      "HumanRead": 2,
+      "Rotation": 0,
+      "Narrow": 2,
+      "Wide": 4,
+      "Content": "!105123456789012"
     }
   ]
 }
