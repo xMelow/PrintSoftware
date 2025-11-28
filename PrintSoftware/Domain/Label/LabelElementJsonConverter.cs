@@ -32,6 +32,7 @@ namespace PrintSoftware.Domain.Label
                     "CIRCLE" => root.Deserialize<CircleElement>(options),
                     "BARCODE" => root.Deserialize<BarcodeElement>(options),
                     "IMAGE" => root.Deserialize<ImageElement>(options),
+                    "COUNTER" => root.Deserialize<CounterElement>(options),
                     _ => throw new JsonException($"Unkown element type: {type}")
                 };
                 return element;

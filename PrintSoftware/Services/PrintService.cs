@@ -71,7 +71,7 @@ namespace PrintSoftware.Services
         {
             // string printerFlorIp = "192.168.1.133";
             // string printerKen = "192.168.0.53";
-            string printerFlorHostname = "PRN-Gunny";
+            string printerFlorHostname = "PRN-Flor";
             int port = 9100;
 
             Console.WriteLine(tspl);
