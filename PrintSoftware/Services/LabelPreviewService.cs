@@ -31,6 +31,14 @@ namespace PrintSoftware.Services
         private RenderTargetBitmap CreateRenderTarget()
         {
             CalculateLabelPreviewPixels();
+            
+            // int maxX = _label.LabelElements.Max(e => e.X + (e is BoxElement be ? _label.Width : 0));
+            // int maxY = _label.LabelElements.Max(e => e.Y + (e is BoxElement be ? _label.Height : 0));
+            
+            // double maxX = _label.LabelElements.Max(e => e.X);
+            // double maxY = _label.LabelElements.Max(e => e.Y);
+
+            
             return new RenderTargetBitmap(
                 _labelWidthInDots,
                 _labelHeightInDots,
@@ -44,7 +52,7 @@ namespace PrintSoftware.Services
             _labelWidthInDots = (int)Math.Round((_label.Width * _printerDPI) / 25.4);
             _labelHeightInDots = (int)Math.Round((_label.Height * _printerDPI) / 25.4);
             
-            Console.WriteLine($"Preview size: {_labelWidthInDots}x{_labelHeightInDots}dots at {_printerDPI} DPI");
+            // Console.WriteLine($"Preview size: {_labelWidthInDots}x{_labelHeightInDots}dots at {_printerDPI} DPI");
         }
 
         private DrawingVisual RenderLabelPart(bool renderDynamic)

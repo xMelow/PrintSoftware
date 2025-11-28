@@ -27,7 +27,7 @@
       "Y": 178,
       "XEnd": 1232,
       "YEnd": 890,
-      "Radius": 6
+      "Thickness": 6
     },
     {
       "Type": "QRCODE",

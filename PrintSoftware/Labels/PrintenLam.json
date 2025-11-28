@@ -20,7 +20,7 @@
       "FontFamily": "0",
       "Rotation": 0,
       "FontSize": 10,
-      "Content": "Counter: "
+      "Content": "Data: "
     },
     {
       "Type": "BOX",
@@ -34,8 +34,8 @@
       "Type": "BAR",
       "X": 19,
       "Y": 118,
-      "Width": 324,
-      "Height": 640
+      "Width": 295,
+      "Height": 7
     }
   ]
 }
