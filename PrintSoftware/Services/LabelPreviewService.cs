@@ -15,11 +15,9 @@ namespace PrintSoftware.Services
 {
     public class LabelPreviewService
     {
-        private readonly int _scale = 8;
-        private readonly int _dpi = 50;
-        private double _pixelWidth = 400;
-        private double _pixelHeight = 500;
-        
+        private readonly int _printerDPI = 300;
+        private int _labelWidthInDots;
+        private int _labelHeightInDots;
         private RenderTargetBitmap _labelPreview;
         private Label _label;
 
@@ -33,34 +31,28 @@ namespace PrintSoftware.Services
         private RenderTargetBitmap CreateRenderTarget()
         {
             CalculateLabelPreviewPixels();
+            
+            // int maxX = _label.LabelElements.Max(e => e.X + (e is BoxElement be ? _label.Width : 0));
+            // int maxY = _label.LabelElements.Max(e => e.Y + (e is BoxElement be ? _label.Height : 0));
+            
+            // double maxX = _label.LabelElements.Max(e => e.X);
+            // double maxY = _label.LabelElements.Max(e => e.Y);
+
+            
             return new RenderTargetBitmap(
-                (int)_pixelWidth,
-                (int)_pixelHeight,
-                _dpi,
-                _dpi,
+                _labelWidthInDots,
+                _labelHeightInDots,
+                96,
+                96,
                 PixelFormats.Pbgra32
             );
         }
         private void CalculateLabelPreviewPixels()
         {
-            // label 
-            // width = 110mm
-            // height = 110mm
+            _labelWidthInDots = (int)Math.Round((_label.Width * _printerDPI) / 25.4);
+            _labelHeightInDots = (int)Math.Round((_label.Height * _printerDPI) / 25.4);
             
-            // label preview window element
-            // width = 400
-            // height = 500
-            
-            double maxX = _label.LabelElements.Max(e => e.X);
-            double maxY = _label.LabelElements.Max(e => e.Y);
-            
-            _pixelWidth = maxX * _scale;
-            _pixelHeight = maxY * _scale;
-            
-            // _pixelWidth = Math.Round(_label.Width * (_dpi / 25.4));
-            // _pixelHeight = Math.Round(_label.Height * (_dpi / 25.4));
-            
-            // Console.WriteLine($"Preview size: {_pixelWidth}x{_pixelHeight}px at {_dpi} DPI and scale = {_scale}");
+            // Console.WriteLine($"Preview size: {_labelWidthInDots}x{_labelHeightInDots}dots at {_printerDPI} DPI");
         }
 
         private DrawingVisual RenderLabelPart(bool renderDynamic)
@@ -68,15 +60,18 @@ namespace PrintSoftware.Services
             var visual = new DrawingVisual();
             using (var dc = visual.RenderOpen())
             {
+                double scale = _printerDPI / 96.0;
+                dc.PushTransform(new TranslateTransform(scale, scale));
+                
                 foreach (var element in _label.LabelElements)
                 {
-                    // TODO: non dynamic text elements not showing
                     bool isDynamic = element is IDynamicElement;
                     if (renderDynamic == isDynamic)
                     {
-                        element.Draw(dc, _scale);
+                        element.Draw(dc, _printerDPI);
                     }
                 }
+                dc.Pop();
             }
             return visual;
         }
@@ -89,7 +84,7 @@ namespace PrintSoftware.Services
                 foreach (var element in _label.LabelElements.OfType<IDynamicElement>())
                 {
                     if (element.Name == fieldTag) 
-                        ((LabelElement)element).Draw(dc, _scale);
+                        ((LabelElement)element).Draw(dc, _printerDPI);
                 }
             }
             return visual;

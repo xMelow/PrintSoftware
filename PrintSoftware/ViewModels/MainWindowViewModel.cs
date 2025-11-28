@@ -178,7 +178,6 @@ public class MainWindowViewModel : BaseViewModel
 
     private void SelectExcelRow(DataRow row)
     {
-        Console.WriteLine(row);
         _labelController.UpdateLabelDataFromRow(row);
         _previewController.RenderDynamicElements();
         UpdateLabelDataFields(row);

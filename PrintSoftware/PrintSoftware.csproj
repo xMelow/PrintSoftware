@@ -25,6 +25,10 @@
     <Content Include="Labels\ProductionLabel.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Remove="Labels\PrintenLam.json" />
+    <Content Include="Labels\PrintenLam.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

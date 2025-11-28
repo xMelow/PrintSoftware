@@ -14,7 +14,7 @@ namespace PrintSoftware.Domain.Label.LabelElements
         public string Content { get; set; }
         public string? Name { get; set; }
 
-        public override void Draw(DrawingContext dc, double scale)
+        public override void Draw(DrawingContext dc, int dpi)
         {
             throw new NotImplementedException();
         }

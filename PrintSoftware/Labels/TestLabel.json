@@ -18,8 +18,8 @@
       "Type": "BAR",
       "X": 33,
       "Y": 135,
-      "XEnd": 1199,
-      "YEnd": 7
+      "Width": 1199,
+      "Height": 7
     },
     {
       "Type": "BOX",
@@ -27,7 +27,7 @@
       "Y": 178,
       "XEnd": 1232,
       "YEnd": 890,
-      "Radius": 6
+      "Thickness": 6
     },
     {
       "Type": "QRCODE",
@@ -97,7 +97,7 @@
     },
     {
       "Type": "TEXT",
-      "Name": "PhoneNumber",
+      "Name": "Phone number",
       "X": 509,
       "Y": 320,
       "FontFamily": "0",

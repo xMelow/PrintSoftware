@@ -58,32 +58,29 @@ namespace PrintSoftware.Domain.Label.LabelElements
             Mask = "S7";
             Content = content;
         }
-        public override void Draw(DrawingContext dc, double scale)
+        public override void Draw(DrawingContext dc, int dpi)
         {
-            //TODO: FIX draw function QRCode not showing correct in the label preview
-            using (var qrGenerator = new QRCodeGenerator())
-            using (var data = qrGenerator.CreateQrCode(Content, QRCodeGenerator.ECCLevel.Q))
-            using (var qrCode = new QRCode(data))
-            using (var bitmap = qrCode.GetGraphic(20))
-            {
-                var bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
-                    bitmap.GetHbitmap(),
-                    IntPtr.Zero,
-                    Int32Rect.Empty,
-                    BitmapSizeOptions.FromWidthAndHeight(
-                        (int)(bitmap.Width * scale),
-                        (int)(bitmap.Height * scale))
-                );
-
-                double xPx = X * scale;
-                double yPx = Y * scale;
-                double widthPx = (X > 0 ? X : bitmap.Width) * scale;
-                double heightPx = (Y > 0 ? Y : bitmap.Height) * scale;
-
-                //Debug.WriteLine($"QRCode: X={X} y={Y} width={Width} height={Height}");
-
-                dc.DrawImage(bitmapSource, new Rect(xPx, yPx, widthPx, heightPx));
-            }
+            // using (var qrGenerator = new QRCodeGenerator())
+            // using (var data = qrGenerator.CreateQrCode(Content, QRCodeGenerator.ECCLevel.Q))
+            // using (var qrCode = new QRCode(data))
+            // using (var bitmap = qrCode.GetGraphic(20))
+            // {
+            //     var bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(
+            //         bitmap.GetHbitmap(),
+            //         IntPtr.Zero,
+            //         Int32Rect.Empty,
+            //         BitmapSizeOptions.FromWidthAndHeight(
+            //             (int)(bitmap.Width * dpi),
+            //             (int)(bitmap.Height * dpi))
+            //     );
+            //     
+            //     double widthPx = (X > 0 ? X : bitmap.Width) * dpi;
+            //     double heightPx = (Y > 0 ? Y : bitmap.Height) * dpi;
+            //
+            //     //Debug.WriteLine($"QRCode: X={X} y={Y} width={Width} height={Height}");
+            //
+            //     dc.DrawImage(bitmapSource, new Rect(X, Y, widthPx, heightPx));
+            // }
         }
 
         public override string GetTspl()

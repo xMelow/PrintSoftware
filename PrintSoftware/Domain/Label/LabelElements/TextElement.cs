@@ -47,37 +47,29 @@ namespace PrintSoftware.Domain.Label.LabelElements
             Content = content;
         }
 
-        public override void Draw(DrawingContext dc, double scale)
+        public override void Draw(DrawingContext dc, int dpi)
         {
-            if (string.IsNullOrEmpty(Content))
-                return;
-
-            double xPx = X * scale;
-            double yPx = Y * scale;
-
-            //Debug.WriteLine($"Text: X={X}, Y={Y}, W={Width}, H={Height}, xPx={xPx}, yPx={yPx}");
-
+            double scale = dpi / 96.0;
+            
             var typeface = new Typeface(
-                    new FontFamily(FontFamily),
-                    FontStyles.Normal,
-                    FontWeights.Bold,
-                    FontStretches.Normal
-                );
+                new FontFamily("Arial"),
+                FontStyles.Normal,
+                FontWeights.Normal,
+                FontStretches.Normal
+            );
 
             var formattedText = new FormattedText(
                 Content,
                 CultureInfo.CurrentCulture,
                 FlowDirection.LeftToRight,
                 typeface,
-                FontSize * 40,
+                FontSize,
                 Color,
-                96);
+                dpi);
 
-            dc.PushTransform(new TranslateTransform(xPx, yPx));
-            dc.DrawText(formattedText, new Point(0, 0));
-            dc.Pop();
+            dc.DrawText(formattedText, new Point(X, Y));
         }
-
+        
         //TEXT 77,505,""0"",0,16,16,""Company:""
         //TEXT x,y, « font « ,rotation,x-multiplication,y-multiplication,[alignment,] « content «
         public override string GetTspl()
