@@ -36,6 +36,16 @@
       "Y": 118,
       "Width": 295,
       "Height": 7
+    },
+    {
+      "Type": "COUNTER",
+      "Name": "0",
+      "X": 193,
+      "Y": 319,
+      "FontFamily": "0",
+      "Rotation": 0,
+      "FontSize": 12,
+      "Content": ""
     }
   ]
 }
