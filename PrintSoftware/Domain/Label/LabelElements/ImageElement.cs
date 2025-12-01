@@ -17,7 +17,7 @@ namespace PrintSoftware.Domain.Label.LabelElements
 {
     public class ImageElement : LabelElement
     {
-        public ImageSource Source { get; private set; }
+        public ImageSource Source { get; }
         public string Path { get; private set; }
         public int Width { get; set; }
         public int Height { get; set; }
@@ -35,14 +35,12 @@ namespace PrintSoftware.Domain.Label.LabelElements
         {
             if (Source == null)
                 return;
-
-            var dpiScale = 96.0 / dpi;
             
             Rect rect = new Rect(
-                X * dpiScale,
-                Y * dpiScale,
-                Width * dpiScale,
-                Height * dpiScale);
+                X,
+                Y,
+                Width,
+                Height);
             
             dc.DrawImage(Source, rect);
         }
