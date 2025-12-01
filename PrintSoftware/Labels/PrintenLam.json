@@ -59,6 +59,17 @@
       "Narrow": 2,
       "Wide": 4,
       "Content": "!105123456789012"
+    },
+    {
+      "Type": "IMAGE",
+      "Name": "Image",
+      "Path": "C:\\Users\\Public\\Documents\\NiceLabel 10\\Clipart\\GHS\\GHS01.png",
+      "X": 100,
+      "Y": 200,
+      "Width": 150,
+      "Height": 150,
+      "Mode": 0,
+      "Content": ""
     }
   ]
 }
