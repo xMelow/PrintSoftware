@@ -14,7 +14,20 @@ public class TextBlockElement : LabelElement, IDynamicElement
     public string FontFamily { get; set; }
     public int Rotation { get; set; }
     public double FontSize { get; set; }
+    public int Fit { get; set; }
     public Brush Color { get; set; } = Brushes.Black;
+
+    public TextBlockElement(string name, string content, int width, int height, int rotation, string fontFamily, double fontSize)
+    {
+        Type = "BLOCK";
+        Name = name;
+        Content = content;
+        Width = width;
+        Height = height;
+        Rotation = rotation;
+        FontFamily = fontFamily;
+        FontSize = fontSize;
+    }
     
     public override void Draw(DrawingContext dc, int dpi)
     {
@@ -39,7 +52,7 @@ public class TextBlockElement : LabelElement, IDynamicElement
 
     public override string GetTspl()
     {
-        return $"BLOCK {X},{Y},{Width},{Height},{FontFamily},{Rotation},{FontSize},{FontSize}";
+        return $"BLOCK {X},{Y},{Width},{Height},\"{FontFamily}\",{Rotation},{FontSize},{FontSize},\"{Content}\"";
     }
     public void UpdateContent(string newContent)
     {
