@@ -49,8 +49,6 @@ namespace PrintSoftware.Domain.Label.LabelElements
 
         public override void Draw(DrawingContext dc, int dpi)
         {
-            double scale = dpi / 96.0;
-            
             var typeface = new Typeface(
                 new FontFamily("Arial"),
                 FontStyles.Normal,
