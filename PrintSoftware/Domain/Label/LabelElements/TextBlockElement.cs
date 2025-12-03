@@ -15,9 +15,10 @@ public class TextBlockElement : LabelElement, IDynamicElement
     public int Rotation { get; set; }
     public double FontSize { get; set; }
     public int Fit { get; set; }
+    public int Align { get; set; }
     public Brush Color { get; set; } = Brushes.Black;
 
-    public TextBlockElement(string name, string content, int width, int height, int rotation, string fontFamily, double fontSize)
+    public TextBlockElement(string name, string content, int width, int height, int rotation, string fontFamily, double fontSize, int fit, int align)
     {
         Type = "BLOCK";
         Name = name;
@@ -27,6 +28,8 @@ public class TextBlockElement : LabelElement, IDynamicElement
         Rotation = rotation;
         FontFamily = fontFamily;
         FontSize = fontSize;
+        Fit = fit;
+        Align = align;
     }
     
     public override void Draw(DrawingContext dc, int dpi)
@@ -45,7 +48,18 @@ public class TextBlockElement : LabelElement, IDynamicElement
             typeface,
             FontSize,
             Color,
-            dpi);
+            dpi)
+        {
+            MaxTextWidth = Width,
+            MaxTextHeight = Height,
+            TextAlignment = Align switch
+            {
+                1 => TextAlignment.Center,
+                2 => TextAlignment.Right,
+                _ => TextAlignment.Left
+            },
+            Trimming= TextTrimming.WordEllipsis,
+        };
 
         dc.DrawText(formattedText, new Point(X, Y));
     }
