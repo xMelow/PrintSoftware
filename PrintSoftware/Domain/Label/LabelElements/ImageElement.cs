@@ -4,7 +4,9 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows;
@@ -47,115 +49,63 @@ namespace PrintSoftware.Domain.Label.LabelElements
 
         public override string GetTspl()
         {
-            var (widthBytes, height, hexData) = ConvertToTsplBitmap(Path,  Width, Height);
-            return $"BITMAP {X},{Y},{widthBytes},{height},0,{hexData}";
+            var hexData = ConvertImageToBitmapHexadata();
+            return $"BITMAP {X},{Y},{Width},{Height},0,{hexData}";
         }
 
-        private static (int widthBytes, int height, string hex) ConvertToTsplBitmap(string path, int targetWidth,  int targetHeight)
+        private string ConvertImageToBitmapHexadata()
         {
-            using var source = new Bitmap(path);
+            Bitmap bitmap = new Bitmap(Path);
+            Bitmap bwBitmap = ConvertToBlackAndWhite(bitmap);
+            string hexData = BitmapToHex(bwBitmap);
             
-            Bitmap resized = new Bitmap(source, new Size(targetWidth, targetHeight));
-            
-            Bitmap bw = ConvertTo1Bit(resized);
-            
-            int widthBytes = (bw.Width + 7) / 8;
-            int height = bw.Height;
-            
-            StringBuilder sb = new StringBuilder(widthBytes * height * 2);
-
-            for (int y = 0; y < height; y++)
-            {
-                byte current = 0;
-                int bits = 0;
-
-                for (int x = 0; x < bw.Width; x++)
-                {
-                    var pixel = bw.GetPixel(x, y);
-                    bool black = pixel.R < 128;
-
-                    current <<= 1;
-                    if (black) current |= 1;
-                    bits++;
-
-                    if (bits == 8)
-                    {
-                        sb.Append(current.ToString("X2"));
-                        current = 0;
-                        bits = 0;
-                    }
-                }
-
-                if (bits > 0)
-                {
-                    current <<= (8 - bits);
-                    sb.Append(current.ToString("X2"));
-                }
-            }
-            return (widthBytes, height, sb.ToString());
+            return hexData;
         }
 
-        private static Bitmap ConvertTo1Bit(Bitmap src)
+        private Bitmap ConvertToBlackAndWhite(Bitmap original)
         {
-            // Step 1. Draw original image to a 32-bit buffer
-            Bitmap temp = new Bitmap(src.Width, src.Height, PixelFormat.Format32bppArgb);
+            Bitmap bw = new Bitmap(original.Width, original.Height, PixelFormat.Format24bppRgb);
 
-            using (Graphics g = Graphics.FromImage(temp))
+            for (int y = 0; y < Height; y++)
             {
-                g.DrawImage(src, new Rectangle(0, 0, src.Width, src.Height));
-            }
-
-            // Step 2. Create a 1-bit output bitmap
-            Bitmap bw = new Bitmap(src.Width, src.Height, PixelFormat.Format1bppIndexed);
-
-            // Lock bits for fast pixel access
-            BitmapData data = bw.LockBits(
-                new Rectangle(0, 0, bw.Width, bw.Height),
-                ImageLockMode.WriteOnly,
-                PixelFormat.Format1bppIndexed);
-
-            for (int y = 0; y < src.Height; y++)
-            {
-                byte[] scan = new byte[(src.Width + 7) / 8];
-                int bitIndex = 0;
-                byte currentByte = 0;
-
-                for (int x = 0; x < src.Width; x++)
+                for (int x = 0; x < Width; x++)
                 {
-                    Color pixel = temp.GetPixel(x, y);
-
+                    Color pixel = original.GetPixel(x, y);
                     bool black = (pixel.R + pixel.G + pixel.B) / 3 < 128;
-
-                    currentByte <<= 1;
-                    if (black) currentByte |= 1;
-
-                    bitIndex++;
-
-                    if (bitIndex == 8)
-                    {
-                        scan[(x / 8)] = currentByte;
-                        currentByte = 0;
-                        bitIndex = 0;
-                    }
+                    bw.SetPixel(x, y, black ? Color.Black : Color.White);
                 }
-
-                if (bitIndex > 0)
-                {
-                    currentByte <<= (8 - bitIndex);
-                    scan[src.Width / 8] = currentByte;
-                }
-
-                // Copy row to output
-                System.Runtime.InteropServices.Marshal.Copy(scan, 0, data.Scan0 + data.Stride * y, scan.Length);
             }
-
-            bw.UnlockBits(data);
-            temp.Dispose();
-
             return bw;
         }
 
-
+        private string BitmapToHex(Bitmap bitmap)
+        {
+            StringBuilder hexData = new StringBuilder();
+            int widthBytes = (bitmap.Width + 7) / 8;
+            
+            for (int row = 0; row < bitmap.Height; row++)
+            {
+                for (int b = 0; b < widthBytes; b++)
+                {
+                    byte data = 0;
+                    for (int bit = 0; bit < 8; bit++)
+                    {
+                        int col = b * 8 + bit;
+                        if (col < bitmap.Width)
+                        {
+                            Color pixel = bitmap.GetPixel(col, row);
+                            int brightness = (pixel.R + pixel.G + pixel.B) / 3;
+                            bool isBlack = brightness < 128;
+                            if (isBlack)
+                                data |= (byte)(1 << (7 - bit));
+                        }
+                    }
+                    hexData.Append(data.ToString("X2"));
+                }
+            }
+            return hexData.ToString();
+        }
+        
         public void UpdatePath(string newPath)
         {
             Path = newPath;
